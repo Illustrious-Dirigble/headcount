@@ -20,10 +20,10 @@ Once the project moves into development, the press release can be used as a touc
   > Name the product in a way the reader (i.e. your target customers) will understand.
 
 ## Sub-Heading ##
-  > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
-
+  Allow a user to request funds for a collective purchase (gift for a family member, hotel room costs) that only deducts the desired amount from each member when a specified threshold has been met.
+  
 ## Summary ##
-  > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
+  Have you ever been planning a weekend trip with your friends, only to have members drop out and leave you stuck with a paid-for hotel room? Next time get a Headcount first! Request funds for the trip in advance with an event invitation that will only be satisfied by five people committing $20 each. Once your specified threshold has been met, the pledged funds will be deducted from each user's account and sent directly to you.
 
 ## Problem ##
   > Describe the problem your product solves.
