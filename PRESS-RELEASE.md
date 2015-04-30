@@ -40,6 +40,7 @@ Once the project moves into development, the press release can be used as a touc
 ## Customer Quote ##
   > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
   "Headcount made buying presents for my friends so much easier!" - Khoa
+  "I love the service headcount provides."
 
 ## Closing and Call to Action ##
   > Wrap it up and give pointers where the reader should go next.
