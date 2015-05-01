@@ -1,0 +1,29 @@
+{
+  "name": "headcount",
+  "version": "1.0.0",
+  "description": "friendfunding for events, products, trips, etc.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Illustrious-Dirigble/headcount.git"
+  },
+  "keywords": [
+    "headcount",
+    "friendfunding",
+    "crowdfunding"
+  ],
+  "author": "Matt Brown, Pranav Kalvapalle, Ansel Rosenberg, and Khoa Phan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Illustrious-Dirigble/headcount/issues"
+  },
+  "homepage": "https://github.com/Illustrious-Dirigble/headcount",
+  "dependencies": {
+    "express": "^4.12.3",
+    "express-generator": "^4.12.1",
+    "node": "0.0.0"
+  }
+}
