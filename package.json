@@ -23,6 +23,8 @@
   "homepage": "https://github.com/Illustrious-Dirigble/headcount",
   "dependencies": {
     "express": "^4.12.3",
-    "express-generator": "^4.12.1"
+    "express-generator": "^4.12.1",
+    "gulp": "^3.8.11",
+    "gulp-uglify": "^1.2.0"
   }
 }
