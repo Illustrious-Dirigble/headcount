@@ -17,7 +17,7 @@ Once the project moves into development, the press release can be used as a touc
  -->
  
 ## Heading ##
-  > Name the product in a way the reader (i.e. your target customers) will understand.
+ I think my heading should be used, not Pranav's
 
 ## Sub-Heading ##
   Allow a user to request funds for a collective purchase (gift for a family member, hotel room costs) that only deducts the desired amount from each member when a specified threshold has been met.
