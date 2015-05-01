@@ -32,7 +32,7 @@ Once the project moves into development, the press release can be used as a touc
   > Describe how your product elegantly solves the problem.
 
 ## Quote from You ##
-  > A quote from a spokesperson in your company.
+  "Best company this side of the Bay Area."
 
 ## How to Get Started ##
   "Create an account.  Create an event page. Invite friends, watch the magic happen."
