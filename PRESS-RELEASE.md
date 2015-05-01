@@ -32,14 +32,12 @@ Once the project moves into development, the press release can be used as a touc
   > Describe how your product elegantly solves the problem.
 
 ## Quote from You ##
-  > A quote from a spokesperson in your company.
+  "Best company this side of the Bay Area."
 
 ## How to Get Started ##
-  > Describe how easy it is to get started.
   "Create an account.  Create an event page. Invite friends, watch the magic happen."
 
 ## Customer Quote ##
-  > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
   "Headcount made buying presents for my friends so much easier!" - Khoa
   "I love the service headcount provides."
 
