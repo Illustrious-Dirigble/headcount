@@ -5,7 +5,7 @@ var concat = require('gulp-concat');
 var rename = require('gulp-rename');
 
 /** 
- *  Default gulp task, gulp.src points to location 
+ *  Default gulp task: gulp.src points to location 
  *  of file(s), .pipe allows you to send the specified 
  *  file(s) through a series of plugins, and gulp.dest
  *  specifies the destination of the output.
