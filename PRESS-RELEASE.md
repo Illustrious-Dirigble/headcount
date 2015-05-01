@@ -17,7 +17,9 @@ Once the project moves into development, the press release can be used as a touc
  -->
  
 ## Heading ##
- I think my heading should be used, not Pranav's
+
+  > There is no way Matt gets to write this heading.
+
 
 ## Sub-Heading ##
   Allow a user to request funds for a collective purchase (gift for a family member, hotel room costs) that only deducts the desired amount from each member when a specified threshold has been met.
