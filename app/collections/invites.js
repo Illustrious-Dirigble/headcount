@@ -1,5 +1,5 @@
 var db = require('../config');
-var Invite = require('../models/invitee');
+var Invite = require('../models/invite');
 
 var Invites = new db.Collection();
 
