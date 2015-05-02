@@ -1,12 +1,16 @@
 var db = require('../config');
-var Link = require('./link.js')
+var User = require('./user.js')
+var Event = require('./event.js')
 
-var Click = db.Model.extend({
-  tableName: 'clicks',
+var Invite = db.Model.extend({
+  tableName: 'invites',
   hasTimestamps: true,
-  link: function() {
-    return this.belongsTo(Link, 'link_id');
+  user: function() {
+    return this.hasOne(User, 'user_id');
+  },
+  event: function() {
+    return this.hasOne(Event, 'event_id');
   }
 });
 
-module.exports = Click;
+module.exports = Invite;
