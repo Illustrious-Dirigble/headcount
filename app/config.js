@@ -1,16 +1,11 @@
 var Bookshelf = require('bookshelf');
 
-var db = Bookshelf.initialize({
-  client: 'sqlite3',
-  connection: {
-    host: '127.0.0.1',
-    user: 'your_database_user',
-    password: 'password',
-    database: 'shortlydb',
-    charset: 'utf8',
-    filename: path.join(__dirname, '../db/shortly.sqlite')
-  }
+var knex = require('knex')({
+  client: 'pg',
+  connection: process.env.DATABASE_URL
 });
+
+var db = require('bookshelf')(knex);
 
 db.knex.schema.hasTable('users').then(function(exists) {
   if (!exists) {
