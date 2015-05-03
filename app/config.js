@@ -53,17 +53,15 @@ db.knex.schema.hasTable('events').then(function(exists) {
   }
 });
 
-/************************************************************/
-// Add additional schema definitions below
-/************************************************************/
-
-db.knex.schema.hasTable('users').then(function(exists) {
+db.knex.schema.hasTable('invites').then(function(exists) {
   if (!exists) {
-    db.knex.schema.createTable('users', function (user) {
-      user.increments('id').primary();
-      user.string('username', 100).unique();
-      user.string('password', 100);
-      user.timestamps();
+    db.knex.schema.createTable('invites', function (invite) {
+      invite.increments('id').primary();
+      invite.string('user_id', 255);
+      invite.string('event_id', 255);
+      invite.boolean('joined');
+      invite.boolean('declined');
+      invite.timestamps();
     }).then(function (table) {
       console.log('Created Table', table);
     });
