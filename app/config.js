@@ -1,6 +1,8 @@
 var Bookshelf = require('bookshelf');
+var local_knex = require('./local_config.js');
 
-var knex = require('knex')({
+var knex =  !process.env.DATABASE_URL ? local_knex :
+  require('knex')({
   client: 'pg',
   connection: process.env.DATABASE_URL
 });
