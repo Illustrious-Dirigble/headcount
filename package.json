@@ -17,7 +17,7 @@
     "cookie-parser": "~1.3.4",
     "debug": "~2.1.1",
     "express": "~4.12.2",
-    "express4-handlebars": "^0.2.0",
+    "express-handlebars": "^2.0.1",
     "gulp": "^3.8.11",
     "knex": "^0.8.2",
     "morgan": "~1.5.1",
