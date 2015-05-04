@@ -4,16 +4,10 @@ var favicon      = require('serve-favicon');
 var logger       = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
-var exphbs       = require('express-handlebars');
 var routes       = require('./routes/index');
 var users        = require('./routes/users');
 
 var app = express();
-
-// view engine
-app.engine('.hbs', exphbs({defaultLayout: 'layout', extname: '.hbs'}));
-app.set('view engine', '.hbs');
-app.set('views', __dirname + '/views');
 
 app.use(favicon(__dirname + '/favicon.ico'));
 app.use(logger('dev'));

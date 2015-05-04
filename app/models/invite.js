@@ -1,6 +1,6 @@
 var db = require('../config');
-var User = require('./user.js')
-var Event = require('./event.js')
+var User = require('./user.js');
+var Event = require('./event.js');
 
 var Invite = db.Model.extend({
   tableName: 'invites',
