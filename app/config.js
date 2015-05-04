@@ -1,6 +1,7 @@
 var Bookshelf = require('bookshelf');
 var path = require('path');
-var local_knex = require(path.join(__dirname,'app/local_config.js'));
+var local_knex = require(path.join(__dirname,'/local_config.js'));
+
 
 var knex =  !process.env.DATABASE_URL ? local_knex :
   require('knex')({

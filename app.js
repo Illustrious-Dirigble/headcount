@@ -14,6 +14,7 @@ var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 var app = express();
 
+
 app.use(favicon(__dirname + '/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
