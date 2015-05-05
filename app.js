@@ -57,8 +57,8 @@ function(accessToken, refreshToken, profile, done) {
 
 // Google Passport OAuth
 passport.use(new GoogleStrategy({
-  clientID: oauth.ids.google.clientID,
-  clientSecret: oauth.ids.google.clientSecret,
+  consumerKey: oauth.ids.google.clientID,
+  consumerSecret: oauth.ids.google.clientSecret,
   callbackURL: oauth.ids.google.callbackURL
 },
 function(accessToken, refreshToken, profile, done) {
