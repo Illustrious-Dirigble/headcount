@@ -11,6 +11,8 @@ var oauth        = require('./oauth.js');
 var passport     = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+//var routes       = require('./routes/index');
+//var users        = require('./routes/users');
 
 var app = express();
 
@@ -27,6 +29,12 @@ app.use(passport.initialize());
 app.use('/', routes);
 app.use('/users', users);
 app.use('/auth', auth);
+var userRouter = express.Router();
+var userRoutes   = require('./users/userRoutes');
+//app.use('/', routes);
+//app.use('/users', users);
+app.use('/api/users/', userRouter);
+userRoutes(userRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
