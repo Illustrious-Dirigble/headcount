@@ -24,6 +24,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
+app.use(express.static(path.join(__dirname, '../public')));
 
 // routing
 app.use('/', routes);
@@ -85,21 +86,18 @@ function(accessToken, refreshToken, profile, done) {
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
+    console.log('Error:',err.message);
+    res.end(err.message);
   });
 }
+
 
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
+  console.log(err.message);
+  res.end(err.message);
 });
 
 module.exports = app;
