@@ -15,7 +15,7 @@ router.get('/facebook/callback', passport.authenticate('facebook', { failureRedi
 });
 
 // Google OAuth Initiation
-router.get('/google', passport.authenticate('google'), function(req, res){
+router.get('/google', passport.authenticate('google', { scope: 'https://www.googleapis.com/auth/plus.login' }), function(req, res){
 });
 
 // Google OAuth Callback
