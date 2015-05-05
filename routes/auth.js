@@ -3,7 +3,7 @@ var router = express.Router();
 var oauth = require('../oauth.js');
 var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
-var GoogleStrategy = require('passport-google-oauth').Strategy;
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 // Facebook OAuth Initiation
 router.get('/facebook', passport.authenticate('facebook'), function(req, res){

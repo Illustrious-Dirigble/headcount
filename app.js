@@ -10,7 +10,7 @@ var auth         = require('./routes/auth');
 var oauth        = require('./oauth.js');
 var passport     = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
-var GoogleStrategy = require('passport-google-oauth').Strategy;
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 var app = express();
 
@@ -20,6 +20,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
 
 // routing
 app.use('/', routes);
@@ -57,8 +58,8 @@ function(accessToken, refreshToken, profile, done) {
 
 // Google Passport OAuth
 passport.use(new GoogleStrategy({
-  consumerKey: oauth.ids.google.clientID,
-  consumerSecret: oauth.ids.google.clientSecret,
+  clientID: oauth.ids.google.clientID,
+  clientSecret: oauth.ids.google.clientSecret,
   callbackURL: oauth.ids.google.callbackURL
 },
 function(accessToken, refreshToken, profile, done) {
