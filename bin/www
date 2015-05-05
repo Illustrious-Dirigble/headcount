@@ -5,7 +5,6 @@
  */
 
 var app = require('../server/app');
-//var db = require('../app/config');
 var debug = require('debug')('headcount:server');
 var http = require('http');
 
