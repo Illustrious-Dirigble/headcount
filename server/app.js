@@ -11,8 +11,11 @@ var oauth        = require('./oauth.js');
 var passport     = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+//var routes       = require('./routes/index');
+//var users        = require('./routes/users');
 
 var app = express();
+
 
 app.use(favicon(__dirname + '/favicon.ico'));
 app.use(logger('dev'));
@@ -21,11 +24,18 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
+app.use(express.static(path.join(__dirname, '../public')));
 
 // routing
 app.use('/', routes);
 app.use('/users', users);
 app.use('/auth', auth);
+var userRouter = express.Router();
+var userRoutes   = require('./users/userRoutes');
+//app.use('/', routes);
+//app.use('/users', users);
+app.use('/api/users/', userRouter);
+userRoutes(userRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -76,21 +86,18 @@ function(accessToken, refreshToken, profile, done) {
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
+    console.log('Error:',err.message);
+    res.end(err.message);
   });
 }
+
 
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
+  console.log(err.message);
+  res.end(err.message);
 });
 
 module.exports = app;

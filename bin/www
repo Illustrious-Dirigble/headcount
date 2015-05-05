@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var app = require('../app');
+var app = require('../server/app');
 var debug = require('debug')('headcount:server');
 var http = require('http');
 
@@ -32,6 +32,7 @@ server.on('listening', onListening);
 /**
  * Normalize a port into a number, string, or false.
  */
+
 
 function normalizePort(val) {
   var port = parseInt(val, 10);
