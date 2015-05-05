@@ -27,6 +27,3 @@ build/Release
 node_modules
 bower_components
 public/lib
-
-#OAuth Provider Keys
-oauth.js
