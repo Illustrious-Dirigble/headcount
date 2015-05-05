@@ -6,6 +6,11 @@ var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var routes       = require('./routes/index');
 var users        = require('./routes/users');
+var auth         = require('./routes/auth');
+var oauth        = require('./oauth.js');
+var passport     = require('passport');
+var FacebookStrategy = require('passport-facebook').Strategy;
+var GoogleStrategy = require('passport-google-oauth').Strategy;
 
 var app = express();
 
@@ -19,6 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // routing
 app.use('/', routes);
 app.use('/users', users);
+app.use('/auth', auth);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -26,6 +32,41 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
+
+// Passport authentication
+
+// Passport will serialize and deserialize user instances to and from the session.
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
+
+// Facebook Passport OAuth
+passport.use(new FacebookStrategy({
+  clientID: oauth.ids.facebook.clientID,
+  clientSecret: oauth.ids.facebook.clientSecret,
+  callbackURL: oauth.ids.facebook.callbackURL
+},
+function(accessToken, refreshToken, profile, done) {
+  User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+    return done(err, user);
+  });
+}));
+
+// Google Passport OAuth
+passport.use(new GoogleStrategy({
+  clientID: oauth.ids.google.clientID,
+  clientSecret: oauth.ids.google.clientSecret,
+  callbackURL: oauth.ids.google.callbackURL
+},
+function(accessToken, refreshToken, profile, done) {
+  User.findOrCreate({ googleId: profile.id }, function (err, user) {
+    return done(err, user);
+  });
+}));
+
 
 // error handlers
 
