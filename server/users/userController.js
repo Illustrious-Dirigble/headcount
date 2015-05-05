@@ -1,6 +1,7 @@
-var User = require('../../app/collections/users'),
-    Q    = require('q'),
-    jwt  = require('jwt-simple');
+var Users = require('../../app/collections/users');
+var User  = require('../../app/models/user');
+var Q    = require('q');
+var jwt  = require('jwt-simple');
 
 module.exports = {
   signin: function (req, res, next) {
@@ -30,16 +31,38 @@ module.exports = {
   },
 
   signup: function (req, res, next) {
+    console.log('signup');
     var username  = req.body.username,
         password  = req.body.password,
         create,
         newUser;
 
-    var findOne = Q.nbind(User.fetchOne, User);
+    
+    new User({username:username})
+        .fetch()
+        .then(function(model){
+          if(model) {
+            next(new Error('User already exists'));
+          } else {
+            new User({username:username,password:password},{isNew:true}).save()
+                    .then(function(model){
+                      console.log(model);
+                      var token = jwt.encode(model.attributes.username, 'secret');
+                      res.json({token: token});
+                      console.log('New user saved');
+                    });
+          }
+        })
+        .catch(function(error){
+          console.log('hi',error);
+        });
+    //var findOne = Q.nbind(User.fetchOne, User);
 
     // check to see if user already exists
+    /*
     findOne({username: username})
       .then(function(user) {
+        console.log('found',user);
         if (user) {
           next(new Error('User already exist!'));
         } else {
@@ -60,6 +83,7 @@ module.exports = {
       .fail(function (error) {
         next(error);
       });
+      */
   },
 
   checkAuth: function (req, res, next) {
