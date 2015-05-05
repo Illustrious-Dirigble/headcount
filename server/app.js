@@ -6,11 +6,13 @@ var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var routes       = require('./../routes/index');
 var users        = require('./../routes/users');
+var User        = require('./../app/models/user');
 var auth         = require('./../routes/auth');
 var oauth        = require('./../oauth.js');
 var passport     = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var LocalStrategy = require('passport-local').Strategy;
 //var routes       = require('./routes/index');
 //var users        = require('./routes/users');
 
@@ -78,6 +80,25 @@ function(accessToken, refreshToken, profile, done) {
   });
 }));
 
+// local Auth
+
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    console.log('passport local triggered',username);
+    // console.log(new User({username:'pranav23'}));
+    new User({ username: username }, function(err, user) {
+      console.log('user',user);
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      if (!user.validPassword(password)) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      return done(null, user);
+    });
+  }
+));
 
 // error handlers
 

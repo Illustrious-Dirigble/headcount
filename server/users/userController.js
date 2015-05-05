@@ -3,28 +3,15 @@ var User  = require('../../app/models/user');
 var Q    = require('q');
 var jwt  = require('jwt-simple');
 var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+var http = require('http');
+var app = require('./../app');
 
 module.exports = {
   signin: function (req, res, next) {
     console.log('signin');
-
-    passport.use(new LocalStrategy(
-      function(username, password, done) {
-        User.fetch({ username: username }, function(err, user) {
-          if (err) { return done(err); }
-          if (!user) {
-            return done(null, false, { message: 'Incorrect username.' });
-          }
-          if (!user.validPassword(password)) {
-            return done(null, false, { message: 'Incorrect password.' });
-          }
-          return done(null, user);
-        });
-      }
-    ));
-    // var username = req.body.username,
-    //     password = req.body.password;
+    var username = req.body.username;
+    var password = req.body.password;
+    // return app.post('/auth/local',{username:username,password:password});
 
     // new User({username:username})
     //     .fetch()

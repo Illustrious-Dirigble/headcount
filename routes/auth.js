@@ -23,4 +23,9 @@ router.get('/google/callback', passport.authenticate('google', { failureRedirect
  res.redirect('#/signin');
 });
 
+// Local Auth
+router.post('/local', passport.authenticate('local', { failureRedirect: '#/signup' }), function(req, res) {
+ res.redirect('#/signin');
+});
+
 module.exports = router;
