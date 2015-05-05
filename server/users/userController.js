@@ -1,4 +1,4 @@
-var User = require('./userModel.js'),
+var User = require('../../app/collections/users'),
     Q    = require('q'),
     jwt  = require('jwt-simple');
 
@@ -7,7 +7,7 @@ module.exports = {
     var username = req.body.username,
         password = req.body.password;
 
-    var findUser = Q.nbind(User.findOne, User);
+    var findUser = Q.nbind(User.fetchOne, User);
     findUser({username: username})
       .then(function (user) {
         if (!user) {
@@ -35,7 +35,7 @@ module.exports = {
         create,
         newUser;
 
-    var findOne = Q.nbind(User.findOne, User);
+    var findOne = Q.nbind(User.fetchOne, User);
 
     // check to see if user already exists
     findOne({username: username})
@@ -72,7 +72,7 @@ module.exports = {
       next(new Error('No token'));
     } else {
       var user = jwt.decode(token, 'secret');
-      var findUser = Q.nbind(User.findOne, User);
+      var findUser = Q.nbind(User.fetchOne, User);
       findUser({username: user.username})
         .then(function (foundUser) {
           if (foundUser) {
