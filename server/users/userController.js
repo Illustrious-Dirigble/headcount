@@ -2,32 +2,62 @@ var Users = require('../../app/collections/users');
 var User  = require('../../app/models/user');
 var Q    = require('q');
 var jwt  = require('jwt-simple');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
 module.exports = {
   signin: function (req, res, next) {
-    var username = req.body.username,
-        password = req.body.password;
+    console.log('signin');
 
-    var findUser = Q.nbind(User.fetchOne, User);
-    findUser({username: username})
-      .then(function (user) {
-        if (!user) {
-          next(new Error('User does not exist'));
-        } else {
-          return user.comparePasswords(password)
-            .then(function(foundUser) {
-              if (foundUser) {
-                var token = jwt.encode(user, 'secret');
-                res.json({token: token});
-              } else {
-                return next(new Error('No user'));
-              }
-            });
-        }
-      })
-      .fail(function (error) {
-        next(error);
-      });
+    passport.use(new LocalStrategy(
+      function(username, password, done) {
+        User.fetch({ username: username }, function(err, user) {
+          if (err) { return done(err); }
+          if (!user) {
+            return done(null, false, { message: 'Incorrect username.' });
+          }
+          if (!user.validPassword(password)) {
+            return done(null, false, { message: 'Incorrect password.' });
+          }
+          return done(null, user);
+        });
+      }
+    ));
+    // var username = req.body.username,
+    //     password = req.body.password;
+
+    // new User({username:username})
+    //     .fetch()
+    //     .then(function(model){
+    //       // user exists in database
+    //       if (model){
+    //         if (User.comparePasswords(model.password)){
+    //           res.json({token: token});
+    //         }
+    //       } else {
+    //         next(new Error('User does not exist in database'));
+    //       }
+    //     })
+    // var findUser = Q.nbind(User.fetchOne, User);
+    // findUser({username: username})
+    //   .then(function (user) {
+    //     if (!user) {
+    //       next(new Error('User does not exist'));
+    //     } else {
+    //       return user.comparePasswords(password)
+    //         .then(function(foundUser) {
+    //           if (foundUser) {
+    //             var token = jwt.encode(user, 'secret');
+    //             res.json({token: token});
+    //           } else {
+    //             return next(new Error('No user'));
+    //           }
+    //         });
+    //     }
+    //   })
+    //   .fail(function (error) {
+    //     next(error);
+    //   });
   },
 
   signup: function (req, res, next) {
