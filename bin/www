@@ -4,8 +4,8 @@
  * Module dependencies.
  */
 
-var app = require('../app.js');
-var db = require('../app/config.js');
+var app = require('../server/app');
+//var db = require('../app/config');
 var debug = require('debug')('headcount:server');
 var http = require('http');
 
