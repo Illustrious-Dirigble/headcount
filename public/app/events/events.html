@@ -14,6 +14,34 @@
 </div>
 <input type='text' ng-model='search' placeholder='filter' />
 
+<!-- DISPLAY EVENTS -->
+
+<div class="links">
+  <div class="link"
+      ng-repeat="event in events | filter:search | orderBy:'created_at'">
+    <div class="info" ng-click="displayEvent(event)">
+      <!-- <img src="assets/redirect_icon.png"> -->
+      <span> {{ event.title }} </span>
+      <!-- <span> {{ event.description }} </span> -->
+      <span> {{ event.expiration }} </span>
+      <span> {{ event.thresholdPeople }} </span>
+    <div class="visits">
+
+    </div>
+  </div>
+</div>
+
+<!-- EVENT DISPLAY (Initially invisible)  -->
+<div ng-show="display" ng-model="clickedEvent">
+  <img src="assets/redirect_icon.png">
+  <span> {{ clickedEvent.title }} </span>
+  <span> {{ clickedEvent.description }} </span>
+  <span> {{ clickedEvent.expiration }} </span>
+  <span> {{ clickedEvent.thresholdPeople }} </span>
+  <button> JOIN </button>
+  <button> DECLINE </button>
+</div>
+
 <!-- EVENT CREATION -->
 <div>
 
@@ -24,17 +52,4 @@
     <input type="number" name="thresholdPeople" placeholder="thresholdPeople" ng-model="event.thresholdPeople"> <br>
   </form>
 
-</div>
-
-<!-- DISPLAY EVENTS -->
-
-<div class="links">
-  <div class="link"
-      ng-repeat="link in data.links | filter:search | orderBy:'created_at'">
-    <img src="assets/redirect_icon.png">
-    <div class="info">
-      <div class="visits">
-
-    </div>
-  </div>
 </div>
