@@ -7,6 +7,9 @@
   </head>
   <body>
     <h1>Shortly</h1>
+    <div id = "signout" ng-controller = "AuthController" ng-show = "auth"> 
+      <button ng-click="signout()">Signout</button>
+    </div>
 
     <!-- the ng-view directive is where our templates will be loaded into when naviagted to -->
     <div ng-view></div>

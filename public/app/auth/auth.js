@@ -3,9 +3,9 @@
 // in our signup/signin forms using the injected Auth service
 angular.module('shortly.auth', [])
 
-.controller('AuthController', function ($scope, $window, $location, $http) {
+.controller('AuthController', function ($scope, $window, $location, $http, Auth) {
   $scope.user = {};
-
+  $scope.auth = Auth.isAuth();
   $scope.signin = function () {
     console.log('hit auth controller');
     return $http({
@@ -30,5 +30,10 @@ angular.module('shortly.auth', [])
       console.log('gets to then of signup in client')
       $location.path('/links');
     });
+  };
+
+  $scope.signout = function(){
+    $scope.auth = Auth.isAuth();
+    Auth.signout();
   };
 });
