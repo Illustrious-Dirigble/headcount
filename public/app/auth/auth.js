@@ -14,6 +14,8 @@ angular.module('shortly.auth', [])
       data: $scope.user
     })
     .then(function (resp) {
+      console.log('resp',resp.config.data.username);
+      $window.sessionStorage.setItem('user', resp.config.data.username);
       $location.path('/links');
     });
   };
