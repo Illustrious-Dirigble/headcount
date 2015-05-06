@@ -27,13 +27,13 @@ angular.module('shortly.auth', [])
       data: $scope.user
     })
     .then(function (resp) {
-      console.log('gets to then of signup in client')
+      console.log('gets to then of signup in client');
       $location.path('/links');
     });
   };
 
   $scope.signout = function(){
-    $scope.auth = Auth.isAuth();
     Auth.signout();
+    $scope.auth = Auth.isAuth();
   };
 });
