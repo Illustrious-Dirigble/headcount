@@ -32,4 +32,5 @@ public/lib
 app/local_config.js
 
 # ubuntu procfile does not match mac procfile
+/Procfile
 Procfile
