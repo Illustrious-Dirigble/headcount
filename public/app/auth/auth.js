@@ -28,7 +28,7 @@ angular.module('shortly.auth', [])
     })
     .then(function (resp) {
       console.log('gets to then of signup in client');
-      $location.path('/links');
+      $location.path('/events');
     });
   };
 

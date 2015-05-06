@@ -1,6 +1,6 @@
 angular.module('shortly.links', [])
 
-.controller('LinksController', function ($scope, Links) {
+.controller('EventsController', function ($scope, Links) {
   // Your code here
 
   $scope.data = {};

@@ -1,6 +1,6 @@
 angular.module('shortly.shorten', [])
 
-.controller('ShortenController', function ($scope, $location, Links) {
+.controller('AccountsController', function ($scope, $location, Links) {
   // Your code here
 
   $scope.link = {};

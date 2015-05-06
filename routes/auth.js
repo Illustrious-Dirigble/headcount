@@ -27,7 +27,7 @@ router.get('/google/callback', passport.authenticate('google', { failureRedirect
 // Local Auth
 router.post('/local', passport.authenticate('local', { failureRedirect: '#/signup' }), function(req, res) {
 	console.log('success signin!!!!!!');
- 	res.redirect('..#/links');
+ 	res.redirect('..#/events');
 });
 // local Auth signup
 router.post('/local-signup', function(req, res, next) {
@@ -43,7 +43,7 @@ router.post('/local-signup', function(req, res, next) {
        } else {
          new User({username:username,password:password},{isNew:true}).save()
 	         .then(function(model){
-	           res.end('/links');
+	           res.end('/events');
 	         });
        }
      })
