@@ -26,7 +26,8 @@ router.get('/google/callback', passport.authenticate('google', { failureRedirect
 
 // Local Auth
 router.post('/local', passport.authenticate('local', { failureRedirect: '#/signup' }), function(req, res) {
- res.redirect('#/signin');
+	console.log('success signin!!!!!!');
+ 	res.redirect('#/links');
 });
 // local Auth signup
 router.post('/local-signup', function(req, res, next) {

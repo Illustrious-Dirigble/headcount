@@ -33,11 +33,11 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/auth', auth);
 var userRouter = express.Router();
-var userRoutes   = require('./users/userRoutes');
+// var userRoutes   = require('./users/userRoutes');
 //app.use('/', routes);
 //app.use('/users', users);
-app.use('/api/users/', userRouter);
-userRoutes(userRouter);
+// app.use('/api/users/', userRouter);
+// userRoutes(userRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -85,14 +85,16 @@ function(accessToken, refreshToken, profile, done) {
 passport.use(new LocalStrategy(
   function(username, password, done) {
     console.log('passport local triggered',username);
-    // console.log(new User({username:'pranav23'}));
+    console.log(new User({username:'ppo'}));
     new User({ username: username }, function(err, user) {
       console.log('user',user);
       if (err) { return done(err); }
       if (!user) {
+        console.log('incorrect username');
         return done(null, false, { message: 'Incorrect username.' });
       }
       if (!user.validPassword(password)) {
+        console.log('incorrect [password]');
         return done(null, false, { message: 'Incorrect password.' });
       }
       return done(null, user);

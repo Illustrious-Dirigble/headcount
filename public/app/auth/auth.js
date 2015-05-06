@@ -7,7 +7,7 @@ angular.module('shortly.auth', [])
   $scope.user = {};
 
   $scope.signin = function () {
-    console.log('hit auth service');
+    console.log('hit auth controller');
     return $http({
       method: 'POST',
       url: '/auth/local',
@@ -16,14 +16,6 @@ angular.module('shortly.auth', [])
     .then(function (resp) {
       
     });
-    // Auth.signin($scope.user)
-    //   .then(function (token) {
-    //     $window.localStorage.setItem('com.shortly', token);
-    //     $location.path('/links');
-    //   })
-    //   .catch(function (error) {
-    //     console.error(error);
-    //   });
   };
 
   $scope.signup = function () {
@@ -36,13 +28,5 @@ angular.module('shortly.auth', [])
       console.log('gets to then of signup in client')
       $location.path('/links');
     });
-    // Auth.signup($scope.user)
-    //   .then(function (token) {
-    //     $window.localStorage.setItem('com.shortly', token);
-    //     $location.path('/links');
-    //   })
-    //   .catch(function (error) {
-    //     console.error(error);
-    //   });
   };
 });
