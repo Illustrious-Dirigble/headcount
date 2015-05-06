@@ -16,7 +16,7 @@ angular.module('shortly.auth', [])
     .then(function (resp) {
       console.log('resp',resp.config.data.username);
       $window.sessionStorage.setItem('user', resp.config.data.username);
-      $location.path('/links');
+      $window.location.href = "/";
     });
   };
 
@@ -27,13 +27,13 @@ angular.module('shortly.auth', [])
       data: $scope.user
     })
     .then(function (resp) {
-      console.log('gets to then of signup in client')
+      console.log('gets to then of signup in client');
       $location.path('/links');
     });
   };
 
   $scope.signout = function(){
-    $scope.auth = Auth.isAuth();
     Auth.signout();
+    $scope.auth = Auth.isAuth();
   };
 });
