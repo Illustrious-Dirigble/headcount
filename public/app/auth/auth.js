@@ -14,7 +14,7 @@ angular.module('shortly.auth', [])
       data: $scope.user
     })
     .then(function (resp) {
-      
+      console.log('fdsfsdgds');
     });
   };
 

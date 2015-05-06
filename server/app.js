@@ -86,8 +86,9 @@ passport.use('local',new LocalStrategy({
   // by default, it uses username and password
   // usernameField : 'email',
   // passwordField : 'password',
+  passReqToCallback : true // allows us to pass back the entire request to the callback
 },
-  function(username, password, done) {
+  function(req, username, password, done) {
     console.log('passport local triggered',username);
     console.log(new User({username:username}));
     new User({ username: username })
@@ -102,6 +103,8 @@ passport.use('local',new LocalStrategy({
         // callback. x is the value of isMatch
         console.log('isMatch',x);
         if (x === true){
+          // correct password
+          console.log('DONE result looks like',done(null,user));
           return done(null, user);
         } else {
           // wrong password
@@ -109,7 +112,7 @@ passport.use('local',new LocalStrategy({
           return done(null, false, { message: 'Incorrect password.' });
         }
       })){
-        return "TRUUUUUE";
+        console.log("TRUUUUUE");
       }
       // if (err) { return done(err); }
     })
