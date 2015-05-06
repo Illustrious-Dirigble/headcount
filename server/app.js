@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var routes       = require('./../routes/index');
 var users        = require('./../routes/users');
-var User        = require('./../app/models/user');
+var User        = require('../app/models/user');
 var auth         = require('./../routes/auth');
 var oauth        = require('./../oauth.js');
 var passport     = require('passport');
@@ -82,25 +82,41 @@ function(accessToken, refreshToken, profile, done) {
 
 // local Auth
 
-passport.use(new LocalStrategy(
-  function(username, password, done) {
+passport.use('local',new LocalStrategy({
+  // by default, it uses username and password
+  // usernameField : 'email',
+  // passwordField : 'password',
+  passReqToCallback : true // allows us to pass back the entire request to the callback
+},
+  function(req, username, password, done) {
     console.log('passport local triggered',username);
-    console.log(new User({username:'ppo'}));
-    new User({ username: username }, function(err, user) {
+    console.log(new User({username:username}));
+    new User({ username: username })
+      .fetch()
+      .then(function(user) {
       console.log('user',user);
-      if (err) { return done(err); }
       if (!user) {
         console.log('incorrect username');
         return done(null, false, { message: 'Incorrect username.' });
       }
-      if (!user.validPassword(password)) {
-        console.log('incorrect [password]');
-        return done(null, false, { message: 'Incorrect password.' });
+      if (user.comparePassword(password,function(x){
+        // callback. x is the value of isMatch
+        console.log('isMatch',x);
+        if (x === true){
+          // correct password
+          console.log('DONE result looks like',done(null,user));
+          return done(null, user);
+        } else {
+          // wrong password
+          console.log('incorrect [password]');
+          return done(null, false, { message: 'Incorrect password.' });
+        }
+      })){
+        console.log("TRUUUUUE");
       }
-      return done(null, user);
-    });
-  }
-));
+      // if (err) { return done(err); }
+    })
+  }));
 
 // error handlers
 
