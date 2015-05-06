@@ -58,11 +58,11 @@ angular.module('shortly.services', [])
   };
 
   var isAuth = function () {
-    return !!$window.localStorage.getItem('com.shortly');
+    return !!$window.sessionStorage.getItem('user');
   };
 
   var signout = function () {
-    $window.localStorage.removeItem('com.shortly');
+    $window.sessionStorage.removeItem('user');
     $location.path('/signin');
   };
 

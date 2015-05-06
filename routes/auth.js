@@ -42,13 +42,9 @@ router.post('/local-signup', function(req, res, next) {
          next(new Error('User already exists'));
        } else {
          new User({username:username,password:password},{isNew:true}).save()
-                 .then(function(model){
-                   console.log(model);
-                   // var token = jwt.encode(model.attributes.username, 'secret');
-                   // res.json({token: token});
-                   console.log('New user saved');
-                   res.end('/links');
-                 });
+	         .then(function(model){
+	           res.end('/links');
+	         });
        }
      })
      .catch(function(error){

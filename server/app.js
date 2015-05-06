@@ -13,8 +13,6 @@ var passport     = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var LocalStrategy = require('passport-local').Strategy;
-//var routes       = require('./routes/index');
-//var users        = require('./routes/users');
 
 var app = express();
 
@@ -33,11 +31,6 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/auth', auth);
 var userRouter = express.Router();
-// var userRoutes   = require('./users/userRoutes');
-//app.use('/', routes);
-//app.use('/users', users);
-// app.use('/api/users/', userRouter);
-// userRoutes(userRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -82,13 +75,8 @@ function(accessToken, refreshToken, profile, done) {
 
 // local Auth
 
-passport.use('local',new LocalStrategy({
-  // by default, it uses username and password
-  // usernameField : 'email',
-  // passwordField : 'password',
-  passReqToCallback : true // allows us to pass back the entire request to the callback
-},
-  function(req, username, password, done) {
+passport.use('local',new LocalStrategy(
+  function(username, password, done) {
     console.log('passport local triggered',username);
     console.log(new User({username:username}));
     new User({ username: username })
