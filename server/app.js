@@ -9,6 +9,7 @@ var users        = require('./../routes/users');
 var User        = require('./../app/models/user');
 var auth         = require('./../routes/auth');
 var oauth        = require('./../oauth.js');
+var bcrypt = require('bcrypt-nodejs');
 var passport     = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
@@ -25,8 +26,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(passport.initialize());
 app.use(express.static(path.join(__dirname, '../public')));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // routing
 app.use('/', routes);
@@ -81,23 +83,25 @@ function(accessToken, refreshToken, profile, done) {
 }));
 
 // local Auth
-
 passport.use(new LocalStrategy(
   function(username, password, done) {
-    console.log('passport local triggered',username);
-    console.log(new User({username:'ppo'}));
-    new User({ username: username }, function(err, user) {
-      console.log('user',user);
-      if (err) { return done(err); }
+    new User({ username: username })
+    .fetch()
+    .then(function(user) {
       if (!user) {
-        console.log('incorrect username');
+        console.log('USER DOES NOT EXIST!!!');
         return done(null, false, { message: 'Incorrect username.' });
       }
-      if (!user.validPassword(password)) {
-        console.log('incorrect [password]');
-        return done(null, false, { message: 'Incorrect password.' });
+      else if (user) {
+        bcrypt.compare(password, user.attributes.password, function(err, res) {
+          if (res) {
+            return done(null, user);
+          }
+          else {
+            console.log("FAILED" + res);
+          }
+        });
       }
-      return done(null, user);
     });
   }
 ));

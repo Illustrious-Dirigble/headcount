@@ -7,26 +7,27 @@ angular.module('shortly.auth', [])
   $scope.user = {};
 
   $scope.signin = function () {
-    console.log('hit auth controller');
+    console.log('auth.js $scope signin');
     return $http({
       method: 'POST',
       url: '/auth/local',
       data: $scope.user
     })
-    .then(function (resp) {
-      
+    .then(function () {
+      $location.path('#/links');
     });
   };
 
   $scope.signup = function () {
+    console.log('auth.js $scope signup');
     return $http({
       method: 'POST',
       url: '/auth/local-signup',
       data: $scope.user
     })
-    .then(function (resp) {
-      console.log('gets to then of signup in client')
-      $location.path('/links');
+    .then(function () {
+      console.log('gets to then of signup in client');
+      $location.path('#/links');
     });
   };
 });

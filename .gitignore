@@ -30,3 +30,4 @@ public/lib
 
 # Local config file for connecting to database
 app/local_config.js
+local_config.js
