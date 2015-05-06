@@ -13,17 +13,25 @@
   </nav>
 </div>
 <input type='text' ng-model='search' placeholder='filter' />
+
+<div>
+
+  <form>
+    <input type="text" name="title" placeholder="Title" ng-model="event.title"> <br>
+    <input type="text" name="description" placeholder="Description" ng-model="event.description"> <br>
+    <input type="date" name="expiration" placeholder="expiration" ng-model="event.expiration"> <br>
+    <input type="number" name="thresholdPeople" placeholder="thresholdPeople" ng-model="event.thresholdPeople"> <br>
+  </form>
+
+</div>
+
 <div class="links">
   <div class="link"
       ng-repeat="link in data.links | filter:search | orderBy:'created_at'">
     <img src="assets/redirect_icon.png">
     <div class="info">
       <div class="visits">
-        <span class="count">{{ link.visits }}</span>Visits
-      </div>
-      <div class="title">{{ link.title }}</div>
-      <div class="original">{{ link.url }}</div>
-      <a href="http://localhost:8000/api/links/{{ link.code }}">{{ link.base_url }}/{{ link.code }}</a>
+
     </div>
   </div>
 </div>
