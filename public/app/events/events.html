@@ -1,0 +1,64 @@
+<div id='container'>
+  <!-- Your html here -->
+
+  <nav class="navigation">
+    <ul>
+      <li>
+          <a class="selected" href="#/events">Events</a>
+      </li>
+       <li>
+          <a href="#/accounts">Account Panel</a>
+      </li>
+    </ul>
+  </nav>
+</div>
+<input type='text' ng-model='search' placeholder='filter' />
+
+<!-- DISPLAY EVENTS -->
+
+<div class="links">
+  <div class="link"
+      ng-repeat="event in events | filter:search | orderBy:'created_at'" ng-click="displayEvent(event)">
+    <div class="info" >
+      <!-- <img src="assets/redirect_icon.png"> -->
+      <span> {{ event.title }} </span>
+      <!-- <span> {{ event.description }} </span> -->
+      <span> {{ event.expiration }} </span>
+      <span> {{ event.thresholdPeople }} </span>
+    <div class="visits">
+
+    </div>
+  </div>
+</div>
+
+<!-- EVENT DISPLAY (Initially invisible)  -->
+<div ng-show="display" ng-model="clickedEvent">
+  <img src="assets/redirect_icon.png">
+  <span> {{ clickedEvent.title }} </span>
+  <span> {{ clickedEvent.description }} </span>
+  <span> {{ clickedEvent.expiration }} </span>
+  <span> {{ clickedEvent.thresholdPeople }} </span>
+  <button ng-click="checkStripe()"> JOIN </button>
+  <button> DECLINE </button>
+</div>
+
+<!-- EVENT CREATION -->
+<div>
+
+  <form>
+    <input type="text" name="title" placeholder="Title" ng-model="event.title"> <br>
+    <input type="text" name="description" placeholder="Description" ng-model="event.description"> <br>
+    <input type="date" name="expiration" placeholder="expiration" ng-model="event.expiration"> <br>
+    <input type="number" name="thresholdPeople" placeholder="thresholdPeople" ng-model="event.thresholdPeople"> <br>
+  </form>
+
+</div>
+<!-- CONFIRM DIV CREATION -->
+<div>
+
+
+  <div ng-show="x">
+
+
+  </div>
+</div>

@@ -2,12 +2,12 @@
 <html ng-app='shortly'>
   <head>
     <meta charset="utf-8" />
-    <title>Shortly</title>
+    <title>headCount</title>
     <link rel="stylesheet" type="text/css" href="styles/style.css" />
   </head>
   <body>
-    <h1>Shortly</h1>
-    <div id = "signout" ng-controller = "AuthController" ng-show = "auth"> 
+    <h1>headCount</h1>
+    <div ng-controller="AuthController" ng-show="auth"> 
       <button ng-click="signout()">Signout</button>
     </div>
 
@@ -18,8 +18,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular-route.js"></script>
 
     <script src="app/auth/auth.js"></script>
-    <script src="app/links/links.js"></script>
-    <script src="app/shorten/shorten.js"></script>
+    <script src="app/events/events.js"></script>
+    <script src="app/accounts/accounts.js"></script>
     <script src="app/services/services.js"></script>
     <script src="app/app.js"></script>
   </body>
