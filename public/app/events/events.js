@@ -56,4 +56,12 @@ angular.module('shortly.links', [])
     });
   };
 
+  $scope.showDetails = function(){
+    if ($scope.showCreate === true){
+      $scope.showCreate = false;
+    } else {
+      $scope.showCreate = true;
+    }
+  };
+
 });
