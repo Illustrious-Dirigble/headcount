@@ -18,12 +18,9 @@ router.post('/checkUser', function(req, res, done) {
   		if (user.attributes.stripeId || currentUser === 'ggg'){
   			// if user's stripe ID is present in DB
   			res.json({hasStripeId: true});
-  			// return done(null,user);
   		} else {
   			console.log('StripeId not found for user');
   			res.json({hasStripeId: false});
-
-  			// return done(null,'Accounts Panel');
   		}
   	});
 });

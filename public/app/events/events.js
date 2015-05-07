@@ -26,8 +26,14 @@ angular.module('shortly.links', [])
     expiration: '12/07/2016',
     thresholdPeople: 7
   }];
+
+
+
+
   $scope.clickedEvent = {};
   $scope.display = false;
+  $scope.hasStripe = false;
+  $scope.needInfo = false;
   $scope.getLinks = function () {
     Links.getAll()
       .then(function (links) {
@@ -53,6 +59,11 @@ angular.module('shortly.links', [])
     })
     .then(function(resp){
       console.log('resp',resp);
+      if (resp.data.hasStripeId === true){
+        $scope.hasStripe = true;
+      } else {
+        $scope.needInfo = true;
+      }
     });
   };
 
