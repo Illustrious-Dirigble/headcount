@@ -43,7 +43,9 @@
 </div>
 
 <!-- EVENT CREATION -->
-<div>
+<div ng-click="showDetails = !showDetails" ng-init="showDetails=false">Create Event</div>
+
+<div ng-show="showDetails">
 
   <form>
     <input type="text" name="title" placeholder="Title" ng-model="event.title"> <br>
@@ -55,9 +57,11 @@
 </div>
 <!-- CONFIRM DIV CREATION -->
 <div>
+  <div ng-show="hasStripe">
+    <button>  CONFIRM? </button>
+  </div>
 
-
-  <div ng-show="x">
+  <div ng-show="needInfo">
 
 
   </div>
