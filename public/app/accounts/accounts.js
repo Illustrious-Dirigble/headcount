@@ -4,15 +4,25 @@ angular.module('shortly.shorten', [])
   // Your code here
 
   $scope.link = {};
-  $scope.addLink = function () {
-    $scope.loading = true;
-    Links.addLink($scope.link)
-      .then(function () {
-        $scope.loading = false;
-        $location.path('/');
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+  
+
+  $scope.hasStripeConnectAccount = function() {
+
+    var currentUser = sessionStorage.getItem('user');
+    console.log('user',currentUser);
+
   };
+
+
+  // $scope.addLink = function () {
+  //   $scope.loading = true;
+  //   Links.addLink($scope.link)
+  //     .then(function () {
+  //       $scope.loading = false;
+  //       $location.path('/');
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error);
+  //     });
+  // };
 });
