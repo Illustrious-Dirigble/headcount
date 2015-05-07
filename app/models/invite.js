@@ -9,8 +9,8 @@ var Invite = db.Model.extend({
     return this.hasOne(User, 'user_id');
   },
   event: function() {
-    return this.hasOne(Event, 'event_id');
+    return this.belongsTo('Event', 'event_id');
   }
 });
 
-module.exports = Invite;
+module.exports = db.model('Invite', Invite);

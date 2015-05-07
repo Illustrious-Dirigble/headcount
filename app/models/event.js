@@ -8,7 +8,10 @@ var Event = db.Model.extend({
   defaults: {
   },
   initialize: function(){
+  },
+  invites: function() {
+     return this.hasMany('Invite', 'event_id');
   }
 });
 
-module.exports = Event;
+module.exports = db.model('Event', Event);
