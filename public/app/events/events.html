@@ -18,8 +18,8 @@
 
 <div class="links">
   <div class="link"
-      ng-repeat="event in events | filter:search | orderBy:'created_at'">
-    <div class="info" ng-click="displayEvent(event)">
+      ng-repeat="event in events | filter:search | orderBy:'created_at'" ng-click="displayEvent(event)">
+    <div class="info" >
       <!-- <img src="assets/redirect_icon.png"> -->
       <span> {{ event.title }} </span>
       <!-- <span> {{ event.description }} </span> -->
@@ -38,7 +38,7 @@
   <span> {{ clickedEvent.description }} </span>
   <span> {{ clickedEvent.expiration }} </span>
   <span> {{ clickedEvent.thresholdPeople }} </span>
-  <button> JOIN </button>
+  <button ng-click="checkStripe()"> JOIN </button>
   <button> DECLINE </button>
 </div>
 
@@ -52,4 +52,13 @@
     <input type="number" name="thresholdPeople" placeholder="thresholdPeople" ng-model="event.thresholdPeople"> <br>
   </form>
 
+</div>
+<!-- CONFIRM DIV CREATION -->
+<div>
+
+
+  <div ng-show="x">
+
+
+  </div>
 </div>

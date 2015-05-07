@@ -1,6 +1,6 @@
 angular.module('shortly.links', [])
 
-.controller('EventsController', function ($scope, Links) {
+.controller('EventsController', function ($scope, Links, $http) {
   // Your code here
 
 
@@ -42,6 +42,18 @@ angular.module('shortly.links', [])
   $scope.displayEvent = function(obj){
     $scope.clickedEvent = obj;
     $scope.display = true;
-    $window.location.href = "/";
-  }
+  };
+
+  $scope.checkStripe = function(){
+    var currentUser = sessionStorage.getItem('user');
+    return $http({
+      method: 'POST',
+      url : '/users/checkUser',
+      data : {'username': currentUser}
+    })
+    .then(function(resp){
+      console.log('resp',resp);
+    });
+  };
+
 });
