@@ -43,6 +43,12 @@ var User = db.Model.extend({
       .then(function(hash) {
         this.set('password', hash);
       });
+  },
+  invites: function() {
+    return this.hasMany('Invite', 'user_id');
+  },
+  events: function() {
+    return this.hasMany('Event', 'user_id');
   }
 });
 

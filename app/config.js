@@ -39,7 +39,7 @@ db.knex.schema.hasTable('events').then(function(exists) {
       event.string('title', 255);
       event.text('description');
       event.string('url', 255);
-      event.string('owner', 100);
+      event.string('user_id', 100);
       event.dateTime('expiration');
       event.integer('thresholdPeople');
       event.integer('thresholdMoney');
