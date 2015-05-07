@@ -7,6 +7,7 @@ var knex =  !process.env.DATABASE_URL ? require('./local_config.js') :
 });
 
 var db = require('bookshelf')(knex);
+db.plugin('registry');
 
 db.knex.schema.hasTable('users').then(function(exists) {
   if (!exists) {
