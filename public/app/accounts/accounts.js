@@ -3,9 +3,6 @@ angular.module('shortly.shorten', [])
 .controller('AccountsController', function ($scope, $location, Links) {
   // Your code here
 
-  $scope.link = {};
-  
-
   $scope.hasStripeConnectAccount = function() {
 
     var currentUser = sessionStorage.getItem('user');
@@ -13,16 +10,12 @@ angular.module('shortly.shorten', [])
 
   };
 
-
-  // $scope.addLink = function () {
-  //   $scope.loading = true;
-  //   Links.addLink($scope.link)
-  //     .then(function () {
-  //       $scope.loading = false;
-  //       $location.path('/');
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error);
-  //     });
-  // };
+  $scope.stripeCallback = function (code, result) {
+      if (result.error) {
+          console.log('it failed! error: ' + result.error.message);
+      } else {
+          console.log('success!');
+          console.dir(result);
+      }
+  };
 });
