@@ -18,20 +18,24 @@
 
 <div class="links">
   <div class="link"
-      ng-repeat="event in events | filter:search | orderBy:'created_at'" ng-click="displayEvent(event)" ng-show="!showDetails">
+      ng-repeat="event in events | filter:search | orderBy:'created_at'" ng-click="seeMore = !seeMore" ng-show="!showDetails">
     <div class="info" >
       <!-- <img src="assets/redirect_icon.png"> -->
-      <span> {{ event.title }} </span>
+      <img width="75px" height="75px" src="{{event.image}}" />
+      <span> <strong> {{ event.title }} </strong> </span> <br />
       <!-- <span> {{ event.description }} </span> -->
-      <span> {{ event.expiration }} </span>
-      <span> {{ event.thresholdPeople }} </span>
-    <div class="visits">
+      <span> Expiration: {{ event.expiration }} </span> <br />
+      <span> People needed: {{ event.thresholdPeople }} </span>
 
-    </div>
   </div>
+    <div ng-show="seeMore" ng-model="clickedEvent">
+       <span> {{ event.description }} </span><br />
+       <button ng-click="checkStripe()"> JOIN </button>
+       <button> DECLINE </button>
+     </div>
 </div>
 
-<!-- EVENT DISPLAY (Initially invisible)  -->
+<!-- EVENT DISPLAY (Initially invisible)  
 <div ng-show="display" ng-model="clickedEvent">
   <img src="assets/redirect_icon.png">
   <span> {{ clickedEvent.title }} </span>
@@ -41,6 +45,8 @@
   <button ng-click="checkStripe()"> JOIN </button>
   <button> DECLINE </button>
 </div>
+
+-->
 
 <!-- EVENT CREATION -->
 <div ng-click="showDetails = !showDetails" ng-init="showDetails=false" ng-show="!showDetails">Create Event</div>

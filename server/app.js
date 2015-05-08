@@ -27,7 +27,6 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, '../public')));
 
 // Initiate passport and passport session
@@ -55,9 +54,11 @@ app.use(function(req, res, next) {
 
 // Passport will serialize and deserialize user instances to and from the session.
 passport.serializeUser(function(user, done) {
+  console.log('Serializing User!!!' + user);
   done(null, user);
 });
 passport.deserializeUser(function(obj, done) {
+  console.log('Deserializing User!!!' + user);
   done(null, obj);
 });
 
