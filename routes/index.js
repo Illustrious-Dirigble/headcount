@@ -42,119 +42,76 @@ router.post('/createevent', function(req, res, next) {
 
 });
 
-/**
- * Receives token from client-side that was created by sending card details to Stripe API. 
- * Turns card into Stripe customer object associated with platform account, then saves Stripe customer ID to user who submitted card.
- * Currently only allows for one card to be stored per user.
- */
-router.post('/stripe/debit-token', function(req, res) {
-  var username = req.body.username;
-  var cardToken = req.body.cardToken;
-  var response;
-
-    new User({username:username})
-      .fetch()
-      .then(function(user){
-        if(!user) {
-          response = 'User does not exist';
-          console.log(response);
-          res.send(response);
-        } else if (user.attributes.stripeCustomerId) {
-          response = 'User already has a customer ID!';
-          console.log(response);
-          res.send(response);
-        } else {
-         
-          stripe.createPlatformCustomer(cardToken, function(customer) {
-            user.save({ stripeCustomerId: customer.id })
-              .then(function() {
-                response = 'Stripe customer ID saved to user';
-                console.log(response);
-                res.send(response);
-              });
-           });
-        }
-      })
-      .catch(function(error){
-        console.log('Error saving customer ID on user instance',error);
-      });
-});
 
 /**
- * Redirects user to Stripe API endpoint to signup for Stripe Connect account and grant Headcount charge/payment permissions. 
- * Stripe page will redirect user to '/oauth/callback' when done.
+ * Redirects user to Venmo API endpoint to grant Headcount charge/payment permissions on their account. 
+ * Venmo page will redirect user to '/oauth' when done.
  */
 router.post('/authorize', function(req, res) {
 
+  var username = req.body.username;
 
-  var redirect_uri = !process.env.DATABASE_URL ? 'http://localhost:5000/oauth/callback' : 
-  'http://headcount26.herokuapp.com/oauth/callback';
+  var clientId = '2612';
+  var scopes = 'make_payments%20access_feed%20access_profile%20access_email%20access_phoneaccess_balance%20access_friends';
+  var redirect_uri = !process.env.DATABASE_URL ? 'http://localhost:5000/oauth' : 
+  'http://headcount26.herokuapp.com/oauth';
 
-  var redirect = AUTHORIZE_URI + '?' + qs.stringify({
-    response_type: 'code',
-    scope: 'read_write',
-    client_id: CLIENT_ID,
-    redirect_uri: redirect_uri
-  });
+  var authorize = 'https://api.venmo.com/v1/oauth/authorize?client_id=' + clientId + '&scope=' + scopes + '&response_type=code' + '&state=' + username + '&redirect_uri=' + redirect_uri;
 
-  res.send(redirect);
+  res.send(authorize);
 });
 
 /**
- * TODO: track user who is originally redireced to Stripe Connect account signup page!!
- * 
- * Captures redirect from Stripe Connect signup page. 
- * Receives Stripe user ID, access token, refresh token and publishable key in body of response. 
- * Save Stripe Connect account info to user to later receive payments from other users.
+ * Captures redirect from Venmo account authorization page. 
+ * Receives Venmo user ID, username, display name, access token, refresh token, and profile picture url in body of response. 
+ * Save info in users's db entry to later pay other users with
  */
-router.get('/oauth/callback', function(req, res) {
-  
-  // FIX: track user!!
-  var username = '?????????'
+router.get('/oauth', function(req, res) {
+  var venmoTokenUri = 'https://api.venmo.com/v1/oauth/access_token';
+  var clientId = '2612';
+  var clientSecret = 'eUv3N6JDsM3YCGkzmF8Lg8kH9WtV6kuf'
+  var username = req.query.state;
   var code = req.query.code;
- 
-  request.post({
-    url: TOKEN_URI,
-    form: {
-      grant_type: 'authorization_code',
-      client_id: CLIENT_ID,
-      code: code,
-      client_secret: API_KEY
-    }
-  }, function(err, r, body) {
-    if (err) {
-      console.log(err);
-    } else {
 
-      new User({username:username})
-        .fetch()
-        .then(function(user){
-          if(!user) {
-            console.log('User does not exist');
-          } else if (user.attributes.stripeUserId) {
-            console.log('User already has a customer ID!');
-          } else {
-           
-            user.save({ 
-              stripeUserId: body.stripe_user_id,
-              stripeAccessToken: body.access_token,
-              stripeRefreshToken: body.refresh_token,
-              stripePublishKey: body.stripe_publishable_key
+  res.redirect('/#/accounts'); 
+
+    request.post({
+        url: venmoTokenUri,
+        form: {
+          client_id: clientId,
+          code: code,
+          client_secret: clientSecret
+        }
+      }, function(err, r, body) {
+        
+          body = JSON.parse(body)
+
+          new User({username:username})
+            .fetch()
+            .then(function(user){
+              if(!user) {
+                console.log('User does not exist');
+              } else if (user.attributes.venmoUserId) {
+                console.log('User has already authorized their venmo account!');
+              } else {
+               
+                user.save({ 
+                  venmoUserId: body.user.id,
+                  venmoUsername: body.user.username,
+                  venmoDisplayName: body.user.display_name,
+                  venmoAccessToken: body.access_token,
+                  venmoRefreshToken: body.refresh_token,
+                  venmoPicture: body.user.profile_picture_url
+                })
+                  .then(function() {
+                    console.log('Stripe Connect Account saved to user');
+                  });
+               }
             })
-              .then(function() {
-                console.log('Stripe Connect Account saved to user');
-              });
-           }
-        })
-        .catch(function(error){
-          console.log('Error saving connect account on user instance',error);
-        });
-    }
-
-    console.log(JSON.parse(body));
-    res.redirect('/#/accounts'); 
-  });
+            .catch(function(error){
+              console.log('Error saving connect account on user instance',error);
+            });
+      });
 });
-
 
 module.exports = router;

@@ -16,11 +16,12 @@ db.knex.schema.hasTable('users').then(function(exists) {
       user.string('username', 100).unique();
       user.string('password', 100);
       user.string('email', 100);
-      user.string('stripeUserId', 255);
-      user.string('stripeAccessToken', 255);
-      user.string('stripeRefreshToken', 255);
-      user.string('stripePublishKey', 255);
-      user.string('stripeCustomerId', 255);
+      user.string('venmoUsername', 255);
+      user.string('venmoDisplayName', 255);
+      user.string('venmoUserId', 255);
+      user.string('venmoAccessToken', 255);
+      user.string('venmoRefreshToken', 255);
+      user.string('venmoPicture', 255);
       user.string('firstName', 100);
       user.string('lastName', 100);
       user.string('shippingAddress', 255);
