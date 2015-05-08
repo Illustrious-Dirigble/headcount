@@ -33,11 +33,7 @@ router.post('/createevent', function(req, res, next) {
   //   expiration: eventData.expiration,
   //   thresholdPeople: eventData.thresholdPeople
   // });
-    //     user.set('stripeUserId', info.stripe_user_id);
-    //     user.set('stripeAccessToken', info.access_token);
-    //     user.set('stripeRefreshToken', info.refresh_token);
-    //     user.set('stripePublishKey', info.stripe_publishable_key);
-    //     console.log('Saved stripe Connect Account to ', username);
+ 
     //   }
     // })
     // .catch(function(error){
@@ -80,7 +76,7 @@ router.post('/stripe/debit-token', function(req, res) {
         }
       })
       .catch(function(error){
-        console.log('Error saving customer ID on bookshelf model',error);
+        console.log('Error saving customer ID on user instance',error);
       });
 });
 
@@ -107,8 +103,9 @@ router.post('/authorize', function(req, res) {
  * Save Stripe Connect account info to user to later receive payments from other users.
  */
 router.get('/oauth/callback', function(req, res) {
-  console.log('redirected successfully!');
-  console.log(req.query);
+  
+  // FIX: track user!!
+  var username = '?????????'
   var code = req.query.code;
  
   request.post({
@@ -122,10 +119,35 @@ router.get('/oauth/callback', function(req, res) {
   }, function(err, r, body) {
     if (err) {
       console.log(err);
+    } else {
+
+      new User({username:username})
+        .fetch()
+        .then(function(user){
+          if(!user) {
+            console.log('User does not exist');
+          } else if (user.attributes.stripeUserId) {
+            console.log('User already has a customer ID!');
+          } else {
+           
+            user.save({ 
+              stripeUserId: body.stripe_user_id,
+              stripeAccessToken: body.access_token,
+              stripeRefreshToken: body.refresh_token,
+              stripePublishKey: body.stripe_publishable_key
+            })
+              .then(function() {
+                console.log('Stripe Connect Account saved to user');
+              });
+           }
+        })
+        .catch(function(error){
+          console.log('Error saving connect account on user instance',error);
+        });
     }
 
     console.log(JSON.parse(body));
-    res.redirect('/'); 
+    res.redirect('/#/accounts'); 
   });
 });
 
