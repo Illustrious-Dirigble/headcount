@@ -152,3 +152,10 @@ input[type=url]:focus {
     color: red;
 }
 
+.debit {
+  display: inline;
+}
+
+.block {
+  display: block;
+}
