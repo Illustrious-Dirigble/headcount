@@ -1,10 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var User  = require('./../app/models/user');
-var oauth = require('../oauth.js');
 var passport = require('passport');
-var FacebookStrategy = require('passport-facebook').Strategy;
-var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 
 /* handleAuth creates a session object, which we then store the username as a user
@@ -37,14 +34,13 @@ router.get('/google/callback', passport.authenticate('google', { failureRedirect
  res.redirect('#/signin');
 });
 
-// Local Auth
+// Local Auth Sign-in
 router.post('/local', passport.authenticate('local', { failureRedirect: '#/signup' }), function(req, res) {
   var username = req.body.username;
-  console.log("LOCAL PASSPORT");
   handleAuth(req, res, username);
 });
 
-// local Auth signup
+// Local Auth Sign-up
 router.post('/local-signup', function(req, res, next) {
  
   var username  = req.body.username;
