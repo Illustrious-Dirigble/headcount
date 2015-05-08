@@ -2,10 +2,11 @@ var express = require('express');
 var router = express.Router();
 var qs = require('querystring');
 var request = require('request');
+var stripe = require('./../utils/stripe.js')
+var User = require('./../app/models/user.js')
 
 var CLIENT_ID = 'ca_6BLN2Dqh096NdvoCiYRV9LNmJTuMssEB';
 var API_KEY = 'sk_test_OBXX3FRuomYskOfEP62qbgMz';
- 
 var TOKEN_URI = 'https://connect.stripe.com/oauth/token';
 var AUTHORIZE_URI = 'https://connect.stripe.com/oauth/authorize';
 
@@ -45,10 +46,35 @@ router.post('/createevent', function(req, res, next) {
 
 });
 
+/**
+ * Receives token from client-side that was created by sending card details to Stripe API. Turns card into Stripe customer object associated with platform account, then saves Stripe customer ID to user who submitted card.
+ * Currently only allows for one card to be stored per user.
+ */
 router.post('/stripe/debit-token', function(req, res) {
-  
-  console.log(req.body.username);
-  console.log(req.body.cardToken);
+  var username = req.body.username;
+  var cardToken = req.body.cardToken;
+
+  stripe.createPlatformCustomer(cardToken, function(customer) {
+      
+    console.log(customer);
+    new User({username:username})
+      .fetch()
+      .then(function(user){
+        if(!user) {
+          console.log('User does not exist');
+        } else if (user.attributes.stripeCustomerId) {
+          console.log('User already has a customer ID!');
+        } else {
+          user.save({ stripeCustomerId: customer.id })
+            .then(function() {
+              console.log('Stripe customer ID saved to user');
+            });
+        }
+      })
+      .catch(function(error){
+        console.log('Error saving customer ID on bookshelf model',error);
+      });
+  })
 });
 
 router.get('/authorize', function(req, res) {
