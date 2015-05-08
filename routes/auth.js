@@ -6,6 +6,14 @@ var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
+function handleAuth(req, res, username) {
+  req.session.regenerate(function() {
+    req.session.user = username;
+    console.log("SESSION!!!" + req.session.user);
+    res.redirect("..#/events");
+  });
+}
+
 // Facebook OAuth Initiation
 router.get('/facebook', passport.authenticate('facebook'), function(req, res){
 });
@@ -26,8 +34,9 @@ router.get('/google/callback', passport.authenticate('google', { failureRedirect
 
 // Local Auth
 router.post('/local', passport.authenticate('local', { failureRedirect: '#/signup' }), function(req, res) {
-	console.log('success signin!!!!!!');
- 	res.redirect('..#/events');
+  var username = req.body.username;
+  console.log("LOCAL PASSPORT");
+  handleAuth(req, res, username);
 });
 // local Auth signup
 router.post('/local-signup', function(req, res, next) {
@@ -43,7 +52,7 @@ router.post('/local-signup', function(req, res, next) {
        } else {
          new User({username:username,password:password},{isNew:true}).save()
 	         .then(function(model){
-	           res.end('/events');
+	           handleAuth(req, res, username);
 	         });
        }
      })

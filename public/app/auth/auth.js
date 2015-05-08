@@ -14,6 +14,7 @@ angular.module('headcount.auth', [])
       data: $scope.user
     })
     .then(function (resp) {
+      console.log("SIGNIN AUTH CONTROLLER");
       console.log('resp',resp.config.data.username);
       $window.sessionStorage.setItem('user', resp.config.data.username);
       $window.location.href = "/";
@@ -27,8 +28,10 @@ angular.module('headcount.auth', [])
       data: $scope.user
     })
     .then(function (resp) {
-      console.log('gets to then of signup in client');
-      $location.path('/events');
+      console.log("SIGNUP AUTH CONTROLLER");
+      console.log('resp',resp.config.data.username);
+      $window.sessionStorage.setItem('user', resp.config.data.username);
+      $window.location.href = "/";
     });
   };
 
