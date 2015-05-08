@@ -33,6 +33,28 @@ db.knex.schema.hasTable('users').then(function(exists) {
   }
 });
 
+db.knex.schema.hasTable('events').then(function(exists) {
+  if (!exists) {
+    db.knex.schema.createTable('events', function (event) {
+      event.increments('id').primary();
+      event.string('title', 255);
+      event.text('description');
+      event.string('url', 255);
+      event.string('user_id', 100);
+      event.dateTime('expiration');
+      event.integer('thresholdPeople');
+      event.integer('thresholdMoney');
+      event.integer('invites');
+      event.integer('committedPeople');
+      event.integer('committedMoney');
+      event.string('disqusKey', 255);
+      event.timestamps();
+    }).then(function (table) {
+      console.log('Created Table', table);
+    });
+  }
+});
+
 db.knex.schema.hasTable('invites').then(function(exists) {
   if (!exists) {
     db.knex.schema.createTable('invites', function (invite) {
