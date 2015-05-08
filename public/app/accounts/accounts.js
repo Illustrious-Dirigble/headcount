@@ -1,6 +1,6 @@
 angular.module('shortly.shorten', [])
 
-.controller('AccountsController', function ($scope, $location, $http, Links) {
+.controller('AccountsController', function ($scope, $window, $location, $http, Links) {
 
   // $scope.hasStripeConnectAccount = function() {
 
@@ -21,6 +21,7 @@ angular.module('shortly.shorten', [])
     })
     .then(function (resp) {
       console.log(resp);
+      $window.location.href = resp.data;
     });
   };
 

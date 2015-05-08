@@ -88,14 +88,15 @@ router.post('/stripe/debit-token', function(req, res) {
  * Redirects user to Stripe API endpoint to signup for Stripe Connect account and grant Headcount charge/payment permissions. 
  * Stripe page will redirect user to '/oauth/callback' when done.
  */
-router.get('/authorize', function(req, res) {
-  console.log('authorizing');
+router.post('/authorize', function(req, res) {
+  
+  var redirect = AUTHORIZE_URI + '?' + qs.stringify({
+    response_type: 'code',
+    scope: 'read_write',
+    client_id: CLIENT_ID
+  });
 
-  // res.redirect(AUTHORIZE_URI + '?' + qs.stringify({
-  //   response_type: 'code',
-  //   scope: 'read_write',
-  //   client_id: CLIENT_ID
-  // }));
+  res.send(redirect);
 });
 
 /**
