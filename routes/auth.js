@@ -67,4 +67,18 @@ router.post('/local-signup', function(req, res, next) {
     });
 });
 
+/* Logout... console logs are for checking the req.session object before and after it's
+ * destroyed to ensure it's working.
+ */
+
+router.get('/logout', function(req, res, next) {
+
+  console.log("Before destroy session... " + req.session.user);
+  req.session.destroy(function() {
+    console.log("Destroying express-session object for this session... " + req.session);
+    res.redirect('..#/signin');
+  });
+
+});
+
 module.exports = router;
