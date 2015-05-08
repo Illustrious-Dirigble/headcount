@@ -7,7 +7,6 @@ var passport = require('passport');
 /* handleAuth creates a session object, which we then store the username as a user
  * property under the req.session object
  */
-
 function handleAuth(req, res, username) {
   req.session.regenerate(function() {
     req.session.user = username;
@@ -69,7 +68,7 @@ router.post('/local-signup', function(req, res, next) {
 
 router.get('/logout', function(req, res, next) {
 
-  console.log("Before destroy session... " + req.session.user);
+  console.log("Before destroy session... " + JSON.stringify(req.session));
   req.session.destroy(function() {
     console.log("Destroying express-session object for this session... " + req.session);
     res.redirect('..#/signin');
