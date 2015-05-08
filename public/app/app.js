@@ -1,8 +1,8 @@
-angular.module('shortly', [
-  'shortly.services',
-  'shortly.links',
-  'shortly.shorten',
-  'shortly.auth',
+angular.module('headcount', [
+  'headcount.services',
+  'headcount.events',
+  'headcount.accounts',
+  'headcount.auth',
   'ngRoute',
   'angularPayments'
 ])
