@@ -6,6 +6,11 @@ var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
+
+/* handleAuth creates a session object, which we then store the username as a user
+ * property under the req.session object
+ */
+
 function handleAuth(req, res, username) {
   req.session.regenerate(function() {
     req.session.user = username;
@@ -38,27 +43,28 @@ router.post('/local', passport.authenticate('local', { failureRedirect: '#/signu
   console.log("LOCAL PASSPORT");
   handleAuth(req, res, username);
 });
+
 // local Auth signup
 router.post('/local-signup', function(req, res, next) {
- console.log('signup');
- var username  = req.body.username;
- var password  = req.body.password;
  
- new User({username:username})
-     .fetch()
-     .then(function(model){
-       if(model) {
-         next(new Error('User already exists'));
-       } else {
-         new User({username:username,password:password},{isNew:true}).save()
-	         .then(function(model){
-	           handleAuth(req, res, username);
-	         });
-       }
-     })
-     .catch(function(error){
-       console.log('hi',error);
-     });
+  var username  = req.body.username;
+  var password  = req.body.password;
+ 
+  new User({username:username})
+    .fetch()
+    .then(function(model){
+      if(model) {
+        next(new Error('User already exists'));
+      } else {
+        new User({username:username,password:password},{isNew:true}).save()
+	        .then(function(model){
+	          handleAuth(req, res, username);
+	        });
+        }
+    })
+    .catch(function(error){
+      console.log('hi',error);
+    });
 });
 
 module.exports = router;

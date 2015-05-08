@@ -22,7 +22,6 @@ var LocalStrategy = require('passport-local').Strategy;
 
 var app = express();
 
-
 app.use(favicon(__dirname + '/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -30,28 +29,29 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, '../public')));
+
+// Initiate passport and passport session
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Express-session settings
 app.use(session({
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: false
 }));
 
-// routing
+// Routing
 app.use('/', routes);
 app.use('/users', users);
 app.use('/auth', auth);
 
-// catch 404 and forward to error handler
+// Catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
-
-// Passport authentication
 
 // Passport will serialize and deserialize user instances to and from the session.
 passport.serializeUser(function(user, done) {
@@ -85,35 +85,23 @@ function(accessToken, refreshToken, profile, done) {
   });
 }));
 
-// local Auth
-
+// Local Auth
 passport.use('local',new LocalStrategy(
   function(username, password, done) {
-    console.log('passport local triggered',username);
-    console.log(new User({username:username}));
     new User({ username: username })
       .fetch()
       .then(function(user) {
-      console.log('user',user);
       if (!user) {
-        console.log('incorrect username');
         return done(null, false, { message: 'Incorrect username.' });
       }
       if (user.comparePassword(password,function(x){
-        // callback. x is the value of isMatch
-        console.log('isMatch',x);
         if (x === true){
-          // correct password
           return done(null, user);
         } else {
-          // wrong password
-          console.log('incorrect [password]');
           return done(null, false, { message: 'Incorrect password.' });
         }
       })){
-        console.log("TRUUUUUE");
       }
-      // if (err) { return done(err); }
     });
   }));
 
