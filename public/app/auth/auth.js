@@ -17,7 +17,7 @@ angular.module('headcount.auth', [])
       data: $scope.user
     })
     .then(function (resp) {
-      console.log('Successfully signed in, your token is... ',resp.config.data.username);
+      console.log('Successfully SIGNED IN, your token is... ',resp.config.data.username);
       $window.sessionStorage.setItem('user', resp.config.data.username);
       $window.location.href = "/";
     });
@@ -31,9 +31,8 @@ angular.module('headcount.auth', [])
       url: '/auth/local-signup',
       data: $scope.user
     })
-    .then(function (resp) {
-      
-      console.log('Successfully signed up, your token is... ',resp.config.data.username);
+    .then(function (resp) { 
+      console.log('Successfully SIGNED UP, your token is... ',resp.config.data.username);
       $window.sessionStorage.setItem('user', resp.config.data.username);
       $window.location.href = "/";
     });
