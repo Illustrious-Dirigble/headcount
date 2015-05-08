@@ -45,6 +45,12 @@ router.post('/createevent', function(req, res, next) {
 
 });
 
+router.post('/stripe/debit-token', function(req, res) {
+  
+  console.log(req.body.username);
+  console.log(req.body.cardToken);
+});
+
 router.get('/authorize', function(req, res) {
   // Redirect to Stripe /oauth/authorize endpoint
   res.redirect(AUTHORIZE_URI + '?' + qs.stringify({
