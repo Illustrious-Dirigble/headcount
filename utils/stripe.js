@@ -23,7 +23,8 @@ exports.createPlatformCustomer = function(stripeToken, callback) {
 };
 
 /**
- * Takes customer ID associated with a user profile (the paying account) and the Stripe Connect account access token of the receiving account.
+ * Subordinate function: see use in chargeCustomerToAccount
+ * Takes stripe customer ID of accoung being charged and stripe Connect ID of the charging account
  * Returns a one-time use token for creating the actual charge.
  */
 var createTokenFromCustomerId = function(customerId, stripeConnectAccessToken, callback) {
@@ -38,6 +39,30 @@ var createTokenFromCustomerId = function(customerId, stripeConnectAccessToken, c
         console.log(token);
         callback(token);
       }
+  });
+};
+
+/**
+ * Takes stripe customer ID of accoung being charged, stripe Connect ID and stripe Connect access token of the charging account and amount being charged (in cents!).
+ * Transfers amount param from customer ID account to stripe Connect ID account.
+ */
+exports.chargeCustomerToAccount = function(customerId, stripeConnectAccountId, stripeConnectAccessToken, amount) {
+  
+  createTokenFromCustomerId(customerId, stripeConnectAccessToken, function(token) {
+    stripe.charges.create({
+      amount: amount,
+      currency: 'usd',
+      source: token
+    }, { stripe_account: stripeConnectAccountId }, 
+    function(err, charge) {
+      if (err) {
+        console.log('Error:', err);
+      } else {
+        console.log('Charged!');
+        console.log(charge);
+      }
+    });
+  
   });
 };
 
