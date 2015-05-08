@@ -152,10 +152,25 @@ input[type=url]:focus {
     color: red;
 }
 
-.debit {
+.debit-card {
+  display: inline-block;
+  margin-left: 100px;
+  margin-top: 50px;
+
+}
+
+.connect {
+  float: right;
+  margin-right: 100px;
+  margin-top: 65px;
+}
+
+.debit-field {
   display: inline;
 }
 
 .block {
   display: block;
 }
+
+

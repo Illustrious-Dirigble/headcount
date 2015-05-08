@@ -12,24 +12,23 @@
     </ul>
   </nav>
 
-
-  <form stripe-form="stripeCallback" name="checkoutForm">
+  <form class="debit-card" stripe-form="stripeCallback" name="checkoutForm">
     <div class="block">
-    <input class="debit" ng-model="number" placeholder="Card Number" payments-format="card" payments-validate="card" name="card" /> 
+    <input class="debit-field" ng-model="number" placeholder="Card Number" payments-format="card" payments-validate="card" name="card" /> 
     <span ng-if="checkoutForm.card.$invalid">Error: invalid card number</span> 
     </div>
     <div class="block">
-    <input class="debit" ng-model="expiry" placeholder="Expiration" payments-format="expiry" payments-validate="expiry" name="expiry" />
+    <input class="debit-field" ng-model="expiry" placeholder="Expiration" payments-format="expiry" payments-validate="expiry" name="expiry" />
     <span ng-if="checkoutForm.expiry.$invalid">Error: invalid expiration date</span> 
     </div>
     <div class="block">
-    <input class="debit" ng-model="cvc" placeholder="CVC" payments-format="cvc" payments-validate="cvc" name="cvc" />
+    <input class="debit-field" ng-model="cvc" placeholder="CVC" payments-format="cvc" payments-validate="cvc" name="cvc" />
     <span ng-if="checkoutForm.cvc.$invalid">Error: invalid CVC</span> 
     </div>
     <button type="submit">Submit</button>
   </form>    
  
-
+  <img class="connect" ng-click="authorize()" src="../../assets/blue-on-light/blue-on-light@2x.png">
 </div>
 
 

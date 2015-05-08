@@ -47,7 +47,8 @@ router.post('/createevent', function(req, res, next) {
 });
 
 /**
- * Receives token from client-side that was created by sending card details to Stripe API. Turns card into Stripe customer object associated with platform account, then saves Stripe customer ID to user who submitted card.
+ * Receives token from client-side that was created by sending card details to Stripe API. 
+ * Turns card into Stripe customer object associated with platform account, then saves Stripe customer ID to user who submitted card.
  * Currently only allows for one card to be stored per user.
  */
 router.post('/stripe/debit-token', function(req, res) {
@@ -83,21 +84,32 @@ router.post('/stripe/debit-token', function(req, res) {
       });
 });
 
+/**
+ * Redirects user to Stripe API endpoint to signup for Stripe Connect account and grant Headcount charge/payment permissions. 
+ * Stripe page will redirect user to '/oauth/callback' when done.
+ */
 router.get('/authorize', function(req, res) {
-  // Redirect to Stripe /oauth/authorize endpoint
-  res.redirect(AUTHORIZE_URI + '?' + qs.stringify({
-    response_type: 'code',
-    scope: 'read_write',
-    client_id: CLIENT_ID
-  }));
+  console.log('authorizing');
+
+  // res.redirect(AUTHORIZE_URI + '?' + qs.stringify({
+  //   response_type: 'code',
+  //   scope: 'read_write',
+  //   client_id: CLIENT_ID
+  // }));
 });
 
+/**
+ * TODO: track user who is originally redireced to Stripe Connect account signup page!!
+ * 
+ * Captures redirect from Stripe Connect signup page. 
+ * Receives Stripe user ID, access token, refresh token and publishable key in body of response. 
+ * Save Stripe Connect account info to user to later receive payments from other users.
+ */
 router.get('/oauth/callback', function(req, res) {
   console.log('redirected successfully!');
   console.log(req.query);
   var code = req.query.code;
  
-  // Make /oauth/token endpoint POST request
   request.post({
     url: TOKEN_URI,
     form: {
