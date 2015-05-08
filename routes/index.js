@@ -85,11 +85,16 @@ router.post('/stripe/debit-token', function(req, res) {
  * Stripe page will redirect user to '/oauth/callback' when done.
  */
 router.post('/authorize', function(req, res) {
-  
+
+
+  var redirect_uri = !process.env.DATABASE_URL ? 'http://localhost:5000/oauth/callback' : 
+  'http://headcount26.herokuapp.com/oauth/callback';
+
   var redirect = AUTHORIZE_URI + '?' + qs.stringify({
     response_type: 'code',
     scope: 'read_write',
-    client_id: CLIENT_ID
+    client_id: CLIENT_ID,
+    redirect_uri: redirect_uri
   });
 
   res.send(redirect);
