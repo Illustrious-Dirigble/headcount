@@ -29,7 +29,8 @@ angular.module('shortly.shorten', [])
           }
         })
         .then(function (resp) {
-          console.log('card token sent to server!');
+          console.log(resp);
+
         });
          
       }

@@ -53,28 +53,34 @@ router.post('/createevent', function(req, res, next) {
 router.post('/stripe/debit-token', function(req, res) {
   var username = req.body.username;
   var cardToken = req.body.cardToken;
+  var response;
 
-  stripe.createPlatformCustomer(cardToken, function(customer) {
-      
-    console.log(customer);
     new User({username:username})
       .fetch()
       .then(function(user){
         if(!user) {
-          console.log('User does not exist');
+          response = 'User does not exist';
+          console.log(response);
+          res.send(response);
         } else if (user.attributes.stripeCustomerId) {
-          console.log('User already has a customer ID!');
+          response = 'User already has a customer ID!';
+          console.log(response);
+          res.send(response);
         } else {
-          user.save({ stripeCustomerId: customer.id })
-            .then(function() {
-              console.log('Stripe customer ID saved to user');
-            });
+         
+          stripe.createPlatformCustomer(cardToken, function(customer) {
+            user.save({ stripeCustomerId: customer.id })
+              .then(function() {
+                response = 'Stripe customer ID saved to user';
+                console.log(response);
+                res.send(response);
+              });
+           });
         }
       })
       .catch(function(error){
         console.log('Error saving customer ID on bookshelf model',error);
       });
-  })
 });
 
 router.get('/authorize', function(req, res) {
