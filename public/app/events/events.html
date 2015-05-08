@@ -12,13 +12,13 @@
     </ul>
   </nav>
 </div>
-<input type='text' ng-model='search' placeholder='filter' />
+<input type='text' ng-model='search' placeholder='Search events' ng-show="!showDetails">
 
 <!-- DISPLAY EVENTS -->
 
 <div class="links">
   <div class="link"
-      ng-repeat="event in events | filter:search | orderBy:'created_at'" ng-click="displayEvent(event)">
+      ng-repeat="event in events | filter:search | orderBy:'created_at'" ng-click="displayEvent(event)" ng-show="!showDetails">
     <div class="info" >
       <!-- <img src="assets/redirect_icon.png"> -->
       <span> {{ event.title }} </span>
@@ -43,7 +43,8 @@
 </div>
 
 <!-- EVENT CREATION -->
-<div ng-click="showDetails = !showDetails" ng-init="showDetails=false">Create Event</div>
+<div ng-click="showDetails = !showDetails" ng-init="showDetails=false" ng-show="!showDetails">Create Event</div>
+<div ng-click="showDetails = !showDetails" ng-init="showDetails=false" ng-show="showDetails">View Events</div>
 
 <div ng-show="showDetails">
 
