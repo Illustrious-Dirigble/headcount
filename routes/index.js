@@ -2,13 +2,9 @@ var express = require('express');
 var router = express.Router();
 var qs = require('querystring');
 var request = require('request');
-var stripe = require('./../utils/stripe.js')
+var venmo = require('./../utils/payments.js')
 var User = require('./../app/models/user.js')
 
-var CLIENT_ID = 'ca_6BLN2Dqh096NdvoCiYRV9LNmJTuMssEB';
-var API_KEY = 'sk_test_OBXX3FRuomYskOfEP62qbgMz';
-var TOKEN_URI = 'https://connect.stripe.com/oauth/token';
-var AUTHORIZE_URI = 'https://api.venmo.com/v1/oauth/authorize';
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
