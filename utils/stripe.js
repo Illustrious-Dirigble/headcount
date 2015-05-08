@@ -22,3 +22,22 @@ exports.createPlatformCustomer = function(stripeToken, callback) {
   });
 };
 
+/**
+ * Takes customer ID associated with a user profile (the paying account) and the Stripe Connect account access token of the receiving account.
+ * Returns a one-time use token for creating the actual charge.
+ */
+var createTokenFromCustomerId = function(customerId, stripeConnectAccessToken, callback) {
+  stripe.tokens.create({ 
+    customer: customerId, 
+  }, stripeConnectAccessToken, // user's access token from the Stripe Connect flow
+    function(err, token) {
+      if (err){
+        console.log('Error:', err)
+      } else {
+        console.log('Token created!');
+        console.log(token);
+        callback(token);
+      }
+  });
+};
+
