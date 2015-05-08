@@ -1,4 +1,4 @@
-angular.module('shortly.shorten', [])
+angular.module('headcount.accounts', [])
 
 .controller('AccountsController', function ($scope, $window, $location, $http, Links) {
 

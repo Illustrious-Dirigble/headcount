@@ -1,4 +1,4 @@
-angular.module('shortly.links', [])
+angular.module('headcount.events', [])
 
 .controller('EventsController', function ($scope, Links, $http) {
   // Your code here
