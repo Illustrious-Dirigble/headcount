@@ -81,14 +81,14 @@ angular.module('headcount.events', [])
   $scope.createEvent = function() {
     $scope.newEvent.invited = $scope.inviteList;
     console.log("NEW EVENT!!!" + JSON.stringify($scope.newEvent));
-    // return $http({
-    //   method: 'POST',
-    //   url: '/events-create',
-    //   data: $scope.newEvent
-    // })
-    // .then(function(resp) {
-
-    // });
+    return $http({
+      method: 'POST',
+      url: '/events-create',
+      data: $scope.newEvent
+    })
+    .then(function(resp) {
+      console.log(resp)
+    });
   };
 
   $scope.checkStripe = function(){

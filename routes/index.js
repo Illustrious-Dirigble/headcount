@@ -5,6 +5,8 @@ var request = require('request');
 
 var venmo = require('./../utils/payments.js')
 var User = require('./../app/models/user.js')
+var Event = require('./../app/models/event.js')
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -40,6 +42,26 @@ router.get('/users-fetch', function(req, res, next) {
       console.log(users);
       res.json(users);
     });
+});
+
+router.post('/events-create', function(req, res) {
+  console.log(req.body);
+
+          new Event({
+            title: req.body.title,
+            description: req.body.description,
+            expiration: null,
+            thresholdPeople: req.body.thresholdPeople,
+            thresholdMoney: req.body.thresholdMoney
+          }).save()
+            .then(function(model){
+              console.log(model);
+
+            });
+       
+         
+     
+     
 });
 
 
