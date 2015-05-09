@@ -50,7 +50,7 @@ angular.module('headcount.events', [])
   $scope.removeInvite = function(user) {
     var index = $scope.inviteList.indexOf(user);
     console.log("INDEX!!! " + index);
-    $scope.userList.push($scope.inviteList.splice(index, 1));
+    $scope.userList.push($scope.inviteList.splice(index, 1)[0][0]);
   };
 
   $scope.fetchEvents = function () {
