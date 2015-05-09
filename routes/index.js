@@ -2,12 +2,11 @@ var express = require('express');
 var router = express.Router();
 var qs = require('querystring');
 var request = require('request');
-var venmo = require('./../utils/payments.js');
-var User = require('./../app/models/user.js');
-<<<<<<< HEAD
 
-=======
->>>>>>> Create a method that allows a user to search through existing users to invite. Set-up structure to create event.
+var venmo = require('./../utils/payments.js');
+var createInvites = require('./../utils/invites.js');
+var User = require('./../app/models/user.js');
+var Event = require('./../app/models/event.js');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -45,6 +44,41 @@ router.get('/users-fetch', function(req, res, next) {
     });
 });
 
+/**
+ * TODO: redirect used to created event page!!
+ * 
+ * Catches event creation post request from client. 
+ * Receives event info and an users who need associated invites.
+ * Creates new event and saves it to the database, then creates the required invite for each user and saves it to the database.
+ * Logs out the created invites when done. 
+ */
+router.post('/events-create', function(req, res) {
+
+  var eventData = req.body;
+  var inviteNum = eventData.invited.length;
+  var inviteeIds = [];
+
+
+  for (var i = 0; i < inviteNum; i++) {
+    inviteeIds.push(eventData.invited[i][0][1]);
+    console.log(eventData.invited[i][0][1]);
+  }
+
+  new Event({
+    title: eventData.title,
+    description: eventData.description,
+    expiration: null,
+    thresholdPeople: eventData.thresholdPeople,
+    thresholdMoney: eventData.thresholdMoney
+  }).save()
+    .then(function(model){
+
+      createInvites(model.id, inviteeIds, function(invites) {
+        console.log('Invites created!');
+        console.log(invites);
+      });
+    });
+});
 
 /**
  * Redirects user to Venmo API endpoint to grant Headcount charge/payment permissions on their account. 
@@ -53,9 +87,9 @@ router.get('/users-fetch', function(req, res, next) {
 router.post('/authorize', function(req, res) {
 
   var username = req.body.username;
-
   var clientId = '2612';
   var scopes = 'make_payments%20access_feed%20access_profile%20access_email%20access_phoneaccess_balance%20access_friends';
+
   var redirect_uri = !process.env.DATABASE_URL ? 'http://localhost:5000/oauth' : 
   'http://headcount26.herokuapp.com/oauth';
 
