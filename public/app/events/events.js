@@ -31,27 +31,64 @@ angular.module('headcount.events', [])
     image: 'http://www.icelandlouisville.com/styled-5/files/birthday2-2.jpg'
   }];
 
-
-
-
-  $scope.clickedEvent = {};
-  $scope.display = false;
   $scope.hasStripe = false;
   $scope.needInfo = false;
-  $scope.getLinks = function () {
-    Links.getAll()
-      .then(function (links) {
-        $scope.data.links = links;
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
-  };
-  // $scope.getLinks();
+  $scope.newEvent = {title: 'Title goes here', description: 'Description goes here', expiration: "5 days", thresholdPeople: 10};
+  $scope.userList = [];
+  $scope.inviteList = [];
 
-  $scope.displayEvent = function(obj){
-    $scope.clickedEvent = obj;
-    $scope.display = true;
+  $scope.$watchCollection('data.tags',function(val){
+    console.log(val);
+  });
+
+  $scope.addInvite = function(user) {
+    var index = $scope.userList.indexOf(user);
+    console.log("INDEX!!! " + index);
+    $scope.inviteList.push($scope.userList.splice(index, 1));
+  };
+
+  $scope.removeInvite = function(user) {
+    var index = $scope.inviteList.indexOf(user);
+    console.log("INDEX!!! " + index);
+    $scope.userList.push($scope.inviteList.splice(index, 1));
+  };
+
+  $scope.fetchEvents = function () {
+    return $http({
+      method: 'POST', 
+      url: '/events-fetch',
+      data: {username: sessionStorage.getItem('user')}
+    })
+    .then(function(resp) {
+      console.log('resp!!!' + resp);
+      $scope.events.push(resp);
+    });
+  };
+
+  $scope.fetchUsers = function () {
+    console.log("FETCH USERS");
+    return $http({
+      method: 'GET', 
+      url: '/users-fetch'
+    })
+    .then(function(resp) {
+      console.log('resp!!!' + JSON.stringify(resp));
+      $scope.userList = resp.data;
+      console.log("$SCOPE.USERLIST" + $scope.userList);
+    });
+  };
+
+  $scope.createEvent = function() {
+    $scope.newEvent.invited = $scope.inviteList;
+    console.log("NEW EVENT!!!" + JSON.stringify($scope.newEvent));
+    return $http({
+      method: 'POST',
+      url: '/events-create',
+      data: $scope.newEvent
+    })
+    .then(function(resp) {
+      console.log(resp)
+    });
   };
 
   $scope.checkStripe = function(){
@@ -69,14 +106,6 @@ angular.module('headcount.events', [])
         $scope.needInfo = true;
       }
     });
-  };
-
-  $scope.showDetails = function(){
-    if ($scope.showCreate === true){
-      $scope.showCreate = false;
-    } else {
-      $scope.showCreate = true;
-    }
   };
 
 });
