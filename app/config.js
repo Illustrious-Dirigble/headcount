@@ -39,15 +39,13 @@ db.knex.schema.hasTable('events').then(function(exists) {
       event.increments('id').primary();
       event.string('title', 255);
       event.text('description');
-      event.string('url', 255);
-      event.string('user_id', 100);
       event.dateTime('expiration');
+      event.string('user_id', 100);
+      event.integer('invites');
       event.integer('thresholdPeople');
       event.integer('thresholdMoney');
-      event.integer('invites');
       event.integer('committedPeople');
       event.integer('committedMoney');
-      event.string('disqusKey', 255);
       event.timestamps();
     }).then(function (table) {
       console.log('Created Table', table);

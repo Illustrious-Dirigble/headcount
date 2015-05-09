@@ -20,56 +20,52 @@
   <div class="link"
       ng-repeat="event in events | filter:search | orderBy:'created_at'" ng-click="seeMore = !seeMore" ng-show="!showDetails">
     <div class="info" >
-      <!-- <img src="assets/redirect_icon.png"> -->
-      <img width="75px" height="75px" src="{{event.image}}" />
+      <img width="100px" height="100px" src="{{event.image}}" />
       <span> <strong> {{ event.title }} </strong> </span> <br />
-      <!-- <span> {{ event.description }} </span> -->
       <span> Expiration: {{ event.expiration }} </span> <br />
       <span> People needed: {{ event.thresholdPeople }} </span>
-
+    </div>
+    <div ng-show="seeMore">
+      <span> {{ event.description }} </span><br />
+      <button ng-click="checkStripe()"> JOIN </button>
+      <button> DECLINE </button>
+    </div>
   </div>
-    <div ng-show="seeMore" ng-model="clickedEvent">
-       <span> {{ event.description }} </span><br />
-       <button ng-click="checkStripe()"> JOIN </button>
-       <button> DECLINE </button>
-     </div>
 </div>
-
-<!-- EVENT DISPLAY (Initially invisible)  
-<div ng-show="display" ng-model="clickedEvent">
-  <img src="assets/redirect_icon.png">
-  <span> {{ clickedEvent.title }} </span>
-  <span> {{ clickedEvent.description }} </span>
-  <span> {{ clickedEvent.expiration }} </span>
-  <span> {{ clickedEvent.thresholdPeople }} </span>
-  <button ng-click="checkStripe()"> JOIN </button>
-  <button> DECLINE </button>
-</div>
-
--->
 
 <!-- EVENT CREATION -->
-<div ng-click="showDetails = !showDetails" ng-init="showDetails=false" ng-show="!showDetails">Create Event</div>
-<div ng-click="showDetails = !showDetails" ng-init="showDetails=false" ng-show="showDetails">View Events</div>
+<div ng-click="showDetails = !showDetails; fetchUsers()" ng-init="showDetails=false" ng-show="!showDetails">
+  <button>Create Event</button>
+</div>
+
+<div ng-click="showDetails = !showDetails" ng-init="showDetails=false" ng-show="showDetails">
+  <button>View Events</button>
+</div>
 
 <div ng-show="showDetails">
-
-  <form>
-    <input type="text" name="title" placeholder="Title" ng-model="event.title"> <br>
-    <input type="text" name="description" placeholder="Description" ng-model="event.description"> <br>
-    <input type="date" name="expiration" placeholder="expiration" ng-model="event.expiration"> <br>
-    <input type="number" name="thresholdPeople" placeholder="thresholdPeople" ng-model="event.thresholdPeople"> <br>
+  <form ng-model="newEvent" ng-submit="createEvent()">
+    <input type="text" name="title" placeholder="What's the title?" ng-model="newEvent.title" required> <br />
+    <input type="text" name="description" placeholder="Tell people what you're doing" ng-model="newEvent.description" required> <br />
+    <input type="number" name="thresholdMoney" placeholder="How much do you need?" ng-model="newEvent.thresholdMoney" required> <br />
+    <input type="number" name="expiration" placeholder="How many days until this event ends?" ng-model="newEvent.expiration" required> <br />
+    <input type="number" name="thresholdPeople" placeholder="How many people?" ng-model="newEvent.thresholdPeople" required> <br />
+    <input type="text" ng-click="inviteClicked = true" ng-model="invites" placeholder="Who's invited? Start typing their username...">
+    <div ng-show="inviteClicked">
+      <span ng-repeat="user in userList | filter:invites" ng-click="addInvite(user)"> {{ user[0] }} </span>
+    </div>
+    <div ng-show="inviteClicked"> Invited: <br />
+      <span ng-repeat="invite in inviteList">{{ invite[0][0] }} <br /></span>
+    </div>
+    <input type="submit" name="Submit">
   </form>
-
 </div>
+
 <!-- CONFIRM DIV CREATION -->
+
 <div>
   <div ng-show="hasStripe">
     <button>  CONFIRM? </button>
   </div>
-
   <div ng-show="needInfo">
-
-
   </div>
 </div>
