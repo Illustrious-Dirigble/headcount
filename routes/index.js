@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 var qs = require('querystring');
 var request = require('request');
-var stripe = require('./../utils/stripe.js')
-var User = require('./../app/models/user.js')
+var stripe = require('./../utils/stripe.js');
+var User = require('./../app/models/user.js');
 
 var CLIENT_ID = 'ca_6BLN2Dqh096NdvoCiYRV9LNmJTuMssEB';
 var API_KEY = 'sk_test_OBXX3FRuomYskOfEP62qbgMz';
@@ -23,23 +23,27 @@ router.get('/signup', function(req, res, next) {
   res.render('signup', { title: 'Signup' });
 });
 
-router.post('/createevent', function(req, res, next) {
-  var username = req.headers['x-access-token'];
-  var eventData = req.body
+// router.get('/events-fetch', function(req, res, next) {
+//   var username = req.headers['x-access-token'];
+//   var eventData = req.body
 
-  // var event = new Event({
-  //   title: eventData.title,
-  //   description: eventData.description,
-  //   expiration: eventData.expiration,
-  //   thresholdPeople: eventData.thresholdPeople
-  // });
- 
-    //   }
-    // })
-    // .catch(function(error){
-    //   console.log('Error saving Stripe Connect account details on bookshelf model',error);
-    // });
+// });
 
+router.get('/users-fetch', function(req, res, next) {
+  new User()
+    .fetchAll()
+    .then(function(collection) {
+      console.log("COLLECTION" + collection.at(0).attributes.username + " " + collection.at(0).attributes.id);
+      var users = [];
+      for (var i = 0; i < collection.length; i++) {
+        var temp = [];
+        temp[0] = collection.at(i).attributes.username;
+        temp[1] = collection.at(i).attributes.id;
+        users.push(temp);
+      }
+      console.log(users);
+      res.json(users);
+    });
 });
 
 
