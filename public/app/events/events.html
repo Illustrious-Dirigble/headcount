@@ -43,21 +43,35 @@
 </div>
 
 <div ng-show="showDetails">
+<br />
+    How your event will look: 
+    <div class="link" >
+      <img width="100px" height="100px" src="{{event.image}}" />
+      <span> <strong> {{ newEvent.title }} </strong> </span> <br />
+      <span> {{ newEvent.description }} </span><br />
+      <span> Expiration: {{ newEvent.expiration }}</span> <br />
+      <span> People going: {{ newEvent.thresholdPeople }} people</span> <br />
+      <button> JOIN </button>
+      <button> DECLINE </button><br />
+    </div>
+  <div>
+  <br />
   <form ng-model="newEvent" ng-submit="createEvent()">
-    <input type="text" name="title" placeholder="What's the title?" ng-model="newEvent.title" required> <br />
-    <input type="text" name="description" placeholder="Tell people what you're doing" ng-model="newEvent.description" required> <br />
-    <input type="number" name="thresholdMoney" placeholder="How much do you need?" ng-model="newEvent.thresholdMoney" required> <br />
+    <input type="text" name="title" ng-model="newEvent.title" required> <br />
+    <input type="text" name="description" ng-model="newEvent.description" required> <br />
+    <input type="number" name="thresholdMoney" placeholder="How much $ will it cost?" ng-model="newEvent.thresholdMoney" required> <br />
     <input type="number" name="expiration" placeholder="How many days until this event ends?" ng-model="newEvent.expiration" required> <br />
-    <input type="number" name="thresholdPeople" placeholder="How many people?" ng-model="newEvent.thresholdPeople" required> <br />
-    <input type="text" ng-click="inviteClicked = true" ng-model="invites" placeholder="Who's invited? Start typing their username...">
+    <input type="number" name="thresholdPeople" ng-model="newEvent.thresholdPeople" required> <br />
+    <input type="text" ng-click="inviteClicked = true" placeholder="Who's invited? Start typing their username...">
     <div ng-show="inviteClicked">
-      <span ng-repeat="user in userList | filter:invites" ng-click="addInvite(user)"> {{ user[0] }} </span>
+      <span id="inviteBox" ng-repeat="user in userList | filter:invites" ng-click="addInvite(user)"> {{ user[0] }} </span>
     </div>
     <div ng-show="inviteClicked"> Invited: <br />
-      <span ng-repeat="invite in inviteList">{{ invite[0][0] }} <br /></span>
+      <span id="inviteBox" ng-repeat="invite in inviteList" ng-click="removeInvite(invite)">{{ invite[0][0] }} <br /></span>
     </div>
     <input type="submit" name="Submit">
   </form>
+  </div>
 </div>
 
 <!-- CONFIRM DIV CREATION -->

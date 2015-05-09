@@ -33,7 +33,7 @@ angular.module('headcount.events', [])
 
   $scope.hasStripe = false;
   $scope.needInfo = false;
-  $scope.newEvent = {};
+  $scope.newEvent = {title: 'Title goes here', description: 'Description goes here', expiration: "5 days", thresholdPeople: 10};
   $scope.userList = [];
   $scope.inviteList = [];
 
@@ -45,6 +45,12 @@ angular.module('headcount.events', [])
     var index = $scope.userList.indexOf(user);
     console.log("INDEX!!! " + index);
     $scope.inviteList.push($scope.userList.splice(index, 1));
+  };
+
+  $scope.removeInvite = function(user) {
+    var index = $scope.inviteList.indexOf(user);
+    console.log("INDEX!!! " + index);
+    $scope.userList.push($scope.inviteList.splice(index, 1));
   };
 
   $scope.fetchEvents = function () {
@@ -74,14 +80,15 @@ angular.module('headcount.events', [])
 
   $scope.createEvent = function() {
     $scope.newEvent.invited = $scope.inviteList;
-    return $http({
-      method: 'POST',
-      url: '/events-create',
-      data: $scope.newEvent
-    })
-    .then(function(resp) {
+    console.log("NEW EVENT!!!" + JSON.stringify($scope.newEvent));
+    // return $http({
+    //   method: 'POST',
+    //   url: '/events-create',
+    //   data: $scope.newEvent
+    // })
+    // .then(function(resp) {
 
-    });
+    // });
   };
 
   $scope.checkStripe = function(){
