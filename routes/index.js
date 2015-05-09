@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 var qs = require('querystring');
 var request = require('request');
-var venmo = require('./../utils/payments.js')
-var User = require('./../app/models/user.js')
+var venmo = require('./../utils/payments.js');
+var User = require('./../app/models/user.js');
 
 
 /* GET home page. */
@@ -19,23 +19,27 @@ router.get('/signup', function(req, res, next) {
   res.render('signup', { title: 'Signup' });
 });
 
-router.post('/createevent', function(req, res, next) {
-  var username = req.headers['x-access-token'];
-  var eventData = req.body
+// router.get('/events-fetch', function(req, res, next) {
+//   var username = req.headers['x-access-token'];
+//   var eventData = req.body
 
-  // var event = new Event({
-  //   title: eventData.title,
-  //   description: eventData.description,
-  //   expiration: eventData.expiration,
-  //   thresholdPeople: eventData.thresholdPeople
-  // });
- 
-    //   }
-    // })
-    // .catch(function(error){
-    //   console.log('Error saving Stripe Connect account details on bookshelf model',error);
-    // });
+// });
 
+router.get('/users-fetch', function(req, res, next) {
+  new User()
+    .fetchAll()
+    .then(function(collection) {
+      console.log("COLLECTION" + collection.at(0).attributes.username + " " + collection.at(0).attributes.id);
+      var users = [];
+      for (var i = 0; i < collection.length; i++) {
+        var temp = [];
+        temp[0] = collection.at(i).attributes.username;
+        temp[1] = collection.at(i).attributes.id;
+        users.push(temp);
+      }
+      console.log(users);
+      res.json(users);
+    });
 });
 
 
