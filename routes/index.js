@@ -4,7 +4,10 @@ var qs = require('querystring');
 var request = require('request');
 var venmo = require('./../utils/payments.js');
 var User = require('./../app/models/user.js');
+<<<<<<< HEAD
 
+=======
+>>>>>>> Create a method that allows a user to search through existing users to invite. Set-up structure to create event.
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
