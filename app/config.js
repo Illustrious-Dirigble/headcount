@@ -39,7 +39,7 @@ db.knex.schema.hasTable('events').then(function(exists) {
       event.increments('id').primary();
       event.string('title', 255);
       event.text('description');
-      event.text('image');
+      event.string('image',255);
       event.dateTime('expiration');
       event.string('user_id', 100);
       event.integer('invites');

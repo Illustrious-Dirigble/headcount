@@ -87,12 +87,16 @@ angular.module('headcount.events', [])
     .then(function(resp) {
       console.log('resp!!!' + JSON.stringify(resp));
       $scope.userList = resp.data;
+      for (var i = 0; i < $scope.userList.length; i++) {
+        if ($scope.userList[i][0] === sessionStorage.getItem('user')) {
+          $scope.userList.splice(i, 1);
+        }
+      }
       console.log("$SCOPE.USERLIST" + $scope.userList);
     });
   };
 
   $scope.createEvent = function() {
-    console.log("CREATING THIS EVENT!!!" + $scope.newEvent);
     $scope.newEvent.invited = $scope.inviteList;
     console.log("NEW EVENT!!!" + JSON.stringify($scope.newEvent));
     return $http({
@@ -101,8 +105,8 @@ angular.module('headcount.events', [])
       data: $scope.newEvent
     })
     .then(function(resp) {
-      console.log(resp);
-      $window.location.href = "/events";
+      console.log("ENDING EVENT CREATION");
+      $window.location.href = "/";
     });
   };
 

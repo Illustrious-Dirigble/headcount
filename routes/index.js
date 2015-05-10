@@ -143,7 +143,8 @@ router.post('/events-create', function(req, res) {
     expiration: null,
     thresholdPeople: eventData.thresholdPeople,
     thresholdMoney: eventData.thresholdMoney,
-    user_id: req.session.user_id
+    user_id: req.session.user_id,
+    image: eventData.image
   }).save()
     .then(function(model){
 
@@ -151,6 +152,7 @@ router.post('/events-create', function(req, res) {
         console.log('Invites created!');
         console.log(invites);
       });
+      res.end();
     });
 });
 

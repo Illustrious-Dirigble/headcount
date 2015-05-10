@@ -77,7 +77,7 @@
       <span id="inviteBox" ng-repeat="user in userList | filter:invites" ng-click="addInvite(user)"> {{ user[0] }} </span>
     </div>
     <div ng-show="inviteClicked"> Invited: <br />
-      <span id="inviteBox" ng-repeat="invite in inviteList" ng-click="removeInvite(invite)">{{ invite[0][0] }} <br /></span>
+      <span id="inviteBox" ng-repeat="invite in inviteList" ng-click="removeInvite(invite)">{{ invite[0] }} <br /></span>
     </div>
     <input type="submit" name="Submit">
   </form>
