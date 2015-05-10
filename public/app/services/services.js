@@ -1,5 +1,6 @@
 angular.module('headcount.services', [])
 
+//Deprecated
 .factory('Links', function ($http) {
   // Your code here
 
@@ -34,6 +35,8 @@ angular.module('headcount.services', [])
   // that JWT is then stored in localStorage as 'com.shortly'
   // after you signin/signup open devtools, click resources,
   // then localStorage and you'll see your token from the server
+  
+  //Signin/Signup not being used.  We can move code from routes/auth.js to use these later
   var signin = function (user) {
     console.log('hit auth service');
     return $http({
