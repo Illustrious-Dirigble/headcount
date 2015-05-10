@@ -172,6 +172,7 @@ router.post('/events-create', function(req, res) {
     thresholdMoney: eventData.thresholdMoney,
     committedPeople: 0,
     committedMoney: 0,
+    paid: false,
     user_id: req.session.user_id,
     image: eventData.image
   }).save()

@@ -47,6 +47,7 @@ db.knex.schema.hasTable('events').then(function(exists) {
       event.integer('thresholdMoney');
       event.integer('committedPeople');
       event.integer('committedMoney');
+      event.boolean('paid');
       event.timestamps();
     }).then(function (table) {
       console.log('Created Table', table);
