@@ -21,30 +21,21 @@ router.get('/signup', function(req, res, next) {
   res.render('signup', { title: 'Signup' });
 });
 
-router.post('/events-fetch', function(req, res, next) {
-  var username = req.body.username;
-  var user_id;
-
-  // new User({username: username})
-  // .fetch()
-  // .then(function(model) {
-  //   user_id = model.attributes.id;
-  //   console.log("MODEL ID!!!" + user_id);
-  //   new Event({user_id: user_id})
-  //   .fetch()
-  //   .then(function(model) {
-  //   if (!model) {
-  //     console.log("NO EVENTS FOR USER FOUND!!!");
-  //     return next(null, model);
-  //   }
-  //   else {
-  //     console.log("EVENTS BELONGING TO USER" + JSON.stringify(model));
-  //     res.json(model);
-  //   }
-  // });
-  // });
-
-  new Event().fetchAll().then(function(collection) { res.json(collection);});
+router.get('/events-fetch', function(req, res, next) {
+    console.log("REQ SESSION USER ID" + req.session.user_id);
+    new Event()
+    .query({ where: {user_id: req.session.user_id} })
+    .fetchAll()
+    .then(function(collection) {
+    if (!collection) {
+      console.log("NO EVENTS FOR USER FOUND!!!");
+      return next(null, collection);
+    }
+    else {
+      console.log("EVENTS BELONGING TO USER" + JSON.stringify(collection));
+      res.json(collection);
+    }
+  });
 
 });
 
