@@ -22,43 +22,49 @@ router.get('/signup', function(req, res, next) {
   res.render('signup', { title: 'Signup' });
 });
 
+// Fetches all events from database with query where user_id matches current session user
+
 router.get('/events-fetch', function(req, res, next) {
-    console.log("REQ SESSION USER ID" + req.session.user_id);
-    new Event()
+  
+  new Event()
     .query({ where: {user_id: req.session.user_id} })
     .fetchAll()
     .then(function(collection) {
-    if (!collection) {
-      console.log("NO EVENTS FOR USER FOUND!!!");
-      return next(null, collection);
-    }
-    else {
-      console.log("EVENTS BELONGING TO USER" + JSON.stringify(collection));
-      res.json(collection);
-    }
-  });
-});
-
-router.get('/invite-events-fetch', function(req, res, next) {
-  console.log("INVITE EVENTS FETCHING...");
-    var invites = [];
-    
-    new Invite()
-      .query({ where: {user_id: req.session.user_id} })
-      .fetchAll()
-      .then(function(collection) {
-        console.log("INVITE EVENTS BELONGING TO USER" + JSON.stringify(collection));
-        for (var i = 0; i < collection.length; i++) {
-          invites.push(parseInt(collection.at(i).attributes.event_id));
-        }
-        res.json(invites);
+      if (!collection) {
+        console.log("NO EVENTS FOR USER FOUND!!!");
+      } else {
+        console.log("EVENTS BELONGING TO USER" + JSON.stringify(collection));
+        res.json(collection);
+      }
     });
 });
+
+// Fetches invite ID based on session user_id
+
+router.get('/invite-events-fetch', function(req, res, next) {
+    
+  var invites = [];
+    
+  new Invite()
+    .query({ where: {user_id: req.session.user_id} })
+    .fetchAll()
+    .then(function(collection) {
+      console.log("INVITE EVENTS BELONGING TO USER" + JSON.stringify(collection));
+      for (var i = 0; i < collection.length; i++) {
+        invites.push(parseInt(collection.at(i).attributes.event_id));
+      }
+      res.json(invites);
+    });
+});
+
+// Callback for responding with invited events to front-end
 
 function returnEvents(req, res, events) {
   console.log("RETURNING THIS " + events);
   res.json(events);
 }
+
+// Fetches events based on invite IDs
 
 router.post('/invite-events-fetch', function(req, res, next) {
 
@@ -70,13 +76,15 @@ router.post('/invite-events-fetch', function(req, res, next) {
       .fetch()
       .then(function(model) {
         if (callback !== undefined) {
+          model.attributes.invite_id = ids;
+          console.log("MODEL W/ INVITE_ID FOR CALLBACK!!!" + JSON.stringify(model));
           events.push(model);
-          console.log("EVENTTSSSSSSSS" + events);
           callback(req, res, events);
-        }
-        else {
+        } else {
+          model.attributes.invite_id = ids;
+          console.log("MODEL W/ INVITE_ID!!!" + JSON.stringify(model));
           events.push(model);
-          console.log("EVENTTSSSSSSSS" + events);
+          console.log("NO CALLBACK, PUSH TO EVENTS ARRAY" + events);
         }
       });
   }
@@ -84,13 +92,13 @@ router.post('/invite-events-fetch', function(req, res, next) {
   for (var i = 0; i < ids.length; i++) {
     if (i === ids.length - 1) {
       anon(ids[i], returnEvents);
-    }
-    else {
+    } else {
       anon(ids[i]);
     }
   }
-
 });
+
+// A simple get request for showing all the events in the database for dev purposes
 
 router.get('/events-all', function(req, res, next) {
   new Event({})
@@ -100,6 +108,8 @@ router.get('/events-all', function(req, res, next) {
   });
 });
 
+// Fetches users from the database except current session user, used for inviting people
+
 router.get('/users-fetch', function(req, res, next) {
   new User()
     .fetchAll()
@@ -107,12 +117,14 @@ router.get('/users-fetch', function(req, res, next) {
       console.log("COLLECTION" + collection.at(0).attributes.username + " " + collection.at(0).attributes.id);
       var users = [];
       for (var i = 0; i < collection.length; i++) {
+        if (collection.at(i).attributes.username === req.session.user) {
+          continue;
+        }
         var temp = [];
         temp[0] = collection.at(i).attributes.username;
         temp[1] = collection.at(i).attributes.id;
         users.push(temp);
       }
-      console.log(users);
       res.json(users);
     });
 });

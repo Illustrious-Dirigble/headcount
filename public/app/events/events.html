@@ -20,7 +20,7 @@
 
 <div class="links" ng-show="events.length">
   <div class="link"
-      ng-repeat="event in events | filter:search | orderBy:'created_at'" ng-click="seeMore = !seeMore" ng-show="!showDetails">
+    ng-repeat="event in events | filter:search | orderBy:'created_at'" ng-click="seeMore = !seeMore" ng-show="!showDetails">
     <div class="info" >
       <img width="100px" height="100px" src="{{event.image}}" />
       <span> <strong> {{ event.title }} </strong> </span> <br />
@@ -48,11 +48,12 @@
 <br />
     How your event will look: 
     <div class="link" >
-      <img width="100px" height="100px" src="http://www.explara.com/magazine/wp-content/uploads/2013/07/lets-party.jpg" />
+      <img width="100px" height="100px" src="{{ newEvent.image }}" />
       <span> <strong> {{ newEvent.title }} </strong> </span> <br />
       <span> {{ newEvent.description }} </span><br />
+      <span> Money needed: ${{ newEvent.thresholdMoney }} </span><br />
       <span> Expiration: {{ newEvent.expiration }}</span> <br />
-      <span> People going: {{ newEvent.thresholdPeople }} people</span> <br />
+      <span> People going: {{ newEvent.thresholdPeople }}</span> <br />
       <button> JOIN </button>
       <button> DECLINE </button><br />
     </div>
@@ -72,12 +73,12 @@
     Image url: <br />
     <input type="text" name="image" placeholder="Paste any image for your event here" ng-model="newEvent.image" required>
     Who's invited? <br />
-    <input type="text" ng-click="inviteClicked = true" placeholder="Who's invited? Start typing their username...">
-    <div ng-show="inviteClicked">
-      <span id="inviteBox" ng-repeat="user in userList | filter:invites" ng-click="addInvite(user)"> {{ user[0] }} </span>
+    <input type="text" ng-click="inviteClick = true" ng-model="inviteUser" placeholder="Who's invited? Start typing their username...">
+    <div ng-show="inviteClick">
+      <span id="inviteBox" ng-repeat="user in userList | filter:inviteUser" ng-click="addInvite(user)"> {{ user[0] }} </span>
     </div>
-    <div ng-show="inviteClicked"> Invited: <br />
-      <span id="inviteBox" ng-repeat="invite in inviteList" ng-click="removeInvite(invite)">{{ invite[0] }} <br /></span>
+    <div ng-show="inviteClick"> Invited: <br />
+      <span id="inviteBox" ng-repeat="invite in invitedUsers" ng-click="removeInvite(invite)">{{ invite[0] }} <br /></span>
     </div>
     <input type="submit" name="Submit">
   </form>
