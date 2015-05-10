@@ -117,8 +117,8 @@ angular.module('headcount.events', [])
     });
   };
 
-
-  $scope.checkStripe = function($event){
+  //Deprecated
+  $scope.checkStripe = function(){
     var currentUser = sessionStorage.getItem('user');
     return $http({
       method: 'POST',
