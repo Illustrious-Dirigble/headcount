@@ -24,10 +24,12 @@
     <div class="info" >
       <img width="100px" height="100px" src="{{event.image}}" />
       <span> <strong> {{ event.title }} </strong> </span> <br />
+      <span> "{{ event.description }}" </span> <br />
+      <span> Money needed: ${{ event.thresholdMoney }} </span> <br />
       <span> Expiration: {{ event.expiration }} </span> <br />
       <span> People needed: {{ event.thresholdPeople }} </span>
     </div>
-    <div ng-show="seeMore">
+    <div id="seeMore" ng-show="seeMore">
       <span> {{ event.description }} </span><br />
       <button ng-click="checkStripe()"> JOIN </button>
       <button> DECLINE </button>
@@ -54,8 +56,6 @@
       <span> Money needed: ${{ newEvent.thresholdMoney }} </span><br />
       <span> Expiration: {{ newEvent.expiration }}</span> <br />
       <span> People going: {{ newEvent.thresholdPeople }}</span> <br />
-      <button> JOIN </button>
-      <button> DECLINE </button><br />
     </div>
   <div>
   <br />

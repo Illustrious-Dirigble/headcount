@@ -21,6 +21,14 @@ h1 {
   margin: 3px;
 }
 
+#seeMore {
+  margin-left: 510px;
+  margin-top: -90px;
+  height: 400px;
+  width: 500px;
+  border: 1px solid black;
+}
+
 .navigation {
   width: 100%;
   height: 40px;
