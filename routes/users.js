@@ -40,7 +40,7 @@ router.post('/checkUser', function(req, res, done) {
   new User({username: currentUser})
     .fetch()
     .then(function(user){
-      console.log('user',user);
+      // console.log('user',user);
       if (user.attributes.stripeId || currentUser === 'ggg' || currentUser === 'xxx'){
         // if user's stripe ID is present in DB
         res.json({hasStripeId: true});
@@ -49,6 +49,7 @@ router.post('/checkUser', function(req, res, done) {
         res.json({hasStripeId: false});
       }
     });
+
 });
 
 module.exports = router;

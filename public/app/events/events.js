@@ -150,7 +150,6 @@ angular.module('headcount.events', [])
     });
   };
 
-
   $scope.showDetails = function(){
     if ($scope.showCreate === true){
       $scope.showCreate = false;
