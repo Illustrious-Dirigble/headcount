@@ -123,42 +123,25 @@ router.post('/invite-response', function(req, res) {
   var accepted = req.body.accepted;
 
   if (accepted) {
-    console.log('invite accepted');
-    
-    new Invite({
-      user_id: userId,
-      event_id: eventId
-    }).fetch({
-        withRelated: ['event']
-      }).then(function(invite) {
-        console.log('invite found?')
-        console.log(invite.attributes)
-        var relatedEventId = invite.related('event').toJSON().id;
-      
-        new Event({ id: relatedEventId }).fetch()
-          .then(function(event) {
+    console.log('invite accepted');  
+        new Event({ id: eventId }).fetch({
+          withRelated: ['invites']
+        }).then(function(event) {
             var thresholdPeople = event.get('thresholdPeople');
             var committedPeople = event.get('committedPeople');
+            var invites = event.related('invites');
 
             if (committedPeople + 1 === thresholdPeople) {
               console.log('pay event creator!');
             } else {
               console.log('increase num of committed people')
               // event.set('thresholdPeople', thresholdPeople + 1)
-            }
-
-
-            console.log(event.attributes);
+            }         
           })
-
-
-      });
-
   } else {
     console.log('invite declined');
     // TODO: Decline Invite
   }
-
   res.end();
 });
 
