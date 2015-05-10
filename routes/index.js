@@ -21,11 +21,40 @@ router.get('/signup', function(req, res, next) {
   res.render('signup', { title: 'Signup' });
 });
 
-// router.get('/events-fetch', function(req, res, next) {
-//   var username = req.headers['x-access-token'];
-//   var eventData = req.body
+router.post('/events-fetch', function(req, res, next) {
+  var username = req.body.username;
+  var user_id;
 
-// });
+  // new User({username: username})
+  // .fetch()
+  // .then(function(model) {
+  //   user_id = model.attributes.id;
+  //   console.log("MODEL ID!!!" + user_id);
+  //   new Event({user_id: user_id})
+  //   .fetch()
+  //   .then(function(model) {
+  //   if (!model) {
+  //     console.log("NO EVENTS FOR USER FOUND!!!");
+  //     return next(null, model);
+  //   }
+  //   else {
+  //     console.log("EVENTS BELONGING TO USER" + JSON.stringify(model));
+  //     res.json(model);
+  //   }
+  // });
+  // });
+
+  new Event().fetchAll().then(function(collection) { res.json(collection);});
+
+});
+
+router.get('/events-all', function(req, res, next) {
+  new Event({})
+  .fetchAll()
+  .then(function(collection) { 
+    res.json(collection);
+  });
+});
 
 router.get('/users-fetch', function(req, res, next) {
   new User()
@@ -69,7 +98,8 @@ router.post('/events-create', function(req, res) {
     description: eventData.description,
     expiration: null,
     thresholdPeople: eventData.thresholdPeople,
-    thresholdMoney: eventData.thresholdMoney
+    thresholdMoney: eventData.thresholdMoney,
+    user_id: req.session.user_id
   }).save()
     .then(function(model){
 

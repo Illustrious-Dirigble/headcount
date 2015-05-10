@@ -7,10 +7,11 @@ var passport = require('passport');
 /* handleAuth creates a session object, which we then store the username as a user
  * property under the req.session object
  */
-function handleAuth(req, res, username) {
+function handleAuth(req, res, username, id) {
   req.session.regenerate(function() {
     req.session.user = username;
-    console.log("SESSION!!!" + req.session.user);
+    req.session.user_id = id;
+    console.log("SESSION!!!" + req.session.user + "ID!!!" + req.session.user_id);
     res.redirect("..#/events");
   });
 }
@@ -36,7 +37,13 @@ router.get('/google/callback', passport.authenticate('google', { failureRedirect
 // Local Auth Sign-in
 router.post('/local', passport.authenticate('local', { failureRedirect: '#/signup' }), function(req, res) {
   var username = req.body.username;
-  handleAuth(req, res, username);
+
+  new User({username: username})
+  .fetch()
+  .then(function(model) {
+    console.log("THIS IS THE MODEL: " + JSON.stringify(model));
+    handleAuth(req, res, username, model.attributes.id);
+  });
 });
 
 // Local Auth Sign-up
@@ -53,7 +60,8 @@ router.post('/local-signup', function(req, res, next) {
       } else {
         new User({username:username,password:password},{isNew:true}).save()
 	        .then(function(model){
-	          handleAuth(req, res, username);
+            console.log("THIS IS THE MODEL: " + JSON.stringify(model));
+	          handleAuth(req, res, username, model.attributes.id);
 	        });
         }
     })

@@ -33,13 +33,15 @@ angular.module('headcount.events', [])
 
   $scope.hasStripe = false;
   $scope.needInfo = false;
-  $scope.newEvent = {title: 'Title goes here', description: 'Description goes here', expiration: "5 days", thresholdPeople: 10};
+  $scope.newEvent = {
+    title: 'Title goes here', 
+    description: 'Description goes here', 
+    expiration: 5, 
+    thresholdPeople: 10,
+    thresholdMoney: 100
+  };
   $scope.userList = [];
   $scope.inviteList = [];
-
-  $scope.$watchCollection('data.tags',function(val){
-    console.log(val);
-  });
 
   $scope.addInvite = function(user) {
     var index = $scope.userList.indexOf(user);
@@ -54,16 +56,18 @@ angular.module('headcount.events', [])
   };
 
   $scope.fetchEvents = function () {
+    console.log("INVOKING FETCH EVENTS");
     return $http({
       method: 'POST', 
       url: '/events-fetch',
       data: {username: sessionStorage.getItem('user')}
     })
     .then(function(resp) {
-      console.log('resp!!!' + resp);
-      $scope.events.push(resp);
+      console.log('resp!!!' + JSON.stringify(resp));
     });
   };
+
+  $scope.fetchEvents();
 
 
   $scope.fetchUsers = function () {
