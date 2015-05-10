@@ -165,7 +165,11 @@ input[type=url]:focus {
   float: left;
 }
 
-.links.ng-scope{
+.links .ng-scope{
   width: 400px;
   float:left;
-} 
+}
+
+.preview {
+  float: left;
+}

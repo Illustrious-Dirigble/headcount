@@ -118,6 +118,7 @@ angular.module('headcount.events', [])
     });
   };
 
+
   $scope.checkStripe = function($event){
     var currentUser = sessionStorage.getItem('user');
     return $http({
@@ -128,8 +129,20 @@ angular.module('headcount.events', [])
     .then(function(resp){
       $scope.lastEvent = $event.title;
       $scope.owner = $event.owner;
-      console.log('resp',resp);
-      console.log('resp',$event);
+
+      // change database entries:
+        // increase committed people
+      if ($event.thresholdPeople > 1){
+        $event.thresholdMoney -= $event.thresholdMoney/$event.thresholdPeople;
+        $event.thresholdPeople --;
+      } else if ($event.thresholdPeople === 1){
+        // threshold reached! trigger funding
+        $scope.triggerFunding = true;
+        $event.thresholdMoney -= $event.thresholdMoney/$event.thresholdPeople;
+        $event.thresholdPeople --;
+      }
+      // console.log($event.$$hashKey);
+      // $scope.buttonClicked.($event.$$hashkey) = true;
       if (resp.data.hasStripeId === true){
         $scope.hasStripe = true;
       } else {
@@ -145,10 +158,6 @@ angular.module('headcount.events', [])
     } else {
       $scope.showCreate = true;
     }
-  };
-
-  $scope.confirm = function($event){
-    console.log($event);
   };
 
 });

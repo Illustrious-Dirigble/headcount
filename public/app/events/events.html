@@ -39,11 +39,14 @@
       <button> DECLINE </button>
     </div>
     </div>
+      <span> People needed: {{ event.thresholdPeople }} </span> <br />
+      <span> Cost of event: ${{ event.cost }} </span> <br />
+      <span> Remaining money needed: ${{ event.thresholdPeople * event.cost }} </span>
   </div>
 </div>
     <div ng-show="seeMore" ng-model="clickedEvent">
        <span> {{ event.description }} </span><br/>
-       <button ng-click="checkStripe(event)"> JOIN </button>
+       <button ng-click="checkStripe(event)" > JOIN </button>
        <button> DECLINE </button>
      </div>
 
@@ -98,6 +101,37 @@
     <input type="submit" name="Submit">
   </form>
   </div>
+
+  <form>
+    <input type="text" name="title" placeholder="Title" ng-model="event.title"> <br>
+    <input type="text" name="description" placeholder="Description" ng-model="event.description"> <br>
+    <input type="date" name="expiration" placeholder="expiration" ng-model="event.expiration"> <br>
+    <input type="number" name="thresholdPeople" placeholder="thresholdPeople" ng-model="event.thresholdPeople"> <br>
+    <input type="number" name="cost" placeholder="cost per person" ng-model="event.cost"> <br>
+  </form>
+
+  <div class="link preview">
+
+    <div id="{{ 'event-' + $index }}" class="info" >
+      <!-- <img src="assets/redirect_icon.png"> -->
+      <b> Preview: </b> <br />
+      <img width="75px" height="75px" src="{{event.image}}" />
+      <span> <strong> {{ event.title }} </strong> </span> <br />
+      <span> Description: {{ event.description }} </span> <br />
+      <span> Expiration: {{ event.expiration }} </span> <br />
+      <span> People needed: {{ event.thresholdPeople }} </span> <br />
+      <span> Cost of event: ${{ event.cost }} </span> <br />
+      <span> Remaining money needed: ${{ event.thresholdPeople * event.cost }} </span>
+  </div>
+    <div ng-show="seeMore" ng-model="clickedEvent">
+       <span> {{ event.description }} </span><br/>
+       <button ng-click="checkStripe(event)" > JOIN </button>
+       <button> DECLINE </button>
+     </div>
+
+
+  </div>
+
 </div>
 
 <!-- EVENT CREATION -->
