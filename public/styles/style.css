@@ -22,11 +22,65 @@ h1 {
 }
 
 #seeMore {
-  margin-left: 510px;
-  margin-top: -90px;
+  padding-left: 10px;
   height: 400px;
-  width: 500px;
+  width: 800px;
   border: 1px solid black;
+}
+
+#seeMore2 {
+  margin-left: 10px;
+  margin-top: 210px;
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 200px;
+  border: 1px solid black;
+}
+
+#comments {
+  margin-top: -390px;
+  margin-left: 500px;
+  height: 385px;
+  width: 290px;
+  border: 1px solid black;
+}
+
+.invite {
+  margin-top: -156px;
+  padding-left: 5px;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  width: 235px;
+  margin-left: 250px;
+  border: 1px solid black;
+}
+
+#join_button {
+  background-color: green;
+  color: white;
+  margin-left: 35px;
+  height: 30px;
+  width: 45px;
+}
+
+#decline_button {
+  background-color: red;
+  color: white;
+  height: 30px;
+  width: 65px;
+}
+
+#invited {
+  margin-bottom: 10px;
+}
+
+#joined {
+  margin-bottom: 10px;
+}
+
+#declined {
+  padding-bottom: 30px;
 }
 
 .navigation {
