@@ -35,13 +35,8 @@
     </div>
     <div ng-show="seeMore" ng-model="clickedEvent">
       <span> {{ event.description }} </span><br />
-<<<<<<< HEAD
       <button ng-click="checkStripe(event)"> JOIN </button>
       <button> DECLINE </button>
-=======
-      <button ng-click="acceptInvite()"> JOIN </button>
-      <button ng-click="declineInvite()"> DECLINE </button>
->>>>>>> Create skeleton functions and routes for invite accept and decline
     </div>
     </div>
       <span> Cost of event: ${{ event.thresholdMoney / event.thresholdPeople | number:2 }} </span> <br />
