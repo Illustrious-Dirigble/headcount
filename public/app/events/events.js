@@ -86,7 +86,6 @@ angular.module('headcount.events', [])
         }
     });
   };
-
   $scope.fetchInviteIDs();
   $scope.fetchEvents();
   
