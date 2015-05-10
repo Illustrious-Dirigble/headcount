@@ -152,7 +152,7 @@ router.post('/events-create', function(req, res) {
   new Event({
     title: eventData.title,
     description: eventData.description,
-    expiration: null,
+    expiration: eventData.expiration,
     thresholdPeople: eventData.thresholdPeople,
     thresholdMoney: eventData.thresholdMoney,
     user_id: req.session.user_id,
