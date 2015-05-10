@@ -14,8 +14,7 @@ angular.module('headcount.events', [])
     description: 'Description goes here', 
     expiration: 5, 
     thresholdPeople: 10,
-    thresholdMoney: 100,
-    image: ''
+    thresholdMoney: 100
   };
   $scope.userList = [];
   $scope.inviteList = [];
@@ -49,6 +48,33 @@ angular.module('headcount.events', [])
     });
   };
 
+  $scope.fetchInviteEvents = function (ids) {
+    console.log("INVOKING FETCH INVITE EVENTS");
+    return $http({
+      method: 'POST', 
+      url: '/invite-events-fetch',
+      data: {ids: ids}
+    })
+    .then(function(resp) {
+        console.log("RESP DATA HEREEE" + JSON.stringify(resp));
+        for (var i = 0; i < resp.data.length; i++) {
+          $scope.events.push(resp.data[i]);
+        }
+    });
+  };
+
+  $scope.fetchInviteIDs = function () {
+    console.log("INVOKING FETCH INVITE EVENTS");
+    return $http({
+      method: 'GET', 
+      url: '/invite-events-fetch'
+    })
+    .then(function(resp) {
+      $scope.fetchInviteEvents(resp.data);
+    });
+  };
+  
+  $scope.fetchInviteIDs();
   $scope.fetchEvents();
 
 
@@ -66,6 +92,7 @@ angular.module('headcount.events', [])
   };
 
   $scope.createEvent = function() {
+    console.log("CREATING THIS EVENT!!!" + $scope.newEvent);
     $scope.newEvent.invited = $scope.inviteList;
     console.log("NEW EVENT!!!" + JSON.stringify($scope.newEvent));
     return $http({

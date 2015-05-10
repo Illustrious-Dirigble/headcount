@@ -12,7 +12,7 @@ function handleAuth(req, res, username, id) {
     req.session.user = username;
     req.session.user_id = id;
     console.log("SESSION!!!" + req.session.user + "ID!!!" + req.session.user_id);
-    res.redirect("..#/events");
+    res.end();
   });
 }
 
@@ -64,9 +64,6 @@ router.post('/local-signup', function(req, res, next) {
 	          handleAuth(req, res, username, model.attributes.id);
 	        });
         }
-    })
-    .catch(function(error){
-      console.log('hi',error);
     });
 });
 

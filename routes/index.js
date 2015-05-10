@@ -7,6 +7,7 @@ var venmo = require('./../utils/payments.js');
 var createInvites = require('./../utils/invites.js');
 var User = require('./../app/models/user.js');
 var Event = require('./../app/models/event.js');
+var Invite = require('./../app/models/invite.js');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -36,6 +37,58 @@ router.get('/events-fetch', function(req, res, next) {
       res.json(collection);
     }
   });
+});
+
+router.get('/invite-events-fetch', function(req, res, next) {
+  console.log("INVITE EVENTS FETCHING...");
+    var invites = [];
+    
+    new Invite()
+      .query({ where: {user_id: req.session.user_id} })
+      .fetchAll()
+      .then(function(collection) {
+        console.log("INVITE EVENTS BELONGING TO USER" + JSON.stringify(collection));
+        for (var i = 0; i < collection.length; i++) {
+          invites.push(parseInt(collection.at(i).attributes.event_id));
+        }
+        res.json(invites);
+    });
+});
+
+function returnEvents(req, res, events) {
+  console.log("RETURNING THIS " + events);
+  res.json(events);
+}
+
+router.post('/invite-events-fetch', function(req, res, next) {
+
+  var ids = req.body.ids;
+  var events = [];
+  
+  function anon(ids, callback) {
+    new Event({id: ids})
+      .fetch()
+      .then(function(model) {
+        if (callback !== undefined) {
+          events.push(model);
+          console.log("EVENTTSSSSSSSS" + events);
+          callback(req, res, events);
+        }
+        else {
+          events.push(model);
+          console.log("EVENTTSSSSSSSS" + events);
+        }
+      });
+  }
+  
+  for (var i = 0; i < ids.length; i++) {
+    if (i === ids.length - 1) {
+      anon(ids[i], returnEvents);
+    }
+    else {
+      anon(ids[i]);
+    }
+  }
 
 });
 
@@ -77,11 +130,11 @@ router.post('/events-create', function(req, res) {
   var eventData = req.body;
   var inviteNum = eventData.invited.length;
   var inviteeIds = [];
-
+  console.log("EVENT DATA!!!" + JSON.stringify(eventData.invited));
 
   for (var i = 0; i < inviteNum; i++) {
-    inviteeIds.push(eventData.invited[i][0][1]);
-    console.log(eventData.invited[i][0][1]);
+    inviteeIds.push(eventData.invited[i][1]);
+    console.log(eventData.invited[i][1]);
   }
 
   new Event({
