@@ -41,6 +41,7 @@ angular.module('headcount', [
   // its job is to stop all out going request
   // then look in local storage and find the user's token
   // then add it to the header so the server can validate the request
+  // TODO: Make this more secure, use passport or bcrypt.
   var attach = {
     request: function (object) {
       var username = $window.sessionStorage.getItem('user');
