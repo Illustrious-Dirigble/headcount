@@ -10,7 +10,6 @@ var createInvite = function(eventId, invitedUserId, callback) {
       user_id: invitedUserId
     }).save()
       .then(function(invite){
-        console.log('Invite created');
         callback(invite);
       });
 };
@@ -21,7 +20,7 @@ var createInvite = function(eventId, invitedUserId, callback) {
  */
 var createInvites = function(eventId, invitedUserIds, callback) {
   var invites = [];
-
+ 
   var inner = function() {
     if (invitedUserIds[0]) {
       createInvite(eventId, invitedUserIds.shift(), function(invite) {

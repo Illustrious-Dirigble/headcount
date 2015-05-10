@@ -1,6 +1,6 @@
 angular.module('headcount.events', [])
 
-.controller('EventsController', function ($scope, Links, $http) {
+.controller('EventsController', function ($scope, Links, $http, $window) {
   // Your code here
 
 
@@ -87,11 +87,23 @@ angular.module('headcount.events', [])
       data: $scope.newEvent
     })
     .then(function(resp) {
-      console.log(resp)
+      $window.location.href = "/";
     });
   };
 
-  $scope.checkStripe = function(){
+  $scope.joinEvent = function() {
+    return $http({
+      method: 'POST',
+      url: '/events-join',
+      data: $scope.newEvent
+    })
+    .then(function(resp) {
+     
+    });
+
+  }
+
+  $scope.checkVenmo = function(){
     var currentUser = sessionStorage.getItem('user');
     return $http({
       method: 'POST',

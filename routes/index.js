@@ -22,11 +22,16 @@ router.get('/signup', function(req, res, next) {
   res.render('signup', { title: 'Signup' });
 });
 
+
+
 // router.get('/events-fetch', function(req, res, next) {
 //   var username = req.headers['x-access-token'];
 //   var eventData = req.body
 
 // });
+// 
+
+
 
 router.get('/users-fetch', function(req, res, next) {
   new User()
@@ -46,7 +51,8 @@ router.get('/users-fetch', function(req, res, next) {
 });
 
 /**
- * TODO: redirect used to created event page!!
+ *
+ * TODO: 
  * 
  * Catches event creation post request from client. 
  * Receives event info and an users who need associated invites.
@@ -59,10 +65,8 @@ router.post('/events-create', function(req, res) {
   var inviteNum = eventData.invited.length;
   var inviteeIds = [];
 
-
   for (var i = 0; i < inviteNum; i++) {
     inviteeIds.push(eventData.invited[i][0][1]);
-    console.log(eventData.invited[i][0][1]);
   }
 
   new Event({
@@ -77,9 +81,21 @@ router.post('/events-create', function(req, res) {
       createInvites(model.id, inviteeIds, function(invites) {
         console.log('Invites created!');
         console.log(invites);
+
+        res.send('Success');
       });
     });
+
 });
+
+router.post('/events/join', function(req, res, next) {
+  new Invite().fetch({
+      withRelated: ['event']
+    }).then(function(collection) {
+      console.log(collection.toJSON());
+    });
+});
+
 
 /**
  * Redirects user to Venmo API endpoint to grant Headcount charge/payment permissions on their account. 
