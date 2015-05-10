@@ -3,7 +3,7 @@ angular.module('headcount.accounts', [])
 .controller('AccountsController', function ($scope, $window, $location, $http, Links) {
 
   /**
-   * Handles Stripe 'Connect' button submit. 
+   * Handles Stripe 'Connect' button submit.
    * Gets Connect account creation redirect url from server and manually sets href.
    */
   $scope.authorize = function() {
@@ -23,7 +23,7 @@ angular.module('headcount.accounts', [])
   };
 
   /**
-   * On form submit, card info is sent to Stripe for processing. 
+   * On form submit, card info is sent to Stripe for processing.
    * Stripe returns a one time use token to stripeCallback, which passes it to server for customerId creation and saving.
    */
   $scope.stripeCallback = function (code, result) {
@@ -44,7 +44,7 @@ angular.module('headcount.accounts', [])
       .then(function (resp) {
         console.log(resp);
       });
-       
+
     }
   };
 });

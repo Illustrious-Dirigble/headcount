@@ -14,7 +14,7 @@ var users        = require('./../routes/users');
 var User        = require('../app/models/user');
 var auth         = require('./../routes/auth');
 
-// Authentication 
+// Authentication
 var oauth        = require('./../oauth.js');
 var FacebookStrategy = require('passport-facebook').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;

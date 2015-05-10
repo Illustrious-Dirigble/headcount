@@ -4,7 +4,7 @@
 angular.module('headcount.auth', [])
 
 .controller('AuthController', function ($scope, $window, $location, $http, Auth) {
-  
+
   $scope.user = {};
   $scope.auth = Auth.isAuth();
 
@@ -31,7 +31,7 @@ angular.module('headcount.auth', [])
       url: '/auth/local-signup',
       data: $scope.user
     })
-    .then(function (resp) { 
+    .then(function (resp) {
       console.log('Successfully SIGNED UP, your token is... ',resp.config.data.username);
       $window.sessionStorage.setItem('user', resp.config.data.username);
       $window.location.href = "/";
