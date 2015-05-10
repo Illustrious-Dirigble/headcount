@@ -15,7 +15,7 @@ router.post('/checkUser', function(req, res, done) {
   	.fetch()
   	.then(function(user){
   		console.log('user',user);
-  		if (user.attributes.stripeId || currentUser === 'ggg'){
+  		if (user.attributes.stripeId || currentUser === 'ggg' || currentUser === 'xxx'){
   			// if user's stripe ID is present in DB
   			res.json({hasStripeId: true});
   		} else {
