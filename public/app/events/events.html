@@ -140,7 +140,8 @@
 <!-- CONFIRM DIV CREATION -->
 <span>
   <div ng-show="hasStripe">
-    <span class="selector"> Congrats, {{ currentUser }}, you have confirmed your place for {{ lastEvent }} thrown by {{ owner }} !! </span>
+    <span class="selector"> Congrats, {{ currentUser }}, you have confirmed your place for {{ lastEvent }} thrown by {{ owner }} !! </span> <br />
+    <span class="selector" ng-show="triggerFunding"> Congrats, {{ currentUser }}, the {{ lastEvent }} thrown by {{ owner }} is officially HAPPENING !!!</span>
     <!-- <button class="selector"  ng-click="confirm($event)">  CONFIRM? </button> -->
   </div>
   <div ng-show="needInfo">
