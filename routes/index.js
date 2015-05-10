@@ -25,7 +25,7 @@ router.get('/events-fetch', function(req, res, next) {
       if (!collection) {
         console.log("NO EVENTS FOR USER FOUND!!!");
       } else {
-        console.log("EVENTS BELONGING TO USER" + JSON.stringify(collection));
+        // console.log("EVENTS BELONGING TO USER" + JSON.stringify(collection));
         res.json(collection);
       }
     });
@@ -40,7 +40,7 @@ router.get('/invite-events-fetch', function(req, res, next) {
     .query({ where: {user_id: req.session.user_id} })
     .fetchAll()
     .then(function(collection) {
-      console.log("INVITE EVENTS BELONGING TO USER" + JSON.stringify(collection));
+      // console.log("INVITE EVENTS BELONGING TO USER" + JSON.stringify(collection));
       for (var i = 0; i < collection.length; i++) {
         invites.push(parseInt(collection.at(i).attributes.event_id));
       }
@@ -66,14 +66,14 @@ router.post('/invite-events-fetch', function(req, res, next) {
       .then(function(model) {
         if (callback !== undefined) {
           model.attributes.invite_id = ids;
-          console.log("MODEL W/ INVITE_ID FOR CALLBACK!!!" + JSON.stringify(model));
+          // console.log("MODEL W/ INVITE_ID FOR CALLBACK!!!" + JSON.stringify(model));
           events.push(model);
           callback(req, res, events);
         } else {
           model.attributes.invite_id = ids;
-          console.log("MODEL W/ INVITE_ID!!!" + JSON.stringify(model));
+          // console.log("MODEL W/ INVITE_ID!!!" + JSON.stringify(model));
           events.push(model);
-          console.log("NO CALLBACK, PUSH TO EVENTS ARRAY" + events);
+          // console.log("NO CALLBACK, PUSH TO EVENTS ARRAY" + events);
         }
       });
   }
@@ -117,6 +117,34 @@ router.get('/users-fetch', function(req, res, next) {
     });
 });
 
+router.post('/invite-response', function(req, res) {
+  var userId = req.session.user_id;
+  var eventId = req.body.eventId;
+  var accepted = req.body.accepted;
+
+  if (accepted) {
+    console.log('invite accepted');  
+        new Event({ id: eventId }).fetch({
+          withRelated: ['invites']
+        }).then(function(event) {
+            var thresholdPeople = event.get('thresholdPeople');
+            var committedPeople = event.get('committedPeople');
+            var invites = event.related('invites');
+
+            if (committedPeople + 1 === thresholdPeople) {
+              console.log('pay event creator!');
+            } else {
+              console.log('increase num of committed people')
+              // event.set('thresholdPeople', thresholdPeople + 1)
+            }         
+          })
+  } else {
+    console.log('invite declined');
+    // TODO: Decline Invite
+  }
+  res.end();
+});
+
 /**
  * TODO: redirect used to created event page!!
  *
@@ -134,7 +162,6 @@ router.post('/events-create', function(req, res) {
 
   for (var i = 0; i < inviteNum; i++) {
     inviteeIds.push(eventData.invited[i][1]);
-    console.log(eventData.invited[i][1]);
   }
 
   new Event({
@@ -143,6 +170,9 @@ router.post('/events-create', function(req, res) {
     expiration: eventData.expiration,
     thresholdPeople: eventData.thresholdPeople,
     thresholdMoney: eventData.thresholdMoney,
+    committedPeople: 0,
+    committedMoney: 0,
+    paid: false,
     user_id: req.session.user_id,
     image: eventData.image
   }).save()
@@ -150,9 +180,8 @@ router.post('/events-create', function(req, res) {
 
       createInvites(model.id, inviteeIds, function(invites) {
         console.log('Invites created!');
-        console.log(invites);
+        res.end();
       });
-      res.end();
     });
 });
 

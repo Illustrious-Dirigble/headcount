@@ -35,8 +35,8 @@
     </div>
     <div ng-show="seeMore" ng-model="clickedEvent">
       <span> {{ event.description }} </span><br />
-      <button ng-click="checkStripe(event)"> JOIN </button>
-      <button> DECLINE </button>
+      <button ng-click="checkStripe(event); acceptOrDeclineInvite(true)"> JOIN </button>
+      <button ng-click="acceptOrDeclineInvite(false)"> DECLINE </button>
     </div>
     </div>
       <span> Cost of event: ${{ event.thresholdMoney / event.thresholdPeople | number:2 }} </span> <br />
@@ -64,7 +64,7 @@
       <span> Expiration: {{ newEvent.expiration }}</span> <br />
       <span> People going: {{ newEvent.thresholdPeople }}</span> <br />
       <button> JOIN </button>
-      <button> DECLINE </button><br />
+      <button > DECLINE </button><br />
     </div>
   <div>
   <br />

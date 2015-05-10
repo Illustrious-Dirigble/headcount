@@ -117,7 +117,20 @@ angular.module('headcount.events', [])
     });
   };
 
-  //Deprecated
+  $scope.acceptOrDeclineInvite = function(acceptOrDeclineBoolean) {
+    var eventId = this.event.id;
+    return $http({
+      method: 'POST',
+      url: '/invite-response',
+      data: {
+        eventId: eventId,
+        accepted: acceptOrDeclineBoolean
+      }
+    })
+    .then(function(resp) {   
+    });
+  };
+
   $scope.checkStripe = function($event){
     var currentUser = sessionStorage.getItem('user');
     return $http({
@@ -149,7 +162,6 @@ angular.module('headcount.events', [])
       }
     });
   };
-
 
   $scope.showDetails = function(){
     if ($scope.showCreate === true){
