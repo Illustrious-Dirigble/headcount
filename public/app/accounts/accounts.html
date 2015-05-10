@@ -10,8 +10,18 @@
           <a class='selected' href="#/accounts">Account Panel</a>
       </li>
     </ul>
-  </nav> 
- 
+  </nav>
+
+  <form>
+    <ul class="account">
+      <li class="name">username<input ng-model="username" disabled></input></li>
+      <li class="firstname">first name<input ng-model="firstname"></input></li>
+      <li class="lastname">last name<input ng-model="lastname"></input></li>
+      <li class="email">email<input ng-model="email"></input></li>
+      <li class="telephone">telephone<input ng-model="telephone"></input></li>
+    </ul>
+    <button class="account" ng-click="accountUpdate()">Save</button>
+  </form>
   <img class="connect" ng-click="authorize()" src="../../assets/blue-on-light/blue-on-light@2x.png">
 </div>
 

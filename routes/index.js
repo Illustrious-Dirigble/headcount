@@ -14,18 +14,10 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.get('/login', function(req, res, next) {
-  res.render('login', { title: 'Login' });
-});
-
-router.get('/signup', function(req, res, next) {
-  res.render('signup', { title: 'Signup' });
-});
 
 // Fetches all events from database with query where user_id matches current session user
-
 router.get('/events-fetch', function(req, res, next) {
-  
+
   new Event()
     .query({ where: {user_id: req.session.user_id} })
     .fetchAll()
@@ -40,11 +32,10 @@ router.get('/events-fetch', function(req, res, next) {
 });
 
 // Fetches invite ID based on session user_id
-
 router.get('/invite-events-fetch', function(req, res, next) {
-    
+
   var invites = [];
-    
+
   new Invite()
     .query({ where: {user_id: req.session.user_id} })
     .fetchAll()
@@ -58,19 +49,17 @@ router.get('/invite-events-fetch', function(req, res, next) {
 });
 
 // Callback for responding with invited events to front-end
-
 function returnEvents(req, res, events) {
   console.log("RETURNING THIS " + events);
   res.json(events);
 }
 
 // Fetches events based on invite IDs
-
 router.post('/invite-events-fetch', function(req, res, next) {
 
   var ids = req.body.ids;
   var events = [];
-  
+
   function anon(ids, callback) {
     new Event({id: ids})
       .fetch()
@@ -88,7 +77,7 @@ router.post('/invite-events-fetch', function(req, res, next) {
         }
       });
   }
-  
+
   for (var i = 0; i < ids.length; i++) {
     if (i === ids.length - 1) {
       anon(ids[i], returnEvents);
@@ -103,13 +92,12 @@ router.post('/invite-events-fetch', function(req, res, next) {
 router.get('/events-all', function(req, res, next) {
   new Event({})
   .fetchAll()
-  .then(function(collection) { 
+  .then(function(collection) {
     res.json(collection);
   });
 });
 
 // Fetches users from the database except current session user, used for inviting people
-
 router.get('/users-fetch', function(req, res, next) {
   new User()
     .fetchAll()
@@ -131,11 +119,11 @@ router.get('/users-fetch', function(req, res, next) {
 
 /**
  * TODO: redirect used to created event page!!
- * 
- * Catches event creation post request from client. 
+ *
+ * Catches event creation post request from client.
  * Receives event info and an users who need associated invites.
  * Creates new event and saves it to the database, then creates the required invite for each user and saves it to the database.
- * Logs out the created invites when done. 
+ * Logs out the created invites when done.
  */
 router.post('/events-create', function(req, res) {
 
@@ -169,7 +157,7 @@ router.post('/events-create', function(req, res) {
 });
 
 /**
- * Redirects user to Venmo API endpoint to grant Headcount charge/payment permissions on their account. 
+ * Redirects user to Venmo API endpoint to grant Headcount charge/payment permissions on their account.
  * Venmo page will redirect user to '/oauth' when done.
  */
 router.post('/authorize', function(req, res) {
@@ -178,7 +166,7 @@ router.post('/authorize', function(req, res) {
   var clientId = '2612';
   var scopes = 'make_payments%20access_feed%20access_profile%20access_email%20access_phoneaccess_balance%20access_friends';
 
-  var redirect_uri = !process.env.DATABASE_URL ? 'http://localhost:5000/oauth' : 
+  var redirect_uri = !process.env.DATABASE_URL ? 'http://localhost:5000/oauth' :
   'http://headcount26.herokuapp.com/oauth';
 
   var authorize = 'https://api.venmo.com/v1/oauth/authorize?client_id=' + clientId + '&scope=' + scopes + '&response_type=code' + '&state=' + username + '&redirect_uri=' + redirect_uri;
@@ -187,18 +175,18 @@ router.post('/authorize', function(req, res) {
 });
 
 /**
- * Captures redirect from Venmo account authorization page. 
- * Receives Venmo user ID, username, display name, access token, refresh token, and profile picture url in body of response. 
+ * Captures redirect from Venmo account authorization page.
+ * Receives Venmo user ID, username, display name, access token, refresh token, and profile picture url in body of response.
  * Save info in users's db entry to later pay other users with
  */
 router.get('/oauth', function(req, res) {
   var venmoTokenUri = 'https://api.venmo.com/v1/oauth/access_token';
   var clientId = '2612';
-  var clientSecret = 'eUv3N6JDsM3YCGkzmF8Lg8kH9WtV6kuf'
+  var clientSecret = 'eUv3N6JDsM3YCGkzmF8Lg8kH9WtV6kuf';
   var username = req.query.state;
   var code = req.query.code;
 
-  res.redirect('/#/accounts'); 
+  res.redirect('/#/accounts');
 
     request.post({
         url: venmoTokenUri,
@@ -208,9 +196,10 @@ router.get('/oauth', function(req, res) {
           client_secret: clientSecret
         }
       }, function(err, r, body) {
-        
-          body = JSON.parse(body)
 
+          body = JSON.parse(body);
+
+          //not DRY, this was used somewhere else.  Make a function for this
           new User({username:username})
             .fetch()
             .then(function(user){
@@ -219,8 +208,8 @@ router.get('/oauth', function(req, res) {
               } else if (user.attributes.venmoUserId) {
                 console.log('User has already authorized their venmo account!');
               } else {
-               
-                user.save({ 
+
+                user.save({
                   venmoUserId: body.user.id,
                   venmoUsername: body.user.username,
                   venmoDisplayName: body.user.display_name,

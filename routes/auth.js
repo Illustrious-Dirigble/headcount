@@ -47,11 +47,12 @@ router.post('/local', passport.authenticate('local', { failureRedirect: '#/signu
 });
 
 // Local Auth Sign-up
+// TODO: move code to factories during code cleanup
 router.post('/local-signup', function(req, res, next) {
- 
+
   var username  = req.body.username;
   var password  = req.body.password;
- 
+
   new User({username:username})
     .fetch()
     .then(function(model){

@@ -20,9 +20,9 @@ angular.module('headcount.events', [])
   // Event object that's populated via creation form and then posted for creation
 
   $scope.newEvent = {
-    title: 'Title goes here', 
-    description: 'Description goes here', 
-    expiration: new Date(new Date().setDate(new Date().getDate() + 20)), 
+    title: 'Title goes here',
+    description: 'Description goes here',
+    expiration: new Date(new Date().setDate(new Date().getDate() + 20)),
     thresholdPeople: 10,
     thresholdMoney: 100
   };
@@ -46,7 +46,7 @@ angular.module('headcount.events', [])
 
   $scope.fetchEvents = function () {
     return $http({
-      method: 'GET', 
+      method: 'GET',
       url: '/events-fetch'
     })
     .then(function(resp) {
@@ -65,7 +65,7 @@ angular.module('headcount.events', [])
 
   $scope.fetchInviteIDs = function () {
     return $http({
-      method: 'GET', 
+      method: 'GET',
       url: '/invite-events-fetch'
     })
     .then(function(resp) {
@@ -76,7 +76,7 @@ angular.module('headcount.events', [])
 
   $scope.fetchInviteEvents = function (ids) {
     return $http({
-      method: 'POST', 
+      method: 'POST',
       url: '/invite-events-fetch',
       data: {ids: ids}
     })
@@ -88,12 +88,12 @@ angular.module('headcount.events', [])
   };
   $scope.fetchInviteIDs();
   $scope.fetchEvents();
-  
+
   // Fetches users from the database that are not current user
-  
+
   $scope.fetchUsers = function () {
     return $http({
-      method: 'GET', 
+      method: 'GET',
       url: '/users-fetch'
     })
     .then(function(resp) {
@@ -117,7 +117,7 @@ angular.module('headcount.events', [])
     });
   };
 
-
+  //Deprecated
   $scope.checkStripe = function($event){
     var currentUser = sessionStorage.getItem('user');
     return $http({

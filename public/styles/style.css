@@ -166,6 +166,10 @@ input[type=url]:focus {
   float: left;
 }
 
+ul.account {
+  list-style-type: none;
+}
+
 .links .ng-scope{
   width: 400px;
   float:left;
