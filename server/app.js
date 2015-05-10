@@ -53,6 +53,7 @@ app.use(function(req, res, next) {
 });
 
 // Passport will serialize and deserialize user instances to and from the session.
+// Not using these right now, maybe later?
 passport.serializeUser(function(user, done) {
   console.log('Serializing User!!!' + user);
   done(null, user);
