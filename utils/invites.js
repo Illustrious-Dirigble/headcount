@@ -26,15 +26,15 @@ var createInvites = function(eventId, invitedUserIds, callback) {
     if (invitedUserIds[0]) {
       createInvite(eventId, invitedUserIds.shift(), function(invite) {
         invites.push(invite);
-        inner()
-      })
+        inner();
+      });
     } else {
       callback(invites);
     }
   };
 
   inner();
-  
+
 };
 
 module.exports = createInvites;
