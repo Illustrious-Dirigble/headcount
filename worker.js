@@ -7,7 +7,6 @@
 * Query can also be done by requiring the user model, but the current_date in pgsql has been deprecated.
 */
 function deleteOld() {
-	// db.del();
 	var knex =  !process.env.DATABASE_URL ? require('./local_config.js') :
 	  require('knex')({
 	  client: 'pg',
