@@ -118,12 +118,42 @@ router.get('/users-fetch', function(req, res, next) {
 });
 
 router.post('/invite-response', function(req, res) {
-  var inviteId = req.body.inviteId;
+  var userId = req.session.user_id;
+  var eventId = req.body.eventId;
   var accepted = req.body.accepted;
 
   if (accepted) {
     console.log('invite accepted');
-    // TODO: Accept Invite
+    
+    new Invite({
+      user_id: userId,
+      event_id: eventId
+    }).fetch({
+        withRelated: ['event']
+      }).then(function(invite) {
+        console.log('invite found?')
+        console.log(invite.attributes)
+        var relatedEventId = invite.related('event').toJSON().id;
+      
+        new Event({ id: relatedEventId }).fetch()
+          .then(function(event) {
+            var thresholdPeople = event.get('thresholdPeople');
+            var committedPeople = event.get('committedPeople');
+
+            if (committedPeople + 1 === thresholdPeople) {
+              console.log('pay event creator!');
+            } else {
+              console.log('increase num of committed people')
+              // event.set('thresholdPeople', thresholdPeople + 1)
+            }
+
+
+            console.log(event.attributes);
+          })
+
+
+      });
+
   } else {
     console.log('invite declined');
     // TODO: Decline Invite
@@ -157,6 +187,8 @@ router.post('/events-create', function(req, res) {
     expiration: eventData.expiration,
     thresholdPeople: eventData.thresholdPeople,
     thresholdMoney: eventData.thresholdMoney,
+    committedPeople: 0,
+    committedMoney: 0,
     user_id: req.session.user_id,
     image: eventData.image
   }).save()
