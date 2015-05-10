@@ -22,7 +22,7 @@ angular.module('headcount.events', [])
   $scope.newEvent = {
     title: 'Title goes here', 
     description: 'Description goes here', 
-    expiration: 5, 
+    expiration: new Date(new Date().setDate(new Date().getDate() + 20)), 
     thresholdPeople: 10,
     thresholdMoney: 100
   };
