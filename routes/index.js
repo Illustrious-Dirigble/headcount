@@ -22,11 +22,16 @@ router.get('/signup', function(req, res, next) {
   res.render('signup', { title: 'Signup' });
 });
 
+
+
 // router.get('/events-fetch', function(req, res, next) {
 //   var username = req.headers['x-access-token'];
 //   var eventData = req.body
 
 // });
+// 
+
+
 
 router.get('/users-fetch', function(req, res, next) {
   new User()
@@ -46,7 +51,8 @@ router.get('/users-fetch', function(req, res, next) {
 });
 
 /**
- * TODO: redirect used to created event page!!
+ *
+ * TODO: 
  * 
  * Catches event creation post request from client. 
  * Receives event info and an users who need associated invites.
@@ -54,32 +60,60 @@ router.get('/users-fetch', function(req, res, next) {
  * Logs out the created invites when done. 
  */
 router.post('/events-create', function(req, res) {
-
+  var username = req.session.user;
+  console.log('User', username);
   var eventData = req.body;
   var inviteNum = eventData.invited.length;
   var inviteeIds = [];
 
-
   for (var i = 0; i < inviteNum; i++) {
     inviteeIds.push(eventData.invited[i][0][1]);
-    console.log(eventData.invited[i][0][1]);
   }
+  
+  new User({username:username})
+    .fetch()
+    .then(function(user){
 
-  new Event({
-    title: eventData.title,
-    description: eventData.description,
-    expiration: null,
-    thresholdPeople: eventData.thresholdPeople,
-    thresholdMoney: eventData.thresholdMoney
-  }).save()
-    .then(function(model){
+      console.log('Db user', user)
 
-      createInvites(model.id, inviteeIds, function(invites) {
-        console.log('Invites created!');
-        console.log(invites);
-      });
+      new Event({
+        title: eventData.title,
+        description: eventData.description,
+        expiration: null,
+        user_id: user.attributes.id,
+        thresholdPeople: eventData.thresholdPeople,
+        thresholdMoney: eventData.thresholdMoney
+      }).save()
+        .then(function(model){
+
+          createInvites(model.id, inviteeIds, function(invites) {
+            console.log('Invites created!');
+            console.log(invites);
+
+            res.send('Success');
+          });
+        });
+    }) 
+    .then(function() {
+      console.log('Event and invites saved to db');
+    })
+   
+    .catch(function(error){
+      console.log('Error saving connect account on user instance',error);
+    });
+
+
+
+});
+
+router.post('/events/join', function(req, res, next) {
+  new Invite().fetch({
+      withRelated: ['event']
+    }).then(function(collection) {
+      console.log(collection.toJSON());
     });
 });
+
 
 /**
  * Redirects user to Venmo API endpoint to grant Headcount charge/payment permissions on their account. 
