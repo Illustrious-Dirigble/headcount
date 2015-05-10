@@ -14,16 +14,8 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.get('/login', function(req, res, next) {
-  res.render('login', { title: 'Login' });
-});
-
-router.get('/signup', function(req, res, next) {
-  res.render('signup', { title: 'Signup' });
-});
 
 // Fetches all events from database with query where user_id matches current session user
-
 router.get('/events-fetch', function(req, res, next) {
 
   new Event()
@@ -40,7 +32,6 @@ router.get('/events-fetch', function(req, res, next) {
 });
 
 // Fetches invite ID based on session user_id
-
 router.get('/invite-events-fetch', function(req, res, next) {
 
   var invites = [];
@@ -58,14 +49,12 @@ router.get('/invite-events-fetch', function(req, res, next) {
 });
 
 // Callback for responding with invited events to front-end
-
 function returnEvents(req, res, events) {
   console.log("RETURNING THIS " + events);
   res.json(events);
 }
 
 // Fetches events based on invite IDs
-
 router.post('/invite-events-fetch', function(req, res, next) {
 
   var ids = req.body.ids;
@@ -109,7 +98,6 @@ router.get('/events-all', function(req, res, next) {
 });
 
 // Fetches users from the database except current session user, used for inviting people
-
 router.get('/users-fetch', function(req, res, next) {
   new User()
     .fetchAll()
@@ -194,7 +182,7 @@ router.post('/authorize', function(req, res) {
 router.get('/oauth', function(req, res) {
   var venmoTokenUri = 'https://api.venmo.com/v1/oauth/access_token';
   var clientId = '2612';
-  var clientSecret = 'eUv3N6JDsM3YCGkzmF8Lg8kH9WtV6kuf'
+  var clientSecret = 'eUv3N6JDsM3YCGkzmF8Lg8kH9WtV6kuf';
   var username = req.query.state;
   var code = req.query.code;
 
@@ -209,8 +197,9 @@ router.get('/oauth', function(req, res) {
         }
       }, function(err, r, body) {
 
-          body = JSON.parse(body)
+          body = JSON.parse(body);
 
+          //not DRY, this was used somewhere else.  Make a function for this
           new User({username:username})
             .fetch()
             .then(function(user){
