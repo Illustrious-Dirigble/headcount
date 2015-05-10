@@ -117,6 +117,16 @@ router.get('/users-fetch', function(req, res, next) {
     });
 });
 
+router.post('/accept-invite', function(req, res) {
+  console.log('invite accepted');
+  res.end();
+});
+
+router.post('/decline-invite', function(req, res) {
+  console.log('invite declined');
+  res.end();
+});
+
 /**
  * TODO: redirect used to created event page!!
  *

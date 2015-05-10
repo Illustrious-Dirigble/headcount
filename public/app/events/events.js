@@ -117,7 +117,6 @@ angular.module('headcount.events', [])
     });
   };
 
-  //Deprecated
   $scope.checkStripe = function($event){
     var currentUser = sessionStorage.getItem('user');
     return $http({
