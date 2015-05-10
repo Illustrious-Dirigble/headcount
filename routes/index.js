@@ -60,7 +60,8 @@ router.get('/users-fetch', function(req, res, next) {
  * Logs out the created invites when done. 
  */
 router.post('/events-create', function(req, res) {
-
+  var username = req.session.user;
+  console.log('User', username);
   var eventData = req.body;
   var inviteNum = eventData.invited.length;
   var inviteeIds = [];
@@ -68,23 +69,40 @@ router.post('/events-create', function(req, res) {
   for (var i = 0; i < inviteNum; i++) {
     inviteeIds.push(eventData.invited[i][0][1]);
   }
+  
+  new User({username:username})
+    .fetch()
+    .then(function(user){
 
-  new Event({
-    title: eventData.title,
-    description: eventData.description,
-    expiration: null,
-    thresholdPeople: eventData.thresholdPeople,
-    thresholdMoney: eventData.thresholdMoney
-  }).save()
-    .then(function(model){
+      console.log('Db user', user)
 
-      createInvites(model.id, inviteeIds, function(invites) {
-        console.log('Invites created!');
-        console.log(invites);
+      new Event({
+        title: eventData.title,
+        description: eventData.description,
+        expiration: null,
+        user_id: user.attributes.id,
+        thresholdPeople: eventData.thresholdPeople,
+        thresholdMoney: eventData.thresholdMoney
+      }).save()
+        .then(function(model){
 
-        res.send('Success');
-      });
+          createInvites(model.id, inviteeIds, function(invites) {
+            console.log('Invites created!');
+            console.log(invites);
+
+            res.send('Success');
+          });
+        });
+    }) 
+    .then(function() {
+      console.log('Event and invites saved to db');
+    })
+   
+    .catch(function(error){
+      console.log('Error saving connect account on user instance',error);
     });
+
+
 
 });
 
