@@ -160,4 +160,12 @@ input[type=url]:focus {
   margin-top: 65px;
 }
 
+.selector {
+  color: red;
+  float: left;
+}
 
+.links.ng-scope{
+  width: 400px;
+  float:left;
+} 

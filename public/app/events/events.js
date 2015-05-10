@@ -14,6 +14,8 @@ angular.module('headcount.events', [])
 
   $scope.hasStripe = false;
   $scope.needInfo = false;
+  $scope.clickedEvent = {};
+  $scope.display = false;
 
   // Event object that's populated via creation form and then posted for creation
 
@@ -24,6 +26,7 @@ angular.module('headcount.events', [])
     thresholdPeople: 10,
     thresholdMoney: 100
   };
+
 
   /* addInvite pushes a user to the invitedUsers array, then removes one from userList
    * and vice versa for removeInvite.
@@ -115,7 +118,7 @@ angular.module('headcount.events', [])
     });
   };
 
-  $scope.checkStripe = function(){
+  $scope.checkStripe = function($event){
     var currentUser = sessionStorage.getItem('user');
     return $http({
       method: 'POST',
@@ -123,7 +126,10 @@ angular.module('headcount.events', [])
       data : {'username': currentUser}
     })
     .then(function(resp){
+      $scope.lastEvent = $event.title;
+      $scope.owner = $event.owner;
       console.log('resp',resp);
+      console.log('resp',$event);
       if (resp.data.hasStripeId === true){
         $scope.hasStripe = true;
       } else {
@@ -132,5 +138,17 @@ angular.module('headcount.events', [])
     });
   };
 
+
+  $scope.showDetails = function(){
+    if ($scope.showCreate === true){
+      $scope.showCreate = false;
+    } else {
+      $scope.showCreate = true;
+    }
+  };
+
+  $scope.confirm = function($event){
+    console.log($event);
+  };
 
 });
