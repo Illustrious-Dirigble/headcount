@@ -21,16 +21,35 @@
 <div class="links" ng-show="events.length">
   <div class="link"
     ng-repeat="event in events | filter:search | orderBy:'created_at'" ng-click="seeMore = !seeMore" ng-show="!showDetails">
-    <div class="info" >
+    <div class="info" ng-show="!seeMore">
       <img width="100px" height="100px" src="{{event.image}}" />
       <span> <strong> {{ event.title }} </strong> </span> <br />
+      <span> "{{ event.description }}" </span> <br />
+      <span> Money needed: ${{ event.thresholdMoney }} </span> <br />
       <span> Expiration: {{ event.expiration }} </span> <br />
       <span> People needed: {{ event.thresholdPeople }} </span>
     </div>
-    <div ng-show="seeMore">
-      <span> {{ event.description }} </span><br />
-      <button ng-click="checkStripe()"> JOIN </button>
-      <button> DECLINE </button>
+    <div id="seeMore" ng-show="seeMore">
+      <span style="font-size: 24px; font-family: Tahoma"> <strong> {{ event.title }} </strong> </span> <br />
+      <span><img width="350px" height="200px" src="{{event.image}}" /></span>
+      <div id="seeMore2">
+      <span> "{{ event.description }}" </span><br />
+      <span> Money needed: ${{ event.thresholdMoney }} </span> <br />
+      <span> Expiration: {{ event.expiration }} </span> <br />
+      <span> People needed: {{ event.thresholdPeople }} </span> <br />
+      <p>
+      <button id="join_button" ng-click="checkStripe()"> JOIN </button>
+      <button id="decline_button"> DECLINE </button>
+      </p>
+      </div>
+        <div class="invite"> 
+          <div id="invited">Invited: </div> <br />
+          <div id="joined">Joined:</div> <br />
+          <div id="declined">Declined:</div> 
+        </div> 
+      <div id="comments">
+      Comments go here
+      </div>
     </div>
   </div>
 </div>
@@ -54,8 +73,6 @@
       <span> Money needed: ${{ newEvent.thresholdMoney }} </span><br />
       <span> Expiration: {{ newEvent.expiration }}</span> <br />
       <span> People going: {{ newEvent.thresholdPeople }}</span> <br />
-      <button> JOIN </button>
-      <button> DECLINE </button><br />
     </div>
   <div>
   <br />
