@@ -17,8 +17,13 @@ angular.module('headcount', [
       templateUrl: 'app/auth/signup.html',
       controller: 'AuthController'
     })
+    .when('/event', {
+      templateUrl: 'app/events/event.html',
+      controller: 'EventsController',
+      authenticate: true,
+    })
     .when('/events', {
-      templateUrl: 'app/events/events.html',
+      templateUrl: 'app/events/eventslist.html',
       controller: 'EventsController',
       authenticate: true,
     })
@@ -40,11 +45,11 @@ angular.module('headcount', [
     // of interceptors. Think of it like middleware for your ajax calls
     $httpProvider.interceptors.push('AttachTokens');
 })
-.controller('AppCtrl', ['$scope', '$mdSidenav', function($scope, $mdSidenav){
-  $scope.toggleSidenav = function(menuId) {
-    $mdSidenav(menuId).toggle();
-  };
-}])
+  .controller('AppCtrl', ['$scope', '$mdSidenav', function($scope, $mdSidenav){
+    $scope.toggleSidenav = function(menuId) {
+      $mdSidenav(menuId).toggle();
+    };
+  }])
 .factory('AttachTokens', function ($window, $location) {
   // this is an $httpInterceptor
   // its job is to stop all out going request
