@@ -1,0 +1,34 @@
+
+<div layout="row">
+  <div flex="33" class="events links">
+
+    <input type="text" ng-model="search" placeholder="Search events"></span><span ng-click=createEvent()>
+
+    <a href="#event" class="link" ng-repeat="link in events | filter:search | orderBy:'created_at'" ng-click="displayEvent(link)">
+      <div class="info" >
+        <img width="100px" height="100px" src="{{link.image}}" />
+        <div id="{{ 'event-' + $index }}" class="info" >
+          <span> <strong> {{ link.title }} </strong> </span> <br />
+          <span> Expiration: {{ link.expiration |  date : format : timezone}} </span> <br />
+          <span> People needed: {{ link.thresholdPeople }} </span>
+        </div>
+      </div>
+      <span> Cost of link: ${{ link.thresholdMoney / link.thresholdPeople | number:2 }} </span> <br />
+      <span> Remaining money needed: ${{ link.thresholdMoney - link.committedMoney | number:2}} </span>
+    </div>
+  </a>
+
+  <div flex="66" class="events">
+</div>
+
+<!-- EVENT PAGE -->
+<!--
+  <button ng-disabled="{{hasNotAuthorizedVenmo}}" ng-click="checkStripe(event); acceptOrDeclineInvite(true)"> JOIN </button>
+  <button ng-disabled="{{hasNotAuthorizedVenmo}}" ng-click="acceptOrDeclineInvite(false)"> DECLINE </button>
+  <div ng-show="hasStripe">
+  </div>
+  <div ng-show="needInfo">
+  </div>
+-->
+
+
