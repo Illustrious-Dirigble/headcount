@@ -1,11 +1,11 @@
 <div class='auth'>
-  <h1>Sign-in</h1>
+  <h1 class="auth_title">Sign-in</h1>
   <form name="signinForm" ng-submit='signin()'>
-    <input type='text' placeholder="Username" ng-model='user.username' required>
-    <input type="password" placeholder="Password" ng-model='user.password' required>
-    <button>Sign-in</button>
+    <input class="auth_input" type='text' placeholder="Username" ng-model='user.username' required>
+    <input class="auth_input" type="password" placeholder="Password" ng-model='user.password' required>
+    <button class="auth_button"><strong>Sign-in</strong></button>
   </form>
-  <a href="/auth/google"><img height="35px" src="./../assets/google.png" /></a> <br />
-  <a href="/auth/facebook"><img height="35px" src="./../assets/facebook.png" /></a> <br />
-  <a href="#/signup">Don't have an account? <strong>Sign-up</strong> ...</a>
+  <span><a href="/auth/google"><img class="oauth_button" src="./../assets/google.png" /></a></span>
+  <span> <a href="/auth/facebook"><img class="oauth_button" src="./../assets/facebook.png" /></a> </span><br />
+  <span id="newAuth"> <a href="#/signup">Don't have an account? <strong>Sign-up</strong> ...</a> </span>
 </div>

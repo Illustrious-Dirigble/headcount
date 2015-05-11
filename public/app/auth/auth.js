@@ -21,7 +21,7 @@ angular.module('headcount.auth', [])
       $window.location.href = "/";
     })
     .catch(function(error) {
-      $window.alert("Incorrect login, please try again!")
+      $window.alert("Incorrect login, please try again!");
     });
   };
 
