@@ -30,6 +30,7 @@ angular.module('headcount.events', [])
     console.log('displayEvent');
     $scope.showEvent = true;
     $scope.event = link;
+    $scope.event.display = true;
   };
 
   // Event object that's populated via creation form and then posted for creation

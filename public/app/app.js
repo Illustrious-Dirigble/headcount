@@ -22,6 +22,11 @@ angular.module('headcount', [
       controller: 'EventsController',
       authenticate: true,
     })
+    .when('/newevent', {
+      templateUrl: 'app/events/newevent.html',
+      controller: 'EventsController',
+      authenticate: true,
+    })
     .when('/accounts', {
       templateUrl: 'app/accounts/accounts.html',
       controller: 'AccountsController',
