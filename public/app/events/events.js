@@ -17,6 +17,7 @@ angular.module('headcount.events', [])
 
   $scope.hasStripe = false;
   $scope.needInfo = false;
+  $scope.hasNotAuthorizedVenmo = true;
 
   $scope.clickedEvent = {};
   $scope.display = false;
@@ -251,9 +252,9 @@ angular.module('headcount.events', [])
     });
   };
 
-  $scope.hasNotAuthorizedVenmo = true;
+  $scope.checkVenmoDetails = function(){
+    console.log('the event!')
 
-  $scope.checkVenmoDetails = function($event){
     var currentUser = sessionStorage.getItem('user');
     return $http({
       method: 'POST',
@@ -261,6 +262,7 @@ angular.module('headcount.events', [])
       data : {'username': currentUser}
     })
     .then(function(resp){
+      console.log(resp.data);
       var hasVenmoInfo = resp.data.hasVenmoInfo;
 
       if (!hasVenmoInfo) {

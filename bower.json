@@ -12,7 +12,6 @@
     "angular": "~1.2.18",
     "angular-route": "~1.2.18",
     "angular-mocks": "~1.2.18",
-    "angular-payments": "*",
     "polymer": "Polymer/polymer#^0.5"
   }
 }

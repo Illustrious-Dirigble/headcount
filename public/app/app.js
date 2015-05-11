@@ -4,7 +4,6 @@ angular.module('headcount', [
   'headcount.accounts',
   'headcount.auth',
   'ngRoute',
-  'angularPayments',
   'ngMaterial'
 ])
 .config(function($routeProvider, $httpProvider) {
