@@ -1,10 +1,10 @@
 angular.module('headcount.events', [])
 
-.controller('EventsController', function ($scope, Links, $http, $window, $timeout, $q) {
+.controller('EventsController', function ($scope, Links, $http, $window, $timeout, $q, EventsFactory) {
 
   // Stores all events that were created by you or that you were invited to
   $scope.events = [];
-  $scope.event = {};
+  $scope.event = EventsFactory.currentEvent;
   $scope.showEvent = false;
   $scope.showNewEvent = true;
 
@@ -26,11 +26,10 @@ angular.module('headcount.events', [])
     $scope.showNewEvent = true;
   };
 
-  $scope.displayEvent = function(link) {
-    console.log('displayEvent');
+  $scope.saveEvent = function(link) {
     $scope.showEvent = true;
-    $scope.event = link;
-    $scope.event.display = true;
+    EventsFactory.currentEvent = link;
+    console.log('saveEvent ', $scope.event, "link ", link, "EventsFactory", EventsFactory.currentEvent);
   };
 
   // Event object that's populated via creation form and then posted for creation
@@ -101,6 +100,7 @@ angular.module('headcount.events', [])
         }
     });
   };
+
   $scope.fetchInviteIDs();
   $scope.fetchEvents();
 
@@ -212,7 +212,7 @@ angular.module('headcount.events', [])
         accepted: acceptOrDeclineBoolean
       }
     })
-    .then(function(resp) {   
+    .then(function(resp) {
     });
   };
 
@@ -240,7 +240,7 @@ angular.module('headcount.events', [])
       }
       // console.log($event.$$hashKey);
       // $scope.buttonClicked.($event.$$hashkey) = true;
-      // 
+      //
       console.log(resp.data);
       console.log('checking')
       if (resp.data.hasStripeId === true){

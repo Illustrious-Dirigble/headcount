@@ -2,9 +2,9 @@
 <div layout="row">
   <div flex="33" class="events links">
 
-    <input type="text" ng-model="search" placeholder="Search events"></span><span ng-click=createEvent()>
+    <input type="text" ng-model="search" placeholder="Search events"></span>
 
-    <a href="#event" class="link" ng-repeat="link in events | filter:search | orderBy:'created_at'" ng-click="displayEvent(link)">
+    <a href="#event" class="link" ng-repeat="link in events | filter:search | orderBy:'created_at'" ng-click="saveEvent(link)">
       <div class="info" >
         <img width="100px" height="100px" src="{{link.image}}" />
         <div id="{{ 'event-' + $index }}" class="info" >
