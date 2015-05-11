@@ -3,7 +3,7 @@ var router = express.Router();
 var qs = require('querystring');
 var request = require('request');
 
-var venmo = require('./../utils/payments.js');
+var payOutEvent = require('./../utils/payments.js');
 var attendance = require('./../utils/invites.js');
 var User = require('./../app/models/user.js');
 var Event = require('./../app/models/event.js');
@@ -115,7 +115,15 @@ router.get('/users-fetch', function(req, res, next) {
     });
 });
 
-
+/**
+ * FIXME: uncomment and only use one 'payOutEvent' invocation in route to activate event payouts - first invocation is actual payout, second invocation will payout to Venmo
+ * sandbox account - no actual funds are charged.
+ * 
+ * Receives a request whenever a user accepts or declines an event invitation, and updates/saves the corresponding invite in utils/invites.js.
+ * If the invite is accepted, it fetches the related event. If increasing the 'committedPeople' count by one will satisfy the 'thresholdPeople' field,
+ * it triggers paying the event creator (see utils/payments.js) from the accounts of the users who committed to the event (the 'paid' field and conditional makes sure it hasn't already been paid out).
+ *
+ */
 router.post('/invite-response', function(req, res) {
   var userId = req.session.user_id;
   var eventId = req.body.eventId;
@@ -126,46 +134,65 @@ router.post('/invite-response', function(req, res) {
     if (inviteAcceptedBool) {
 
       new Event({ id: eventId }).fetch({
-        withRelated: ['invites']
+        withRelated: ['invites', 'user']
       }).then(function(event) {
 
           var thresholdPeople = event.get('thresholdPeople');
           var committedPeople = event.get('committedPeople');
+          var totalMoney = event.get('thresholdMoney');
+          var title = event.get('title');
           var paid = event.get('paid');
-          var receivingUser = event.get('user_id');
+          var receivingUserId = event.get('user_id');
           var inviteModels = event.related('invites').models;
+          var eventCreatorsVenmoId = event.related('user').attributes.venmoUserId;
 
           if (paid) {
             console.log('This event has already been paid out!')
           } else {
 
+            // If true, will trigger event payout!
             if (committedPeople + 1 === thresholdPeople) {
-              payingUserIds = [];
+              var payingUserIds = [];
+              var amountPerCommittedUser = (totalMoney / thresholdPeople);
+              var note = 'Headcount charge for ' + title;
+
+              var testUserId = '145434160922624933';
+              var testNote = 'paid with Headcount!';
+              var testAmount = '0.10';
 
               console.log('pay event creator!');
               event.set('paid', true);
 
               for (var i = 0; i < inviteModels.length; i++) {
-                payingUserIds.push(inviteModels[i].attributes.user_id);
+                var payingUserId = inviteModels[i].attributes.user_id;
+
+                if (payingUserId) {
+                  payingUserIds.push(payingUserId);
+                }
               }
 
-              // TODO: Uncomment paying out users!
-
-              // venmo.payOutEvent(payingUserIds, receivingUser, function(payments) {
+              // FIXME: If uncommented, will active actual Venmo payout upon event's 'committedPeople' equaling 'thresholdPeople'
+              //
+              // payOutEvent(payingUserIds, eventCreatorsVenmoId, note, amountPerCommittedUser, false, function(payments) {
               //   console.log('Event creator paid!')
-              //   console.log(payments);
-              // })
+              //   console.log('Payments:', payments);
+              // });
+
+              // FIXME: If uncommented, will attempt to pay Venmo development sandbox account - no funds will actually be charged.
+              //
+              // payOutEvent(payingUserIds, testUserId, testNote, testAmount, true, function(payments) {
+              //   console.log('Event creator paid!')
+              //   console.log('Payments:', payments);
+              // });
 
             } else {
               console.log('increasing num of committed people')
               event.set('committedPeople', committedPeople + 1)
             }
-
           }
 
         event.save().then(function(updatedEvent) {
           console.log('Event updated!');
-          // console.dir(updatedEvent.toJSON());
         })
       });
 
@@ -179,8 +206,6 @@ router.post('/invite-response', function(req, res) {
 });
 
 /**
- * TODO: redirect used to created event page!!
- *
  * Catches event creation post request from client.
  * Receives event info and an users who need associated invites.
  * Creates new event and saves it to the database, then creates the required invite for each user and saves it to the database.

@@ -41,13 +41,14 @@ router.post('/checkUser', function(req, res, done) {
     .fetch()
     .then(function(user){
       // console.log('user',user);
-      if (user.attributes.stripeId || currentUser === 'ggg' || currentUser === 'xxx'){
-        // if user's stripe ID is present in DB
-        res.json({hasStripeId: true});
+      // 
+      if (user.attributes.venmoAccessToken && user.attributes.venmoUserId) {
+        res.json({hasVenmoInfo: true});
+
       } else {
-        console.log('StripeId not found for user');
-        res.json({hasStripeId: false});
+        res.json({hasVenmoInfo: false});
       }
+
     });
 
 });

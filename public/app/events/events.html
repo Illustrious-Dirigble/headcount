@@ -8,7 +8,6 @@
   <div class="link"
     ng-repeat="event in events | filter:search | orderBy:'created_at'" ng-click="seeMore = !seeMore" ng-show="!showDetails">
 
-    <div class="info" >
       <img width="100px" height="100px" src="{{event.image}}" />
 
 
@@ -21,8 +20,8 @@
     </div>
     <div ng-show="seeMore" ng-model="clickedEvent">
       <span> {{ event.description }} </span><br />
-      <button ng-click="checkStripe(event); acceptOrDeclineInvite(true)"> JOIN </button>
-      <button ng-click="acceptOrDeclineInvite(false)"> DECLINE </button>
+      <button ng-disabled="{{hasNotAuthorizedVenmo}}" ng-click="checkStripe(event); acceptOrDeclineInvite(true)"> JOIN </button>
+      <button ng-disabled="{{hasNotAuthorizedVenmo}}" ng-click="acceptOrDeclineInvite(false)"> DECLINE </button>
     </div>
     </div>
       <span> Cost of event: ${{ event.thresholdMoney / event.thresholdPeople | number:2 }} </span> <br />

@@ -14,6 +14,7 @@ angular.module('headcount.events', [])
 
   $scope.hasStripe = false;
   $scope.needInfo = false;
+
   $scope.clickedEvent = {};
   $scope.display = false;
 
@@ -157,6 +158,9 @@ angular.module('headcount.events', [])
       }
       // console.log($event.$$hashKey);
       // $scope.buttonClicked.($event.$$hashkey) = true;
+      // 
+      console.log(resp.data);
+      console.log('checking')
       if (resp.data.hasStripeId === true){
         $scope.hasStripe = true;
       } else {
@@ -164,6 +168,30 @@ angular.module('headcount.events', [])
       }
     });
   };
+
+  $scope.hasNotAuthorizedVenmo = true;
+
+  $scope.checkVenmoDetails = function($event){
+    var currentUser = sessionStorage.getItem('user');
+    return $http({
+      method: 'POST',
+      url : '/users/checkUser',
+      data : {'username': currentUser}
+    })
+    .then(function(resp){
+      var hasVenmoInfo = resp.data.hasVenmoInfo;
+
+      if (!hasVenmoInfo) {
+        console.log('You have not authorized your Venmo account yet!');
+      }
+
+      $scope.hasNotAuthorizedVenmo = !hasVenmoInfo;
+    });
+  };
+
+
+
+  $scope.checkVenmoDetails();
 
   $scope.showDetails = function(){
     if ($scope.showCreate === true){
