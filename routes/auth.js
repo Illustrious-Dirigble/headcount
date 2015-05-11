@@ -10,7 +10,7 @@ var passport = require('passport');
 function handleAuth(req, res, username, id) {
   req.session.regenerate(function() {
     req.session.user = username;
-    req.session.user_id = id;
+    req.session.user_id = id.toString();
     console.log("SESSION!!!" + req.session.user + "ID!!!" + req.session.user_id);
     res.end();
   });
