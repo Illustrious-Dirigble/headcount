@@ -1,6 +1,6 @@
 angular.module('headcount.events', [])
 
-.controller('EventsController', function ($scope, Links, $http, $window) {
+.controller('EventsController', function ($scope, Links, $http, $window, $timeout, $q) {
 
   // Stores all events that were created by you or that you were invited to
   $scope.events = [];
@@ -106,6 +106,7 @@ angular.module('headcount.events', [])
 
   // Fetches users from the database that are not current user
 
+  var self = this;
   $scope.fetchUsers = function () {
     return $http({
       method: 'GET',
@@ -113,9 +114,66 @@ angular.module('headcount.events', [])
     })
     .then(function(resp) {
       $scope.userList = resp.data;
-      //console.log("USER LIST!!!" + $scope.userList);
+      console.log("USER LIST!!!" + $scope.userList);
+
+      self.querySearch = querySearch;
+      self.allContacts = loadContacts();
+      self.contacts = [self.allContacts[0]];
+      self.filterSelected = true;
+      /**
+       * Search for contacts.
+       */
+      function querySearch (query) {
+        var results = query ?
+            self.allContacts.filter(createFilterFor(query)) : [];
+        return results;
+      }
+      /**
+       * Create filter function for a query string
+       */
+      function createFilterFor(query) {
+        console.log('filtering');
+        var lowercaseQuery = angular.lowercase(query);
+        return function filterFn(contact) {
+          return (contact._lowername.indexOf(lowercaseQuery) != -1);;
+        };
+      }
+      function loadContacts() {
+        var contacts = [];
+        for (var i = 0; i < $scope.userList.length; i++){
+          contacts.push($scope.userList[i][0]);
+        }
+        // var contacts = [
+        //   'Marina Augustine',
+        //   'Oddr Sarno',
+        //   'Nick Giannopoulos',
+        //   'Narayana Garner',
+        //   'Anita Gros',
+        //   'Megan Smith',
+        //   'Tsvetko Metzger',
+        //   'Hector Šimek',
+        //   'Some-guy withalongalastaname'
+        // ];
+        // console.log(contacts.map(function (c, index) {
+        //   var cParts = c.split(' ');
+        //   var contact = {
+        //     name: c,
+        //   };
+        //   return contact;
+        // }));
+        return contacts.map(function (c, index) {
+          var cParts = c.split(' ');
+          var contact = {
+            name: c,
+            image: 'http://lorempixel.com/50/50/people?' + index
+          };
+          contact._lowername = contact.name.toLowerCase();
+          return contact;
+        });
+      }
     });
   };
+  $scope.fetchUsers();
 
   // Creates an event with $scope.newEvent data
 
