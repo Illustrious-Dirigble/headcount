@@ -1,97 +1,143 @@
-<input type='text' ng-model='search' placeholder='Search events' ng-show="!showDetails">
 
-<!-- DISPLAY EVENTS -->
-<md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
-<span ng-show="!events.length">No events available, get invited or create an event to see some!</span>
+<div layout="row">
 
-<div class="links" ng-show="events.length">
-  <div class="link"
-    ng-repeat="event in events | filter:search | orderBy:'created_at'" ng-click="seeMore = !seeMore" ng-show="!showDetails">
+  <div flex="33" class="events links">
 
-      <img width="100px" height="100px" src="{{event.image}}" />
-
-
-    <div id="{{ 'event-' + $index }}" class="info" >
-      <!-- <img src="assets/redirect_icon.png"> -->
-      <!-- <img width="75px" height="75px" src="{{event.image}}" /> -->
-      <span> <strong> {{ event.title }} </strong> </span> <br />
-      <span> Expiration: {{ event.expiration |  date : format : timezone}} </span> <br />
-      <span> People needed: {{ event.thresholdPeople }} </span>
+    <div layout="row">
+      <div flex="90">
+        <input type="text" ng-model="search" placeholder="Search events"></span><span ng-click=createEvent()>
+      </div>
+      <div flex="10">
+        <span ng-click="displayNewEvent()">+</span>
+      </div>
     </div>
-    <div ng-show="seeMore" ng-model="clickedEvent">
-      <span> {{ event.description }} </span><br />
+
+    <div class="link" ng-repeat="link in events | filter:search | orderBy:'created_at'" ng-click="displayEvent(link)">
+      <div class="info" >
+        <img width="100px" height="100px" src="{{link.image}}" />
+        <div id="{{ 'event-' + $index }}" class="info" >
+          <span> <strong> {{ link.title }} </strong> </span> <br />
+          <span> Expiration: {{ link.expiration |  date : format : timezone}} </span> <br />
+          <span> People needed: {{ link.thresholdPeople }} </span>
+        </div>
+      </div>
+      <span> Cost of link: ${{ link.thresholdMoney / link.thresholdPeople | number:2 }} </span> <br />
+      <span> Remaining money needed: ${{ link.thresholdMoney - link.committedMoney | number:2}} </span>
+    </div>
+  </div>
+
+  <div flex="66" class="events">
+    CONTENT AREA
+    <div class="event" ng-model="showEvent" ng-show={{showEvent}}>
+      USER EVENT
+      <div class="info" >
+        <img width="100px" height="100px" src="{{event.image}}" />
+        <div id="{{ 'event-' + $index }}" class="info" >
+          <span> <strong> {{ event.title }} </strong> </span> <br />
+          <span> Expiration: {{ event.expiration |  date : format : timezone}} </span> <br />
+          <span> People needed: {{ event.thresholdPeople }} </span>
+        </div>
+      </div>
+      <span> Cost of event: ${{ event.thresholdMoney / event.thresholdPeople | number:2 }} </span> <br />
+      <span> Remaining money needed: ${{ event.thresholdMoney - event.committedMoney | number:2}} </span>
       <button ng-disabled="{{hasNotAuthorizedVenmo}}" ng-click="checkStripe(event); acceptOrDeclineInvite(true)"> JOIN </button>
       <button ng-disabled="{{hasNotAuthorizedVenmo}}" ng-click="acceptOrDeclineInvite(false)"> DECLINE </button>
     </div>
+
+    <div class="newUserEvent" ng-model="showNewEvent" ng-show={{showNewEvent}}>
+      NEW EVENT PAGE
+      <form ng-model="newEvent" ng-submit="createEvent()">
+        Title:<br />
+        <input type="text" name="title" ng-model="newEvent.title" required>
+        Description: <br />
+        <input type="text" name="description" ng-model="newEvent.description" required>
+        How much money needed? <br />
+        <input type="number" name="thresholdMoney" placeholder="How much $ will it cost?" ng-model="newEvent.thresholdMoney" required>
+        When will this event expire? <br />
+        <input type="date" name="expiration" ng-model="newEvent.expiration" required>
+        How many people are going? <br />
+        <input type="number" name="thresholdPeople" ng-model="newEvent.thresholdPeople" required>
+        Image url: <br />
+        <input type="text" name="image" placeholder="Paste any image for your event here" ng-model="newEvent.image" required>
+        Who's invited? <br />
+        <input type="text" ng-click="inviteClick = true" ng-model="inviteUser" placeholder="Who's invited? Start typing their username...">
+        <div ng-show="inviteClick">
+        <span id="inviteBox" ng-repeat="user in userList | filter:inviteUser" ng-click="addInvite(user)"> {{ user[0] }} </span>
+        </div>
+        <div ng-show="inviteClick"> Invited: <br />
+        <span id="inviteBox" ng-repeat="invite in invitedUsers" ng-click="removeInvite(invite)">{{ invite[0] }} <br /></span>
+        </div>
+        <input type="submit" name="Submit">
+      </form>
     </div>
-      <span> Cost of event: ${{ event.thresholdMoney / event.thresholdPeople | number:2 }} </span> <br />
-      <span> Remaining money needed: ${{ event.thresholdMoney - event.committedMoney | number:2}} </span>
   </div>
+
 </div>
 
 <!-- EVENT CREATION -->
-<div ng-click="showDetails = !showDetails; fetchUsers()" ng-init="showDetails=false" ng-show="!showDetails">
+<!--
+  <div ng-click="showDetails = !showDetails; fetchUsers()" ng-init="showDetails=false" ng-show="!showDetails">
   <button>Create Event</button>
-</div>
+  </div>
 
-<div ng-click="showDetails = !showDetails" ng-init="showDetails=false" ng-show="showDetails">
+  <div ng-click="showDetails = !showDetails" ng-init="showDetails=false" ng-show="showDetails">
   <button>View Events</button>
-</div>
+  </div>
 
-<div ng-show="showDetails">
-<br />
-    How your event will look:
-    <div class="link" >
-      <img width="180px" height="100px" src="{{ newEvent.image }}" />
-      <span> <strong> {{ newEvent.title }} </strong> </span> <br />
-      <span> {{ newEvent.description }} </span><br />
-      <span> Money needed: ${{ newEvent.thresholdMoney }} </span><br />
-      <span> Expiration: {{ newEvent.expiration }}</span> <br />
-      <span> People going: {{ newEvent.thresholdPeople }}</span> <br />
-      <button> JOIN </button>
-      <button > DECLINE </button><br />
-    </div>
+  <div ng-show="showDetails">
+  <br />
+  How your event will look:
+  <div class="link" >
+  <img width="180px" height="100px" src="{{ newEvent.image }}" />
+  <span> <strong> {{ newEvent.title }} </strong> </span> <br />
+  <span> {{ newEvent.description }} </span><br />
+  <span> Money needed: ${{ newEvent.thresholdMoney }} </span><br />
+  <span> Expiration: {{ newEvent.expiration }}</span> <br />
+  <span> People going: {{ newEvent.thresholdPeople }}</span> <br />
+  <button> JOIN </button>
+  <button > DECLINE </button><br />
+  </div>
   <div>
   <br />
   <form ng-model="newEvent" ng-submit="createEvent()">
-    Title:<br />
-    <input type="text" name="title" ng-model="newEvent.title" required>
-    Description: <br />
-    <input type="text" name="description" ng-model="newEvent.description" required>
-    How much money needed? <br />
-    <input type="number" name="thresholdMoney" placeholder="How much $ will it cost?" ng-model="newEvent.thresholdMoney" required>
-    When will this event expire? <br />
-    <input type="date" name="expiration" ng-model="newEvent.expiration" required>
-    How many people are going? <br />
-    <input type="number" name="thresholdPeople" ng-model="newEvent.thresholdPeople" required>
-    Image url: <br />
-    <input type="text" name="image" placeholder="Paste any image for your event here" ng-model="newEvent.image" required>
-    Who's invited? <br />
-    <input type="text" ng-click="inviteClick = true" ng-model="inviteUser" placeholder="Who's invited? Start typing their username...">
-    <div ng-show="inviteClick">
-      <span id="inviteBox" ng-repeat="user in userList | filter:inviteUser" ng-click="addInvite(user)"> {{ user[0] }} </span>
-    </div>
-    <div ng-show="inviteClick"> Invited: <br />
-      <span id="inviteBox" ng-repeat="invite in invitedUsers" ng-click="removeInvite(invite)">{{ invite[0] }} <br /></span>
-    </div>
-    <input type="submit" name="Submit">
+  Title:<br />
+  <input type="text" name="title" ng-model="newEvent.title" required>
+  Description: <br />
+  <input type="text" name="description" ng-model="newEvent.description" required>
+  How much money needed? <br />
+  <input type="number" name="thresholdMoney" placeholder="How much $ will it cost?" ng-model="newEvent.thresholdMoney" required>
+  When will this event expire? <br />
+  <input type="date" name="expiration" ng-model="newEvent.expiration" required>
+  How many people are going? <br />
+  <input type="number" name="thresholdPeople" ng-model="newEvent.thresholdPeople" required>
+  Image url: <br />
+  <input type="text" name="image" placeholder="Paste any image for your event here" ng-model="newEvent.image" required>
+  Who's invited? <br />
+  <input type="text" ng-click="inviteClick = true" ng-model="inviteUser" placeholder="Who's invited? Start typing their username...">
+  <div ng-show="inviteClick">
+  <span id="inviteBox" ng-repeat="user in userList | filter:inviteUser" ng-click="addInvite(user)"> {{ user[0] }} </span>
+  </div>
+  <div ng-show="inviteClick"> Invited: <br />
+  <span id="inviteBox" ng-repeat="invite in invitedUsers" ng-click="removeInvite(invite)">{{ invite[0] }} <br /></span>
+  </div>
+  <input type="submit" name="Submit">
   </form>
   </div>
 
-</div>
+  </div>
+-->
 
 <!-- EVENT CREATION -->
 <!-- <div ng-click="showDetails = !showDetails; hasStripe = false;" ng-init="showDetails=false" ng-show="!showDetails">Create Event</div> -->
-<div ng-click="showDetails = !showDetails" ng-init="showDetails=false" ng-show="showDetails">View Events</div>
-<!-- CONFIRM DIV CREATION -->
-<span>
+<!--
+  <div ng-click="showDetails = !showDetails" ng-init="showDetails=false" ng-show="showDetails">View Events</div>
+  <span>
   <div ng-show="hasStripe">
-    <span class="selector"> Congrats, {{ currentUser }}, you have confirmed your place for {{ lastEvent }} thrown by {{ owner }} !! </span> <br />
-    <span class="selector" ng-show="triggerFunding"> Congrats, {{ currentUser }}, the {{ lastEvent }} thrown by {{ owner }} is officially HAPPENING !!!</span>
-    <!-- <button class="selector"  ng-click="confirm($event)">  CONFIRM? </button> -->
+  <span class="selector"> Congrats, {{ currentUser }}, you have confirmed your place for {{ lastEvent }} thrown by {{ owner }} !! </span> <br />
+  <span class="selector" ng-show="triggerFunding"> Congrats, {{ currentUser }}, the {{ lastEvent }} thrown by {{ owner }} is officially HAPPENING !!!</span>
+  <button class="selector"  ng-click="confirm($event)">  CONFIRM? </button>
   </div>
   <div ng-show="needInfo">
   </div>
+-->
 
-</span>
-</md-sidenav>

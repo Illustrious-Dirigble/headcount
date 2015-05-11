@@ -41,7 +41,6 @@ angular.module('headcount', [
   $scope.toggleSidenav = function(menuId) {
     $mdSidenav(menuId).toggle();
   };
- 
 }])
 .factory('AttachTokens', function ($window, $location) {
   // this is an $httpInterceptor
@@ -52,7 +51,6 @@ angular.module('headcount', [
   var attach = {
     request: function (object) {
       var username = $window.sessionStorage.getItem('user');
-      console.log(username,'username');
       if (username) {
         object.headers['x-access-token'] = username;
       }
