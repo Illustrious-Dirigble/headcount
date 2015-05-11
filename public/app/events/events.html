@@ -19,7 +19,7 @@
   </div>
 
   <div flex="66" class="events">
-    <div class="event" ng-model="event" ng-show={{event.display}}>
+    <div class="event" ng-model="event" ng-show="{{event.display}} === true">
       <div class="info" >
         <img width="100px" height="100px" src="{{event.image}}" />
         <div id="{{ 'event-' + $index }}" class="info" >
@@ -30,6 +30,8 @@
       </div>
       <span> Cost of event: ${{ event.thresholdMoney / event.thresholdPeople | number:2 }} </span> <br />
       <span> Remaining money needed: ${{ event.thresholdMoney - event.committedMoney | number:2}} </span>
+      <button ng-disabled="{{hasNotAuthorizedVenmo}}" ng-click="checkStripe(event); acceptOrDeclineInvite(true)"> JOIN </button>
+      <button ng-disabled="{{hasNotAuthorizedVenmo}}" ng-click="acceptOrDeclineInvite(false)"> DECLINE </button>
     </div>
 
 </div>
