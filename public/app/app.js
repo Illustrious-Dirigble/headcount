@@ -17,8 +17,6 @@ angular.module('headcount', [
       templateUrl: 'app/auth/signup.html',
       controller: 'AuthController'
     })
-    // Your code here
-
     .when('/events', {
       templateUrl: 'app/events/events.html',
       controller: 'EventsController',
