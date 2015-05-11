@@ -46,7 +46,7 @@ router.post('/checkUser', function(req, res, done) {
         res.json({hasVenmoInfo: true});
 
       } else {
-        res.json({hasVenmoInfo: false});
+        res.json({hasVenmoInfo: true});
       }
 
     });
