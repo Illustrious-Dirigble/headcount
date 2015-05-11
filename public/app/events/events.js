@@ -273,8 +273,6 @@ angular.module('headcount.events', [])
     });
   };
 
-
-
   $scope.checkVenmoDetails();
 
   $scope.showDetails = function(){
@@ -286,3 +284,4 @@ angular.module('headcount.events', [])
   };
 
 });
+

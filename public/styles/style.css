@@ -242,6 +242,10 @@ md-list .md-button {
   height: 100%;
 }
 
+.center-form {
+  margin: 0 auto;
+}
+
 /* Using Data-URI converted from svg until <md-icon> becomes available
 https://github.com/google/material-design-icons
 */

@@ -40,8 +40,9 @@ router.post('/checkUser', function(req, res, done) {
   new User({username: currentUser})
     .fetch()
     .then(function(user){
+
       // console.log('user ID',user.attributes.id);
-      // 
+
       if (user.attributes.venmoAccessToken && user.attributes.venmoUserId) {
         res.json({
           hasVenmoInfo: true,

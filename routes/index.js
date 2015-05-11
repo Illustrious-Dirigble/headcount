@@ -280,7 +280,7 @@ router.get('/oauth', function(req, res) {
   var username = req.query.state;
   var code = req.query.code;
 
-  res.redirect('/#/accounts');
+  
 
     request.post({
         url: venmoTokenUri,
@@ -312,7 +312,8 @@ router.get('/oauth', function(req, res) {
                   venmoPicture: body.user.profile_picture_url
                 })
                   .then(function() {
-                    console.log('Stripe Connect Account saved to user');
+                    console.log('Venmo account authorized');
+                    res.redirect('/#/accounts');
                   });
                }
             })
