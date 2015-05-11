@@ -4,6 +4,9 @@ angular.module('headcount.events', [])
 
   // Stores all events that were created by you or that you were invited to
   $scope.events = [];
+  $scope.event = {};
+  $scope.showEvent = false;
+  $scope.showNewEvent = true;
 
   /* userList currently populates with all users of Headcount. invitedUsers
    * gets pushed with any users you invite.
@@ -18,8 +21,18 @@ angular.module('headcount.events', [])
   $scope.clickedEvent = {};
   $scope.display = false;
 
-  // Event object that's populated via creation form and then posted for creation
+  $scope.displayNewEvent = function() {
+    console.log('displayNewEvent');
+    $scope.showNewEvent = true;
+  };
 
+  $scope.displayEvent = function(link) {
+    console.log('displayEvent');
+    $scope.showEvent = true;
+    $scope.event = link;
+  };
+
+  // Event object that's populated via creation form and then posted for creation
   $scope.newEvent = {
     title: 'Title goes here',
     description: 'Description goes here',
@@ -27,6 +40,7 @@ angular.module('headcount.events', [])
     thresholdPeople: 10,
     thresholdMoney: 100
   };
+
 
 
   /* addInvite pushes a user to the invitedUsers array, then removes one from userList
@@ -70,7 +84,6 @@ angular.module('headcount.events', [])
       url: '/invite-events-fetch'
     })
     .then(function(resp) {
-      console.log("RESP DATA!!!" + resp.data);
       $scope.fetchInviteEvents(resp.data);
     });
   };
@@ -99,7 +112,7 @@ angular.module('headcount.events', [])
     })
     .then(function(resp) {
       $scope.userList = resp.data;
-      console.log("USER LIST!!!" + $scope.userList);
+      //console.log("USER LIST!!!" + $scope.userList);
     });
   };
 
@@ -113,7 +126,6 @@ angular.module('headcount.events', [])
       data: $scope.newEvent
     })
     .then(function(resp) {
-      console.log("EVENT CREATED!!! " + $scope.newEvent);
       $window.location.href = "/";
     });
   };

@@ -5,11 +5,12 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-a {
+/*a {
   color: #333;
   font-size: 14px;
   text-decoration: none;
 }
+*/
 
 h1 {
   margin-bottom: 10px;
@@ -22,6 +23,7 @@ h1 {
 }
 
 .toolbar_buttons {
+  color:white;
   margin-top: 10px;
   margin-left: 10px;
   margin-right: -10px;
@@ -200,6 +202,10 @@ md-list .md-button {
   color: inherit;
   text-align: left;
   width: 100%;
+}
+
+.events {
+  height: 100%;
 }
 
 /* Using Data-URI converted from svg until <md-icon> becomes available 

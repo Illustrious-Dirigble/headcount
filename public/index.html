@@ -1,47 +1,45 @@
 <!DOCTYPE html>
 <html ng-app='headcount'>
   <head>
-    <meta charset="utf-8" />
     <title>headCount</title>
-    <link rel="stylesheet" type="text/css" href="styles/style.css" />
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.9.0/angular-material.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1" />
-  </head>
-  <body layout="column" ng-controller="AppCtrl">
-
+    <link rel="stylesheet" type="text/css" href="styles/style.css" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.9.0/angular-material.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular-route.js"></script>
-
     <script src="/lib/angular-payments/lib/angular-payments.min.js"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-aria.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.9.0/angular-material.min.js"></script>
+  </head>
+  <body layout="column" ng-controller="AppCtrl">
     <md-toolbar layout="row">
-      <div class="toolbar_buttons" flex="5" ng-controller="EventsController" ng-click="createEvent()"><i class="fa fa-plus fa-2x"></i></div>
-      <div class="toolbar_buttons" flex="5" ng-controller="EventsController" ng-click="viewEvents()"><i class="fa fa-users fa-2x"></i></div>
+      <a class="toolbar_buttons" href="#events" flex="5"><i class="fa fa-plus fa-2x"></i></a>
+      <a class="toolbar_buttons" href="#events" flex="5"><i class="fa fa-users fa-2x"></i></a>
       <h1 class="md-toolbar-tools" layout-align-gt-sm="center">Head Count</h1>
-      <div class="toolbar_buttons" flex="5" ng-controller="AccountsController" ng-click="accountPanel()"><i class="fa fa-cog fa-2x"></i></div>
+      <a class="toolbar_buttons" href="#accounts" flex="5"><i class="fa fa-cog fa-2x"></i></a>
       <div class="toolbar_buttons" flex="5" ng-controller="AuthController" ng-click="signout()"><i class="fa fa-sign-out fa-2x"></i></div>
       </div>
     </md-toolbar>
-    <div layout="row" flex>
-        <div layout="column" flex id="content">
-            <md-content layout="column" flex class="md-padding">
-              <div ng-view></div>
-            </md-content>
-        </div>
-    </div>
-        <!-- Angular Material Dependencies -->
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-animate.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-aria.min.js"></script>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.9.0/angular-material.min.js"></script>
-    <!-- the ng-view directive is where our templates will be loaded into when naviagted to -->
+    <div ng-view></div>
 
     <script src="app/auth/auth.js"></script>
     <script src="app/events/events.js"></script>
     <script src="app/accounts/accounts.js"></script>
     <script src="app/services/services.js"></script>
     <script src="app/app.js"></script>
+
+    <!--
+    <div layout="row" flex>
+        <div layout="column" flex id="content">
+            <md-content layout="column" flex class="md-padding">
+            </md-content>
+        </div>
+    </div>
+    -->
 
   </body>
 </html>
