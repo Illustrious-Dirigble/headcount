@@ -1,17 +1,6 @@
 <div id='container'>
 <!-- Your code here -->
-
-  <nav class="navigation">
-    <ul>
-      <li>
-          <a href="#/events">Events</a>
-      </li>
-       <li>
-          <a class='selected' href="#/accounts">Account Panel</a>
-      </li>
-    </ul>
-  </nav>
-
+<md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
   <form>
     <ul class="account">
       <li class="name">username<input ng-model="username" disabled></input></li>
@@ -23,6 +12,8 @@
     <button class="account" ng-click="accountUpdate()">Save</button>
   </form>
   <img class="connect" ng-click="authorize()" src="../../assets/blue-on-light/blue-on-light@2x.png">
+  
+</md-sidenav>
 </div>
 
 
