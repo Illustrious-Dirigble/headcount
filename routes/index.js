@@ -115,6 +115,7 @@ router.get('/users-fetch', function(req, res, next) {
     });
 });
 
+
 router.post('/invite-response', function(req, res) {
   var userId = req.session.user_id;
   var eventId = req.body.eventId;
@@ -124,26 +125,47 @@ router.post('/invite-response', function(req, res) {
   attendance.updateInvite(userId, eventId, inviteAcceptedBool, function(updatedInvite) {
     if (inviteAcceptedBool) {
 
-      console.log('should check event')
-
       new Event({ id: eventId }).fetch({
         withRelated: ['invites']
       }).then(function(event) {
 
           var thresholdPeople = event.get('thresholdPeople');
           var committedPeople = event.get('committedPeople');
-          var invites = event.related('invites');
+          var paid = event.get('paid');
+          var receivingUser = event.get('user_id');
+          var inviteModels = event.related('invites').models;
 
-          if (committedPeople + 1 === thresholdPeople) {
-            console.log('pay event creator!');
+          if (paid) {
+            console.log('This event has already been paid out!')
           } else {
-            console.log('increasing num of committed people')
-            event.set('committedPeople', committedPeople + 1)
+
+            if (committedPeople + 1 === thresholdPeople) {
+              payingUserIds = [];
+
+              console.log('pay event creator!');
+              event.set('paid', true);
+
+              for (var i = 0; i < inviteModels.length; i++) {
+                payingUserIds.push(inviteModels[i].attributes.user_id);
+              }
+
+              // TODO: Uncomment paying out users!
+
+              // venmo.payOutEvent(payingUserIds, receivingUser, function(payments) {
+              //   console.log('Event creator paid!')
+              //   console.log(payments);
+              // })
+
+            } else {
+              console.log('increasing num of committed people')
+              event.set('committedPeople', committedPeople + 1)
+            }
+
           }
 
         event.save().then(function(updatedEvent) {
           console.log('Event updated!');
-          console.dir(updatedEvent.toJSON());
+          // console.dir(updatedEvent.toJSON());
         })
       });
 
@@ -151,9 +173,8 @@ router.post('/invite-response', function(req, res) {
       console.log('Invite declined, do not need to check event');
     }
 
-
     res.end();
-  })
+  });
 
 });
 
