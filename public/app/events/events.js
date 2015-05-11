@@ -180,7 +180,8 @@ angular.module('headcount.events', [])
   // Creates an event with $scope.newEvent data
 
   $scope.createEvent = function() {
-    console.log('invited',$scope.invitedUsers);
+    // console.log('invited', $scope.invitedUsers);
+
     console.log($('.selected .compact'));
     var inv = [];
     var list = $('.selected .compact');
@@ -189,8 +190,9 @@ angular.module('headcount.events', [])
     }
     console.log('inv',inv);
     $scope.invitedUsers = inv;
-    debugger;
+
     $scope.newEvent.invited = $scope.invitedUsers;
+    console.log('Event details', $scope.newEvent);
     return $http({
       method: 'POST',
       url: '/events-create',
