@@ -5,6 +5,7 @@ angular.module('headcount.events', [])
   // Stores all events that were created by you or that you were invited to
   $scope.events = [];
   $scope.event = EventsFactory.currentEvent;
+  $scope.hasNotAuthorizedVenmo = EventsFactory.hasNotAuthorizedVenmo
   $scope.showEvent = false;
   $scope.showNewEvent = true;
 
@@ -17,6 +18,7 @@ angular.module('headcount.events', [])
 
   $scope.hasStripe = false;
   $scope.needInfo = false;
+  $scope.hasNotAuthorizedVenmo = true;
 
   $scope.clickedEvent = {};
   $scope.display = false;
@@ -43,19 +45,6 @@ angular.module('headcount.events', [])
 
 
 
-  /* addInvite pushes a user to the invitedUsers array, then removes one from userList
-   * and vice versa for removeInvite.
-   */
-
-  $scope.addInvite = function(user) {
-    var index = $scope.userList.indexOf(user);
-    $scope.invitedUsers.push($scope.userList.splice(index, 1)[0]);
-  };
-
-  $scope.removeInvite = function(user) {
-    var index = $scope.invitedUsers.indexOf(user);
-    $scope.userList.push($scope.invitedUsers.splice(index, 1)[0]);
-  };
 
   // Fetch events that were created by you.
 
@@ -179,7 +168,8 @@ angular.module('headcount.events', [])
   // Creates an event with $scope.newEvent data
 
   $scope.createEvent = function() {
-    console.log('invited',$scope.invitedUsers);
+    // console.log('invited', $scope.invitedUsers);
+
     console.log($('.selected .compact'));
     var inv = [];
     var list = $('.selected .compact');
@@ -188,8 +178,9 @@ angular.module('headcount.events', [])
     }
     console.log('inv',inv);
     $scope.invitedUsers = inv;
-    debugger;
+
     $scope.newEvent.invited = $scope.invitedUsers;
+    console.log('Event details', $scope.newEvent);
     return $http({
       method: 'POST',
       url: '/events-create',
@@ -213,6 +204,7 @@ angular.module('headcount.events', [])
       }
     })
     .then(function(resp) {
+
     });
   };
 
@@ -251,9 +243,9 @@ angular.module('headcount.events', [])
     });
   };
 
-  $scope.hasNotAuthorizedVenmo = true;
+  $scope.checkVenmoDetails = function(){
+    console.log('the event!')
 
-  $scope.checkVenmoDetails = function($event){
     var currentUser = sessionStorage.getItem('user');
     return $http({
       method: 'POST',
@@ -261,17 +253,19 @@ angular.module('headcount.events', [])
       data : {'username': currentUser}
     })
     .then(function(resp){
+      console.log(resp.data);
       var hasVenmoInfo = resp.data.hasVenmoInfo;
 
       if (!hasVenmoInfo) {
         console.log('You have not authorized your Venmo account yet!');
+      } else {
+        console.log('venmo authorized');
       }
 
+      EventsFactory.hasNotAuthorizedVenmo = !hasVenmoInfo;
       $scope.hasNotAuthorizedVenmo = !hasVenmoInfo;
     });
   };
-
-
 
   $scope.checkVenmoDetails();
 
@@ -284,3 +278,4 @@ angular.module('headcount.events', [])
   };
 
 });
+

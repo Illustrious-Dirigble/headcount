@@ -15,7 +15,9 @@ router.get('/', function(req, res, next) {
 });
 
 
-// Fetches all events from database with query where user_id matches current session user
+/**
+ * Fetches all events from database with query where user_id matches current session user
+ */
 router.get('/events-fetch', function(req, res, next) {
 
   new Event()
@@ -85,8 +87,9 @@ router.post('/invite-events-fetch', function(req, res, next) {
   }
 });
 
-// A simple get request for showing all the events in the database for dev purposes
-
+/**
+ * A simple get request for showing all the events in the database for dev purposes
+ */
 router.get('/events-all', function(req, res, next) {
   new Event({})
   .fetchAll()
@@ -95,7 +98,9 @@ router.get('/events-all', function(req, res, next) {
   });
 });
 
-// Fetches users from the database except current session user, used for inviting people
+/**
+ * Fetches users from the database except current session user, used for inviting people
+ */
 router.get('/users-fetch', function(req, res, next) {
   new User()
     .fetchAll()
@@ -171,7 +176,8 @@ router.post('/invite-response', function(req, res) {
                 }
               }
 
-              // FIXME: If uncommented, will active actual Venmo payout upon event's 'committedPeople' equaling 'thresholdPeople'
+              // FIXME: If uncommented, will active actual Venmo payout upon event's 'committedPeople' equaling 'thresholdPeople'.
+              //  -- note: must only invoke 'payOutEvent' once.
               //
               // payOutEvent(payingUserIds, eventCreatorsVenmoId, note, amountPerCommittedUser, false, function(payments) {
               //   console.log('Event creator paid!')
@@ -179,11 +185,12 @@ router.post('/invite-response', function(req, res) {
               // });
 
               // FIXME: If uncommented, will attempt to pay Venmo development sandbox account - no funds will actually be charged.
+              // -- note: must only invoke 'payOutEvent' once.
               //
-              // payOutEvent(payingUserIds, testUserId, testNote, testAmount, true, function(payments) {
-              //   console.log('Event creator paid!')
-              //   console.log('Payments:', payments);
-              // });
+              payOutEvent(payingUserIds, testUserId, testNote, testAmount, true, function(payments) {
+                console.log('Event creator paid!')
+                console.log('Payments:', payments);
+              });
 
             } else {
               console.log('increasing num of committed people')
@@ -212,14 +219,16 @@ router.post('/invite-response', function(req, res) {
  * Logs out the created invites when done.
  */
 router.post('/events-create', function(req, res) {
-  console.log(req.body,'req.body');
+  console.log('incoming event', req.body);
   var eventData = req.body;
   var inviteNum = eventData.invited.length;
   var inviteeIds = [];
   console.log("EVENT DATA!!!" + JSON.stringify(eventData.invited));
 
+
+
   for (var i = 0; i < inviteNum; i++) {
-    inviteeIds.push(eventData.invited[i][1]);
+    inviteeIds.push(eventData.invited[i]);
   }
 
   new Event({
@@ -273,7 +282,7 @@ router.get('/oauth', function(req, res) {
   var username = req.query.state;
   var code = req.query.code;
 
-  res.redirect('/#/accounts');
+  
 
     request.post({
         url: venmoTokenUri,
@@ -305,7 +314,8 @@ router.get('/oauth', function(req, res) {
                   venmoPicture: body.user.profile_picture_url
                 })
                   .then(function() {
-                    console.log('Stripe Connect Account saved to user');
+                    console.log('Venmo account authorized');
+                    res.redirect('/#/accounts');
                   });
                }
             })

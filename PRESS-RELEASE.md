@@ -17,9 +17,7 @@ Once the project moves into development, the press release can be used as a touc
  -->
  
 ## Heading ##
-
-  > There is no way Matt gets to write this heading.
-
+  Powered by Venmo!
 
 ## Sub-Heading ##
   Allow a user to request funds for a collective purchase (gift for a family member, hotel room costs) that only deducts the desired amount from each member when a specified threshold has been met.
@@ -28,11 +26,10 @@ Once the project moves into development, the press release can be used as a touc
   Have you ever been planning a weekend trip with your friends, only to have members drop out and leave you stuck with a paid-for hotel room? Next time get a Headcount first! Request funds for the trip in advance with an event invitation that will only be satisfied by five people committing $20 each. Once your specified threshold has been met, the pledged funds will be deducted from each user's account and sent directly to you.
 
 ## Problem ##
-  > Describe the problem your product solves:
-  Solves issues related to bugging friends to pay their share for that house party.
+  Bugging your friends to pay their share for that house party is a hassle.
 
 ## Solution ##
-  > Describe how your product elegantly solves the problem.
+  Get a headcount by inviting your friends to pledge money for an event. If/when that threshold is reached, everyone gets charged their fair share.
 
 ## Quote from You ##
   "Best company this side of the Bay Area."
@@ -42,7 +39,7 @@ Once the project moves into development, the press release can be used as a touc
 
 ## Customer Quote ##
   "Headcount made buying presents for my friends so much easier!" - Khoa
-  "I love the service headcount provides."
+  "I love the service headcount provides." - Pranav
 
 ## Closing and Call to Action ##
-  > Wrap it up and give pointers where the reader should go next.
+  Check out the code or give it a try. You only need a Venmo account to use it.
