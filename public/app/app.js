@@ -4,7 +4,8 @@ angular.module('headcount', [
   'headcount.accounts',
   'headcount.auth',
   'ngRoute',
-  'ngMaterial'
+  'ngMaterial',
+  'ui.bootstrap'
 ])
 .config(function($routeProvider, $httpProvider) {
   $routeProvider

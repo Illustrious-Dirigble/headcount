@@ -15,7 +15,7 @@ h1 {
   color: white;
   margin-top: -5px;
   margin-top: 10px;
-  margin-left: 225px;
+  margin-left: 255px;
   font-size: 36px;
 }
 
@@ -24,10 +24,15 @@ h1 {
   margin-left: 115px;
 }
 
-.auth_input {
+#auth_input {
   width: 310px;
   border-radius: 5px;
   border: 1px solid gray;
+}
+
+#account {
+  width: 300px;
+  margin-bottom: 10px;
 }
 
 .auth_button {
@@ -39,6 +44,7 @@ h1 {
   border: 1px solid white;
   border-radius: 5px;
   margin-bottom: 5px;
+  margin-top: 5px;
 }
 
 .oauth_button {
