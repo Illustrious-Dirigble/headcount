@@ -9,6 +9,9 @@ var knex =  !process.env.DATABASE_URL ? require('./local_config.js') :
 var db = require('bookshelf')(knex);
 db.plugin('registry');
 
+/**
+ * Columns email, firstName, lastName, shippingAddress and phoneNumber are currently not being used.
+ */
 db.knex.schema.hasTable('users').then(function(exists) {
   if (!exists) {
     db.knex.schema.createTable('users', function (user) {
