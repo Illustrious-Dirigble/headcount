@@ -65,12 +65,10 @@ router.post('/invite-events-fetch', function(req, res, next) {
       .fetch()
       .then(function(model) {
         if (callback !== undefined) {
-          model.attributes.invite_id = ids;
           // console.log("MODEL W/ INVITE_ID FOR CALLBACK!!!" + JSON.stringify(model));
           events.push(model);
           callback(req, res, events);
         } else {
-          model.attributes.invite_id = ids;
           // console.log("MODEL W/ INVITE_ID!!!" + JSON.stringify(model));
           events.push(model);
           // console.log("NO CALLBACK, PUSH TO EVENTS ARRAY" + events);
