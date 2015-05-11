@@ -32,7 +32,7 @@ router.post('/accountupdate', function(req, res, done) {
     });
 });
 
-// Deprecated?
+
 router.post('/checkUser', function(req, res, done) {
   console.log(req.body,'req..body');
   var currentUser = req.body.username;
@@ -42,20 +42,26 @@ router.post('/checkUser', function(req, res, done) {
     .then(function(user){
 
       // console.log('user ID',user.attributes.id);
+     if (user) {
 
-      if (user.attributes.venmoAccessToken && user.attributes.venmoUserId) {
-        res.json({
-          hasVenmoInfo: true,
-          userID: user.attributes.id
-        });
+       if (user.attributes.venmoAccessToken && user.attributes.venmoUserId) {
+         res.json({
+           hasVenmoInfo: true,
+           userID: user.attributes.id
+         });
 
-      } else {
+       } else {
 
-        res.json({
-          hasVenmoInfo: false,
-          userID: user.attributes.id
-        });
-      }
+         res.json({
+           hasVenmoInfo: false,
+           userID: user.attributes.id
+         });
+       }
+
+     } else {
+        res.end();
+     }
+
 
     });
 
