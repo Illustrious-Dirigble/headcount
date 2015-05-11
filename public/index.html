@@ -5,6 +5,7 @@
     <title>headCount</title>
     <link rel="stylesheet" type="text/css" href="styles/style.css" />
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.9.0/angular-material.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <meta name="viewport" content="initial-scale=1" />
   </head>
   <body layout="column" ng-controller="AppCtrl">
@@ -15,18 +16,17 @@
     <script src="/lib/angular-payments/lib/angular-payments.min.js"></script>
 
     <md-toolbar layout="row">
-      <button ng-click="toggleSidenav('left')" hide-gt-sm class="md-icon-button menuBtn">
-        <span class="md-visually-hidden">Menu</span>
-      </button>
+      <div class="toolbar_buttons" flex="5" ng-controller="EventsController" ng-click="createEvent()"><i class="fa fa-plus fa-2x"></i></div>
+      <div class="toolbar_buttons" flex="5" ng-controller="EventsController" ng-click="viewEvents()"><i class="fa fa-users fa-2x"></i></div>
       <h1 class="md-toolbar-tools" layout-align-gt-sm="center">Head Count</h1>
-      <md-button class="md-raised" md-primary href="#/events">Events</md-button>
-      <md-button class="md-raised" md-primary href="#/accounts">Account Panel</md-button>
-      <md-button ng-controller="AuthController" ng-show="auth" class="md-raised md-warn" ng-click="signout()">Signout</md-button>
+      <div class="toolbar_buttons" flex="5" ng-controller="AccountsController" ng-click="accountPanel()"><i class="fa fa-cog fa-2x"></i></div>
+      <div class="toolbar_buttons" flex="5" ng-controller="AuthController" ng-click="signout()"><i class="fa fa-sign-out fa-2x"></i></div>
+      </div>
     </md-toolbar>
     <div layout="row" flex>
         <div layout="column" flex id="content">
             <md-content layout="column" flex class="md-padding">
-
+              <div ng-view></div>
             </md-content>
         </div>
     </div>
@@ -36,7 +36,6 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.9.0/angular-material.min.js"></script>
     <!-- the ng-view directive is where our templates will be loaded into when naviagted to -->
-    <div ng-view></div>
 
     <script src="app/auth/auth.js"></script>
     <script src="app/events/events.js"></script>
