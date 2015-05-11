@@ -42,8 +42,13 @@ angular.module('headcount.events', [])
     thresholdMoney: 100
   };
 
+  $scope.checkEventClick = function() {
+    if ($scope.event.image === undefined) {
+      $window.location.href = "#/events";
+    }
+  };
 
-
+  $scope.checkEventClick();
 
   // Fetch events that were created by you.
 
