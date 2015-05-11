@@ -118,6 +118,8 @@ angular.module('headcount.events', [])
   };
 
   $scope.acceptOrDeclineInvite = function(acceptOrDeclineBoolean) {
+    console.log('accepting invite?', acceptOrDeclineBoolean)
+
     var eventId = this.event.id;
     return $http({
       method: 'POST',

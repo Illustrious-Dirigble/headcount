@@ -4,7 +4,7 @@ var qs = require('querystring');
 var request = require('request');
 
 var venmo = require('./../utils/payments.js');
-var createInvites = require('./../utils/invites.js');
+var attendance = require('./../utils/invites.js');
 var User = require('./../app/models/user.js');
 var Event = require('./../app/models/event.js');
 var Invite = require('./../app/models/invite.js');
@@ -118,55 +118,43 @@ router.get('/users-fetch', function(req, res, next) {
 router.post('/invite-response', function(req, res) {
   var userId = req.session.user_id;
   var eventId = req.body.eventId;
-  var accepted = req.body.accepted;
+  var inviteAcceptedBool = req.body.accepted;
+  console.log('invite status', inviteAcceptedBool)
 
-  new Event({ id: eventId }).fetch({
-    withRelated: ['invites']
-  }).then(function(event) {
-      var thresholdPeople = event.get('thresholdPeople');
-      var committedPeople = event.get('committedPeople');
-      var invites = event.related('invites');
+  attendance.updateInvite(userId, eventId, inviteAcceptedBool, function(updatedInvite) {
+    if (inviteAcceptedBool) {
 
+      console.log('should check event')
 
-      if (committedPeople + 1 === thresholdPeople) {
-        // console.log('pay event creator!');
-      } else {
-        // console.log('increase num of committed people')
-        // event.set('thresholdPeople', thresholdPeople + 1)
-      }  
-           
-        new Invite({ 
-          user_id: userId,
-          event_id: eventId
-        }).fetch().then(function(invite) {
-            
-          if (accepted) {
-            console.log('invite accepted');  
-            
-             invite.save({
-              joined: true,
-              declined: false
-            }).then(function(updatedModel) {
+      new Event({ id: eventId }).fetch({
+        withRelated: ['invites']
+      }).then(function(event) {
 
-              // console.dir(updatedModel.toJSON());
-            });
+          var thresholdPeople = event.get('thresholdPeople');
+          var committedPeople = event.get('committedPeople');
+          var invites = event.related('invites');
 
+          if (committedPeople + 1 === thresholdPeople) {
+            console.log('pay event creator!');
           } else {
-            console.log('invite declined');
-             
-             invite.save({
-              joined: false,
-              declined: true
-            }).then(function(updatedModel) {
-              // console.dir(updatedModel.toJSON());
-            }); 
+            console.log('increasing num of committed people')
+            event.set('committedPeople', committedPeople + 1)
           }
-        });   
 
-    })
+        event.save().then(function(updatedEvent) {
+          console.log('Event updated!');
+          console.dir(updatedEvent.toJSON());
+        })
+      });
 
-  
-  res.end();
+    } else {
+      console.log('Invite declined, do not need to check event');
+    }
+
+
+    res.end();
+  })
+
 });
 
 /**
@@ -202,7 +190,7 @@ router.post('/events-create', function(req, res) {
   }).save()
     .then(function(model){
 
-      createInvites(model.id, inviteeIds, function(invites) {
+      attendance.createInvites(model.id, inviteeIds, function(invites) {
         console.log('Invites created!');
         res.end();
       });
