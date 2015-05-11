@@ -5,7 +5,7 @@ angular.module('headcount.events', [])
   // Stores all events that were created by you or that you were invited to
   $scope.events = [];
   $scope.event = EventsFactory.currentEvent;
-  $scope.hasNotAuthorizedVenmo = EventsFactory.hasNotAuthorizedVenmo
+  $scope.hasNotAuthorizedVenmo = EventsFactory.hasNotAuthorizedVenmo;
   $scope.showEvent = false;
   $scope.showNewEvent = true;
 
@@ -20,7 +20,6 @@ angular.module('headcount.events', [])
   $scope.needInfo = false;
   $scope.hasNotAuthorizedVenmo = true;
 
-  $scope.clickedEvent = {};
   $scope.display = false;
 
   $scope.displayNewEvent = function() {
