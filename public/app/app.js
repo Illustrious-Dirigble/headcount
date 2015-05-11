@@ -50,6 +50,12 @@ angular.module('headcount', [
       $mdSidenav(menuId).toggle();
     };
   }])
+.factory('EventsFactory', function ($rootScope) {
+  var eventServices = {};
+
+  eventServices.currentEvent = {};
+  return eventServices;
+})
 .factory('AttachTokens', function ($window, $location) {
   // this is an $httpInterceptor
   // its job is to stop all out going request

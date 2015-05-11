@@ -2,15 +2,25 @@ body {
   margin: 0;
   margin-top: 10px;
   padding: 50px;
-  font: 14px "Arial", Helvetica, sans-serif;
+  font: 14px "Arial";
 }
 
 h1 {
-  font-family: "Tahoma";
+  font-family: "Arial";
   margin-bottom: 10px;
 }
 
+.title {
+  font-family: "Arial";
+  color: white;
+  margin-top: -5px;
+  margin-top: 10px;
+  margin-left: 225px;
+  font-size: 36px;
+}
+
 .auth_title {
+  margin-bottom: 25px;
   margin-left: 115px;
 }
 
@@ -25,9 +35,10 @@ h1 {
   height: 30px;
   width: 75px;
   background-color: #33CC33;
+  color: white;
   border: 1px solid white;
   border-radius: 5px;
-  color: white;
+  margin-bottom: 5px;
 }
 
 .oauth_button {

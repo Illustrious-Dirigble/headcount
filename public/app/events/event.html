@@ -8,12 +8,9 @@
         </div>
       </div>
       <span> Cost of event: ${{ event.thresholdMoney / event.thresholdPeople | number:2 }} </span> <br />
-      <span> Remaining money needed: ${{ event.thresholdMoney - event.committedMoney | number:2}} </span>
+      <span> Remaining money needed: ${{ event.thresholdMoney - event.committedMoney | number:2}} </span> <br />
       <button ng-disabled="{{hasNotAuthorizedVenmo}}" ng-click="checkStripe(event); acceptOrDeclineInvite(true)"> JOIN </button>
       <button ng-disabled="{{hasNotAuthorizedVenmo}}" ng-click="acceptOrDeclineInvite(false)"> DECLINE </button>
-      <span class="selector"> Congrats, {{ currentUser }}, you have confirmed your place for {{ lastEvent }} thrown by {{ owner }} !! </span> <br />
-      <span class="selector" ng-show="triggerFunding"> Congrats, {{ currentUser }}, the {{ lastEvent }} thrown by {{ owner }} is officially HAPPENING !!!</span>
-      <button class="selector"  ng-click="confirm($event)">  CONFIRM? </button>
     </div>
 
 
