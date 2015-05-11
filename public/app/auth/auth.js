@@ -17,9 +17,11 @@ angular.module('headcount.auth', [])
       data: $scope.user
     })
     .then(function (resp) {
-      console.log('Successfully SIGNED IN, your token is... ',resp.config.data.username);
       $window.sessionStorage.setItem('user', resp.config.data.username);
       $window.location.href = "/";
+    })
+    .catch(function(error) {
+      $window.alert("Incorrect login, please try again!")
     });
   };
 
@@ -32,9 +34,11 @@ angular.module('headcount.auth', [])
       data: $scope.user
     })
     .then(function (resp) {
-      console.log('Successfully SIGNED UP, your token is... ',resp.config.data.username);
-      $window.sessionStorage.setItem('user', resp.config.data.username);
-      $window.location.href = "/";
+        $window.sessionStorage.setItem('user', resp.config.data.username);
+        $window.location.href = "/";
+    })
+    .catch(function(error) {
+      $window.alert("Username already exists, please try again!");
     });
   };
 
@@ -46,6 +50,9 @@ angular.module('headcount.auth', [])
     return $http({
       method: 'GET',
       url: '/auth/logout'
+    })
+    .then(function(resp) {
+      $window.alert("You've signed out!");
     });
   };
 
