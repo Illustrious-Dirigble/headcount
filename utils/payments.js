@@ -1,7 +1,9 @@
 var qs = require('querystring');
 var request = require('request');
+var User = require('./../app/models/user.js');
 
-var venmoEndpoint = 'https://api.venmo.com/v1/payments'
+// var venmoEndpoint = 'https://api.venmo.com/v1/payments'
+var venmoEndpoint = 'https://sandbox-api.venmo.com/v1/payments';
 
 /**
  * Takes access token of of user who created event, user id of paying user, note (required, but can be any string), and amount (in dollars --> 1.50).
@@ -26,18 +28,22 @@ var payEventCreator = function(payingAccessToken, receivingUserId, note, amount,
 
 };
 
-var payOutEvent = function(payingUserIds, receivingUserVenmoId, callback) {
+var payOutEvent = function(payingUserIds, receivingUserVenmoId, note, amount, callback) {
   var payments = [];
+
+  console.log('paying user ids:', payingUserIds);
 
   var inner = function() {
 
     if (payingUserIds[0]) {
       new User({
-        id: payingUserIds[0]
+        id: payingUserIds.shift()
       }).fetch().then(function(user) {
 
+        console.log('paying user:', user)
+
         var accessToken = user.get('venmoAccessToken');
-        payEventCreator(accessToken, receivingUserVenmoId, function(payment) {
+        payEventCreator(accessToken, receivingUserVenmoId, note, amount, function(payment) {
           payments.push(payment);
           inner();
         })
@@ -52,4 +58,4 @@ var payOutEvent = function(payingUserIds, receivingUserVenmoId, callback) {
 
 };
 
-
+module.exports = payOutEvent;
