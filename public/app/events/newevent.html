@@ -1,55 +1,107 @@
 
 <div class="newUserEvent" >
-      <form ng-model="newEvent" ng-submit="createEvent()">
-        Title:<br />
-        <input type="text" name="title" ng-model="newEvent.title" required>
-        Description: <br />
-        <input type="text" name="description" ng-model="newEvent.description" required>
-        How much money needed? <br />
-        <input type="number" name="thresholdMoney" placeholder="How much $ will it cost?" ng-model="newEvent.thresholdMoney" required>
-        When will this event expire? <br />
-        <input type="date" name="expiration" ng-model="newEvent.expiration" required>
-        How many people are going? <br />
-        <input type="number" name="thresholdPeople" ng-model="newEvent.thresholdPeople" required>
-        Image url: <br />
-        <input type="text" name="image" placeholder="Paste any image for your event here" ng-model="newEvent.image" required> <br />
-        <!-- <input type="text" ng-click="inviteClick = true" ng-model="inviteUser" placeholder="Who's invited? Start typing their username..."> -->
-        <md-button class="md-accent md-raised md-hue-1" ng-click="inviteClick = true">Invite Friends!</md-button>
+  <div layout="column">
+  <md-content layout-padding>
+    <form name="userForm" ng-model="newEvent" ng-submit="createEvent()">
+      <div layout layout-sm="column">
+        <md-input-container style="width:50%">
+            <label>Title</label>
+            <input ng-model="newEvent.title" >
+          </md-input-container>
+        <md-input-container flex>
+          <label>Expiration Date</label>
+          <input type="date" ng-model="newEvent.expiration">
+        </md-input-container>
+      </div>
+      <div layout layout-sm="column">
+        <md-input-container flex>
+          <label>Amount</label>
+          <input ng-model="newEvent.thresholdMoney">
+        </md-input-container>
+        <md-input-container flex>
+          <label>Numer of People</label>
+          <input ng-model="newEvent.thresholdPeople">
+        </md-input-container>
+      </div>
+      <md-input-container flex>
+        <label>Description</label>
+        <textarea ng-model="newEvent.description" columns="1" md-maxlength="400"></textarea>
+      </md-input-container>
+      <md-input-container flex>
+        <label>Image URL</label>
+        <input ng-model="newEvent.image" columns="1"</input>
+      </md-input-container>
+      <md-input-container flex>
+        <label>Address</label>
+        <input ng-model="user.address">
+      </md-input-container>
+      <md-input-container md-no-float>
+        <input ng-model="user.address2" placeholder="Address 2">
+      </md-input-container>
+      <div layout layout-sm="column">
+        <md-input-container flex>
+          <label>City</label>
+          <input ng-model="user.city">
+        </md-input-container>
+        <md-input-container flex>
+          <label>State</label>
+          <input ng-model="user.state">
+        </md-input-container>
+        <md-input-container flex>
+          <label>Postal Code</label>
+          <input ng-model="user.postalCode">
+        </md-input-container>
+      </div>
+  </md-content>
+  <!--
+  <form ng-model="newEvent" ng-submit="createEvent()">
+    Title:<br />
+    <input type="text" name="title" ng-model="newEvent.title" required>
+    Description: <br />
+    <input type="text" name="description" ng-model="newEvent.description" required>
+    How much money needed? <br />
+    <input type="number" name="thresholdMoney" placeholder="How much $ will it cost?" ng-model="newEvent.thresholdMoney" required>
+    When will this event expire? <br />
+    <input type="date" name="expiration" ng-model="newEvent.expiration" required>
+    How many people are going? <br />
+    <input type="number" name="thresholdPeople" ng-model="newEvent.thresholdPeople" required>
+    Image url: <br />
+    <input type="text" name="image" placeholder="Paste any image for your event here" ng-model="newEvent.image" required> <br />
+  -->
 
-        <div ng-show="inviteClick">
-            <div ng-controller="EventsController as ctrl" layout="column">
-              <md-content class="md-padding autocomplete" layout="column">
-                <md-contact-chips
-                    ng-model="ctrl.contacts"
-                    md-contacts="ctrl.querySearch($query)"
-                    md-contact-name="name"
-                    md-contact-image="image"
-                    md-require-match
-                    filter-selected="ctrl.filterSelected"
-                    placeholder="To">
-                </md-contact-chips>
-                <md-list class="fixedRows">
-                  <md-subheader class="md-no-sticky">Contacts</md-subheader>
-                  <md-list-item class="md-2-line contact-item" ng-repeat="(index, contact) in ctrl.allContacts"
-                      ng-if="ctrl.contacts.indexOf(contact) < 0">
-                    <img ng-src="{{contact.image}}" class="md-avatar" alt="{{contact.name}}" />
-                    <div class="md-list-item-text compact">
-                      <h3>{{contact.name}}</h3>
-                    </div>
-                  </md-list-item>
-                  <md-list-item class="md-2-line contact-item selected" ng-repeat="(index, contact) in ctrl.contacts">
-                    <img ng-src="{{contact.image}}" class="md-avatar" alt="{{contact.name}}" />
-                    <div class="md-list-item-text compact">
-                      <h3>{{ contact.id }}</h3>
-                    </div>
-                  </md-list-item>
-                </md-list>
-              </md-content><!-- 
-            <span id="inviteBox" ng-repeat="user in userList | filter:inviteUser" ng-click="addInvite(user)"> {{ user[0] }} </span> -->
-        </div>
-        
-        <input type="submit" name="Submit">
-        <button>Create Event</button>
-      </form>
+  <div ng-controller="EventsController as ctrl" layout="column">
+    <md-content class="md-padding autocomplete" layout="column">
+    <md-contact-chips
+      ng-model="ctrl.contacts"
+      md-contacts="ctrl.querySearch($query)"
+      md-contact-name="name"
+      md-contact-image="image"
+      md-require-match
+      filter-selected="ctrl.filterSelected"
+      placeholder="To">
+    </md-contact-chips>
+    <md-list class="fixedRows">
+    <md-subheader class="md-no-sticky">Contacts</md-subheader>
+    <md-list-item class="md-2-line contact-item invitees" data-id="{{contact.id}}" ng-repeat="(index, contact) in ctrl.allContacts"
+                                                 ng-if="ctrl.contacts.indexOf(contact) < 0">
+    <img ng-src="{{contact.image}}" class="md-avatar" alt="{{contact.name}}" />
+    <div class="md-list-item-text compact">
+      <h3>{{contact.name}}</h3>
     </div>
+    </md-list-item>
+    <md-list-item ng-hide="true" class="md-2-line contact-item selected" ng-repeat="(index, contact) in ctrl.contacts">
+    <img ng-hide="true" ng-src="{{contact.image}}" class="md-avatar" alt="{{contact.name}}" />
+    <div ng-hide="true" class="md-list-item-text compact">
+      <h3 ng-hide="true">{{ contact.id }}</h3>
+    </div>
+    </md-list-item>
+    </md-list>
+    </md-content><!--
+    <span id="inviteBox" ng-repeat="user in userList | filter:inviteUser" ng-click="addInvite(user)"> {{ user[0] }} </span> -->
+
+     <section layout="row" layout-sm="column" layout-align="center center">
+    <md-button type="submit" class="md-raised md-primary">Create</md-button>
+     </section>
+  </form>
   </div>
+</div>

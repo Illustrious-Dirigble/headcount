@@ -3,6 +3,18 @@ angular.module('headcount.events', [])
 .controller('EventsController', function ($scope, Links, $http, $window, $timeout, $q, EventsFactory) {
 
   // Stores all events that were created by you or that you were invited to
+$scope.user = {
+      title: '',
+      email: '',
+      firstName: '',
+      lastName: '' ,
+      company: '' ,
+      address: '' ,
+      city: '' ,
+      state: '' ,
+      description: '',
+      postalCode : ''
+    };
   $scope.events = [];
   $scope.event = EventsFactory.currentEvent;
   $scope.hasNotAuthorizedVenmo = EventsFactory.hasNotAuthorizedVenmo;
@@ -174,9 +186,8 @@ angular.module('headcount.events', [])
   // Creates an event with $scope.newEvent data
 
   $scope.createEvent = function() {
-    // console.log('invited', $scope.invitedUsers);
-
-    console.log($('.selected .compact'));
+    //console.log('invited',$scope.invitedUsers);
+    //console.log($('.selected .compact'));
     var inv = [];
     var list = $('.selected .compact');
     for (var i = 0; i < list.length; i++){
@@ -198,7 +209,7 @@ angular.module('headcount.events', [])
   };
 
   $scope.acceptOrDeclineInvite = function(acceptOrDeclineBoolean, $event) {
-    console.log('accepting invite?', acceptOrDeclineBoolean)
+    console.log('accepting invite?', acceptOrDeclineBoolean);
 
     var eventId = this.event.id;
     return $http({
@@ -273,7 +284,11 @@ angular.module('headcount.events', [])
     });
   };
 
+<<<<<<< HEAD
   
+=======
+  $scope.checkVenmoDetails();
+>>>>>>> Materialize create event page
 
   $scope.showDetails = function(){
     if ($scope.showCreate === true){
