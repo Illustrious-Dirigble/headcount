@@ -30,21 +30,19 @@ var payEventCreator = function(payingAccessToken, receivingUserId, note, amount,
 
 var payOutEvent = function(payingUserIds, receivingUserVenmoId, note, amount, callback) {
   var payments = [];
-
-  console.log('paying user ids:', payingUserIds);
+  var failsafeCounter = 0;
 
   var inner = function() {
 
-    if (payingUserIds[0]) {
+    if (payingUserIds[0] && failsafeCounter < payingUserIds.length) {
       new User({
         id: payingUserIds.shift()
       }).fetch().then(function(user) {
 
-        console.log('paying user:', user)
-
         var accessToken = user.get('venmoAccessToken');
         payEventCreator(accessToken, receivingUserVenmoId, note, amount, function(payment) {
           payments.push(payment);
+          failsafeCounter++;
           inner();
         })
       })
