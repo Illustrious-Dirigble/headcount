@@ -249,41 +249,6 @@ angular.module('headcount.events', [])
     $event.thresholdMoney = cashNeeded - (cashPerPerson * numCommitted);
   };
 
-  $scope.checkStripe = function($event){
-    var currentUser = sessionStorage.getItem('user');
-    return $http({
-      method: 'POST',
-      url : '/users/checkUser',
-      data : {'username': currentUser}
-    })
-    .then(function(resp){
-      $scope.lastEvent = $event.title;
-      $scope.owner = $event.owner;
-
-      // change database entries:
-        // increase committed people
-      if ($event.thresholdPeople > 1){
-        $event.thresholdMoney -= $event.thresholdMoney/$event.thresholdPeople;
-        $event.thresholdPeople --;
-      } else if ($event.thresholdPeople === 1){
-        // threshold reached! trigger funding
-        $scope.triggerFunding = true;
-        $event.thresholdMoney -= $event.thresholdMoney/$event.thresholdPeople;
-        $event.thresholdPeople --;
-      }
-      // console.log($event.$$hashKey);
-      // $scope.buttonClicked.($event.$$hashkey) = true;
-      //
-      console.log(resp.data);
-      console.log('checking')
-      if (resp.data.hasStripeId === true){
-        $scope.hasStripe = true;
-      } else {
-        $scope.needInfo = true;
-      }
-    });
-  };
-
   $scope.checkVenmoDetails = function(){
     console.log('the event!')
 
