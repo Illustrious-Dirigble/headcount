@@ -4,7 +4,8 @@ angular.module('headcount', [
   'headcount.accounts',
   'headcount.auth',
   'ngRoute',
-  'angularPayments'
+  'angularPayments',
+  'ngMaterial'
 ])
 .config(function($routeProvider, $httpProvider) {
   $routeProvider
@@ -36,6 +37,12 @@ angular.module('headcount', [
     // of interceptors. Think of it like middleware for your ajax calls
     $httpProvider.interceptors.push('AttachTokens');
 })
+.controller('AppCtrl', ['$scope', '$mdSidenav', function($scope, $mdSidenav){
+  $scope.toggleSidenav = function(menuId) {
+    $mdSidenav(menuId).toggle();
+  };
+ 
+}])
 .factory('AttachTokens', function ($window, $location) {
   // this is an $httpInterceptor
   // its job is to stop all out going request
