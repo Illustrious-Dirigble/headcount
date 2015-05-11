@@ -1,21 +1,7 @@
-<div id='container'>
-  <!-- Your html here -->
-
-  <nav class="navigation">
-    <ul>
-      <li>
-          <a class="selected" href="#/events">Events</a>
-      </li>
-       <li>
-          <a href="#/accounts">Account Panel</a>
-      </li>
-    </ul>
-  </nav>
-</div>
 <input type='text' ng-model='search' placeholder='Search events' ng-show="!showDetails">
 
 <!-- DISPLAY EVENTS -->
-
+<md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
 <span ng-show="!events.length">No events available, get invited or create an event to see some!</span>
 
 <div class="links" ng-show="events.length">
@@ -30,7 +16,7 @@
       <!-- <img src="assets/redirect_icon.png"> -->
       <!-- <img width="75px" height="75px" src="{{event.image}}" /> -->
       <span> <strong> {{ event.title }} </strong> </span> <br />
-      <span> Expiration: {{ event.expiration }} </span> <br />
+      <span> Expiration: {{ event.expiration |  date : format : timezone}} </span> <br />
       <span> People needed: {{ event.thresholdPeople }} </span>
     </div>
     <div ng-show="seeMore" ng-model="clickedEvent">
@@ -57,7 +43,7 @@
 <br />
     How your event will look:
     <div class="link" >
-      <img width="100px" height="100px" src="{{ newEvent.image }}" />
+      <img width="180px" height="100px" src="{{ newEvent.image }}" />
       <span> <strong> {{ newEvent.title }} </strong> </span> <br />
       <span> {{ newEvent.description }} </span><br />
       <span> Money needed: ${{ newEvent.thresholdMoney }} </span><br />
@@ -109,3 +95,4 @@
   </div>
 
 </span>
+</md-sidenav>
