@@ -120,26 +120,52 @@ router.post('/invite-response', function(req, res) {
   var eventId = req.body.eventId;
   var accepted = req.body.accepted;
 
-  if (accepted) {
-    console.log('invite accepted');  
-        new Event({ id: eventId }).fetch({
-          withRelated: ['invites']
-        }).then(function(event) {
-            var thresholdPeople = event.get('thresholdPeople');
-            var committedPeople = event.get('committedPeople');
-            var invites = event.related('invites');
+  new Event({ id: eventId }).fetch({
+    withRelated: ['invites']
+  }).then(function(event) {
+      var thresholdPeople = event.get('thresholdPeople');
+      var committedPeople = event.get('committedPeople');
+      var invites = event.related('invites');
 
-            if (committedPeople + 1 === thresholdPeople) {
-              console.log('pay event creator!');
-            } else {
-              console.log('increase num of committed people')
-              // event.set('thresholdPeople', thresholdPeople + 1)
-            }         
-          })
-  } else {
-    console.log('invite declined');
-    // TODO: Decline Invite
-  }
+
+      if (committedPeople + 1 === thresholdPeople) {
+        console.log('pay event creator!');
+      } else {
+        console.log('increase num of committed people')
+        // event.set('thresholdPeople', thresholdPeople + 1)
+      }  
+           
+        new Invite({ 
+          user_id: userId,
+          event_id: eventId
+        }).fetch().then(function(invite) {
+            
+          if (accepted) {
+            console.log('invite accepted');  
+            
+             invite.save({
+              joined: true,
+              declined: false
+            }).then(function(updatedModel) {
+
+              console.dir(updatedModel.toJSON());
+            });
+
+          } else {
+            console.log('invite declined');
+             
+             invite.save({
+              joined: false,
+              declined: true
+            }).then(function(updatedModel) {
+              console.dir(updatedModel.toJSON());
+            }); 
+          }
+        });   
+
+    })
+
+  
   res.end();
 });
 
