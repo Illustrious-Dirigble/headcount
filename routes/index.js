@@ -212,7 +212,7 @@ router.post('/invite-response', function(req, res) {
  * Logs out the created invites when done.
  */
 router.post('/events-create', function(req, res) {
-
+  console.log(req.body,'req.body');
   var eventData = req.body;
   var inviteNum = eventData.invited.length;
   var inviteeIds = [];

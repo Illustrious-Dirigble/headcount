@@ -141,7 +141,7 @@ angular.module('headcount.events', [])
       function loadContacts() {
         var contacts = [];
         for (var i = 0; i < $scope.userList.length; i++){
-          contacts.push($scope.userList[i][0]);
+          contacts.push([$scope.userList[i][0],$scope.userList[i][1] ]);
         }
         // var contacts = [
         //   'Marina Augustine',
@@ -162,9 +162,10 @@ angular.module('headcount.events', [])
         //   return contact;
         // }));
         return contacts.map(function (c, index) {
-          var cParts = c.split(' ');
+          var cParts = c[0].split(' ');
           var contact = {
-            name: c,
+            name: c[0],
+            id: c[1],
             image: 'http://lorempixel.com/50/50/people?' + index
           };
           contact._lowername = contact.name.toLowerCase();
@@ -178,6 +179,16 @@ angular.module('headcount.events', [])
   // Creates an event with $scope.newEvent data
 
   $scope.createEvent = function() {
+    console.log('invited',$scope.invitedUsers);
+    console.log($('.selected .compact'));
+    var inv = [];
+    var list = $('.selected .compact');
+    for (var i = 0; i < list.length; i++){
+      inv.push(list[i].children[0].innerText);
+    }
+    console.log('inv',inv);
+    $scope.invitedUsers = inv;
+    debugger;
     $scope.newEvent.invited = $scope.invitedUsers;
     return $http({
       method: 'POST',
