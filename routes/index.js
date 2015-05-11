@@ -129,9 +129,9 @@ router.post('/invite-response', function(req, res) {
 
 
       if (committedPeople + 1 === thresholdPeople) {
-        console.log('pay event creator!');
+        // console.log('pay event creator!');
       } else {
-        console.log('increase num of committed people')
+        // console.log('increase num of committed people')
         // event.set('thresholdPeople', thresholdPeople + 1)
       }  
            
@@ -148,7 +148,7 @@ router.post('/invite-response', function(req, res) {
               declined: false
             }).then(function(updatedModel) {
 
-              console.dir(updatedModel.toJSON());
+              // console.dir(updatedModel.toJSON());
             });
 
           } else {
@@ -158,7 +158,7 @@ router.post('/invite-response', function(req, res) {
               joined: false,
               declined: true
             }).then(function(updatedModel) {
-              console.dir(updatedModel.toJSON());
+              // console.dir(updatedModel.toJSON());
             }); 
           }
         });   
