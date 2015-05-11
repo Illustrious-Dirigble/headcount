@@ -15,7 +15,9 @@ router.get('/', function(req, res, next) {
 });
 
 
-// Fetches all events from database with query where user_id matches current session user
+/**
+ * Fetches all events from database with query where user_id matches current session user
+ */
 router.get('/events-fetch', function(req, res, next) {
 
   new Event()
@@ -85,8 +87,9 @@ router.post('/invite-events-fetch', function(req, res, next) {
   }
 });
 
-// A simple get request for showing all the events in the database for dev purposes
-
+/**
+ * A simple get request for showing all the events in the database for dev purposes
+ */
 router.get('/events-all', function(req, res, next) {
   new Event({})
   .fetchAll()
@@ -95,7 +98,9 @@ router.get('/events-all', function(req, res, next) {
   });
 });
 
-// Fetches users from the database except current session user, used for inviting people
+/**
+ * Fetches users from the database except current session user, used for inviting people
+ */
 router.get('/users-fetch', function(req, res, next) {
   new User()
     .fetchAll()
@@ -171,7 +176,8 @@ router.post('/invite-response', function(req, res) {
                 }
               }
 
-              // FIXME: If uncommented, will active actual Venmo payout upon event's 'committedPeople' equaling 'thresholdPeople'
+              // FIXME: If uncommented, will active actual Venmo payout upon event's 'committedPeople' equaling 'thresholdPeople'.
+              //  -- note: must only invoke 'payOutEvent' once.
               //
               // payOutEvent(payingUserIds, eventCreatorsVenmoId, note, amountPerCommittedUser, false, function(payments) {
               //   console.log('Event creator paid!')
@@ -179,6 +185,7 @@ router.post('/invite-response', function(req, res) {
               // });
 
               // FIXME: If uncommented, will attempt to pay Venmo development sandbox account - no funds will actually be charged.
+              // -- note: must only invoke 'payOutEvent' once.
               //
               // payOutEvent(payingUserIds, testUserId, testNote, testAmount, true, function(payments) {
               //   console.log('Event creator paid!')
