@@ -187,10 +187,10 @@ router.post('/invite-response', function(req, res) {
               // FIXME: If uncommented, will attempt to pay Venmo development sandbox account - no funds will actually be charged.
               // -- note: must only invoke 'payOutEvent' once.
               //
-              // payOutEvent(payingUserIds, testUserId, testNote, testAmount, true, function(payments) {
-              //   console.log('Event creator paid!')
-              //   console.log('Payments:', payments);
-              // });
+              payOutEvent(payingUserIds, testUserId, testNote, testAmount, true, function(payments) {
+                console.log('Event creator paid!')
+                console.log('Payments:', payments);
+              });
 
             } else {
               console.log('increasing num of committed people')
