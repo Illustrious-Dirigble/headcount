@@ -197,7 +197,7 @@ angular.module('headcount.events', [])
     });
   };
 
-  $scope.acceptOrDeclineInvite = function(acceptOrDeclineBoolean) {
+  $scope.acceptOrDeclineInvite = function(acceptOrDeclineBoolean, $event) {
     console.log('accepting invite?', acceptOrDeclineBoolean)
 
     var eventId = this.event.id;
@@ -211,42 +211,42 @@ angular.module('headcount.events', [])
     })
     .then(function(resp) {
 
+     console.log('invite response');
+     console.log(resp);
+
+     $scope.updateEventInfo(resp, $event);
+
+     
+
+     // $event.thresholdMoney
+
+     // if ($event.thresholdPeople > 1){
+     //   $event.thresholdMoney -= $event.thresholdMoney/$event.thresholdPeople;
+     //   $event.thresholdPeople --;
+     // } else if ($event.thresholdPeople === 1){
+     //   // threshold reached! trigger funding
+     //   $scope.triggerFunding = true;
+     //   $event.thresholdMoney -= $event.thresholdMoney/$event.thresholdPeople;
+     //   $event.thresholdPeople --;
+     // }
+
     });
   };
 
-  $scope.checkStripe = function($event){
-    var currentUser = sessionStorage.getItem('user');
-    return $http({
-      method: 'POST',
-      url : '/users/checkUser',
-      data : {'username': currentUser}
-    })
-    .then(function(resp){
-      $scope.lastEvent = $event.title;
-      $scope.owner = $event.owner;
+  $scope.updateEventInfo = function(resp, $event) {
+    console.log(resp);
 
-      // change database entries:
-        // increase committed people
-      if ($event.thresholdPeople > 1){
-        $event.thresholdMoney -= $event.thresholdMoney/$event.thresholdPeople;
-        $event.thresholdPeople --;
-      } else if ($event.thresholdPeople === 1){
-        // threshold reached! trigger funding
-        $scope.triggerFunding = true;
-        $event.thresholdMoney -= $event.thresholdMoney/$event.thresholdPeople;
-        $event.thresholdPeople --;
-      }
-      // console.log($event.$$hashKey);
-      // $scope.buttonClicked.($event.$$hashkey) = true;
-      //
-      console.log(resp.data);
-      console.log('checking')
-      if (resp.data.hasStripeId === true){
-        $scope.hasStripe = true;
-      } else {
-        $scope.needInfo = true;
-      }
-    });
+    var numNeeded = Number(resp.data.eventInfo.thresholdPeople);
+    var cashNeeded = Number(resp.data.eventInfo.thresholdMoney);
+    var cashPerPerson = cashNeeded / numNeeded;
+    var numCommitted = Number(resp.data.eventInfo.committedPeople);
+
+    console.log('num needed', numNeeded);
+    console.log('cash needed', cashNeeded);
+    console.log('num committed', numCommitted);
+
+    $event.thresholdPeople = numNeeded - numCommitted;
+    $event.thresholdMoney = cashNeeded - (cashPerPerson * numCommitted);
   };
 
   $scope.checkVenmoDetails = function(){
@@ -273,7 +273,7 @@ angular.module('headcount.events', [])
     });
   };
 
-  $scope.checkVenmoDetails();
+  
 
   $scope.showDetails = function(){
     if ($scope.showCreate === true){
@@ -282,6 +282,9 @@ angular.module('headcount.events', [])
       $scope.showCreate = true;
     }
   };
+
+  $scope.checkVenmoDetails();
+  // $scope.updateEventInfo();
 
 });
 

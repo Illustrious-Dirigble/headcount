@@ -200,6 +200,10 @@ router.post('/invite-response', function(req, res) {
 
         event.save().then(function(updatedEvent) {
           console.log('Event updated!');
+          console.log(updatedEvent);
+          eventInfo = updatedEvent.attributes;
+          res.json({eventInfo: eventInfo})
+
         })
       });
 
@@ -207,7 +211,7 @@ router.post('/invite-response', function(req, res) {
       console.log('Invite declined, do not need to check event');
     }
 
-    res.end();
+    
   });
 
 });

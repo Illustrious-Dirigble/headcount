@@ -10,11 +10,11 @@
         <div id="{{ 'event-' + $index }}" class="info" >
           <span> <strong> {{ link.title }} </strong> </span> <br />
           <span> Expiration: {{ link.expiration |  date : format : timezone}} </span> <br />
-          <span> People needed: {{ link.thresholdPeople }} </span>
+          <span> People needed: {{ link.thresholdPeople - link.committedPeople }} </span>
         </div>
       </div>
-      <span> Cost of link: ${{ link.thresholdMoney / link.thresholdPeople | number:2 }} </span> <br />
-      <span> Remaining money needed: ${{ link.thresholdMoney - link.committedMoney | number:2}} </span>
+      <span> Cost per person: ${{ link.thresholdMoney / link.thresholdPeople | number:2 }} </span> <br />
+      <span> Remaining money needed: ${{ link.thresholdMoney - (link.committedPeople * (link.thresholdMoney / link.thresholdPeople)) | number:2}} </span>
     </div>
   </a>
 

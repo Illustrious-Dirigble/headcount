@@ -9,8 +9,8 @@
       </div>
       <span> Cost per person: ${{ event.thresholdMoney / event.thresholdPeople | number:2 }} </span> <br />
       <span> Remaining money needed: ${{ event.thresholdMoney - event.committedMoney | number:2}} </span> <br />
-      <button ng-model="hasNotAuthorizedVenmo" ng-disabled="hasNotAuthorizedVenmo" ng-click="checkStripe(event); acceptOrDeclineInvite(true)"> JOIN </button>
-      <button ng-model="hasNotAuthorizedVenmo" ng-disabled="hasNotAuthorizedVenmo" ng-click="acceptOrDeclineInvite(false)"> DECLINE </button>
+      <button ng-model="hasNotAuthorizedVenmo" ng-disabled="hasNotAuthorizedVenmo" ng-click="acceptOrDeclineInvite(true, event)"> JOIN </button>
+      <button ng-model="hasNotAuthorizedVenmo" ng-disabled="hasNotAuthorizedVenmo" ng-click="acceptOrDeclineInvite(false, event)"> DECLINE </button>
     </div>
 
 
