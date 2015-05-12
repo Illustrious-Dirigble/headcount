@@ -161,6 +161,7 @@ router.post('/invite-response', function(req, res) {
               var amountPerCommittedUser = (totalMoney / thresholdPeople);
               var note = 'Headcount charge for ' + title;
 
+              // Test info
               var testUserId = '145434160922624933';
               var testNote = 'paid with Headcount!';
               var testAmount = '0.10';
