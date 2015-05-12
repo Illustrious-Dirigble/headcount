@@ -27,25 +27,46 @@ router.post('/accountupdate', function(req, res, done) {
 
 
 router.post('/checkUser', function(req, res, done) {
-  console.log(req.body,'req..body');
+  // console.log(req.body,'req..body');
   var currentUser = req.body.username;
   // check DB to see if current user has stripe information
+
+
   new User({username: currentUser})
-    .fetch()
+    .fetch({
+      withRelated: ['invites']
+    })
     .then(function(user){
+
+      // console.log('current invites', user.related('invites').models);
+      var inviteModels = user.related('invites').models;
+
+      var currentInvites = [];
+      for (var i = 0; i < inviteModels.length; i++) {
+
+        if (inviteModels[i].attributes.joined || inviteModels[i].attributes.declined) {
+          currentInvites.push(inviteModels[i].attributes.event_id)
+        }
+      }
+
+      // console.log(currentInvites);
+      
+
      if (user) {
 
        if (user.attributes.venmoAccessToken && user.attributes.venmoUserId) {
          res.json({
            hasVenmoInfo: true,
-           userID: user.attributes.id
+           userID: user.attributes.id,
+           relatedEventIds: currentInvites
          });
 
        } else {
 
          res.json({
            hasVenmoInfo: false,
-           userID: user.attributes.id
+           userID: user.attributes.id,
+           relatedEventIds: currentInvites
          });
        }
 

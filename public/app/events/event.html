@@ -9,10 +9,7 @@
       </div>
       <span class="panel body"> Cost per person: ${{ event.thresholdMoney / event.thresholdPeople | number:2 }} </span> <br />
       <span class="panel body"> Remaining money needed: ${{ event.thresholdMoney - event.committedMoney | number:2}} </span> <br />
-      <md-button class="md-raised md-primary" ng-model="hasNotAuthorizedVenmo" ng-disabled="hasNotAuthorizedVenmo" ng-click="acceptOrDeclineInvite(true, event)"> JOIN </md-button>
-      <md-button class="md-raised md-primary"ng-model="hasNotAuthorizedVenmo" ng-disabled="hasNotAuthorizedVenmo" ng-click="acceptOrDeclineInvite(false, event)"> DECLINE </md-button>
+      <md-button class="md-raised md-primary" ng-model="shouldNotBeClickable" ng-disabled="shouldNotBeClickable" ng-click="acceptOrDeclineInvite(true, event); shouldNotBeClickable = true"> JOIN </md-button>
+      <md-button class="md-raised md-primary"ng-model="shouldNotBeClickable" ng-disabled="shouldNotBeClickable" ng-click="acceptOrDeclineInvite(false, event); shouldNotBeClickable = true"> DECLINE </md-button>
     </div>
-
-
-
 

@@ -59,7 +59,7 @@ angular.module('headcount.accounts', [])
         console.log('You have not authorized your Venmo account yet!');
       }
 
-      $scope.hasNotAuthorizedVenmo = !hasVenmoInfo;
+      $scope.shouldNotBeClickable = !hasVenmoInfo;
     });
   };
 
