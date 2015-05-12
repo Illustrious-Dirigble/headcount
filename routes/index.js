@@ -261,7 +261,8 @@ router.post('/authorize', function(req, res) {
   var scopes = 'make_payments%20access_feed%20access_profile%20access_email%20access_phoneaccess_balance%20access_friends';
 
   var redirect_uri = !process.env.DATABASE_URL ? 'http://localhost:5000/oauth' :
-  'http://headcount26.herokuapp.com/oauth';
+  //'http://headcount26.herokuapp.com/oauth';
+  'http://www.theheadcount.com/oauth';
 
   var authorize = 'https://api.venmo.com/v1/oauth/authorize?client_id=' + clientId + '&scope=' + scopes + '&response_type=code' + '&state=' + username + '&redirect_uri=' + redirect_uri;
 
