@@ -100,7 +100,7 @@
     <span id="inviteBox" ng-repeat="user in userList | filter:inviteUser" ng-click="addInvite(user)"> {{ user[0] }} </span> -->
 
      <section layout="row" layout-sm="column" layout-align="center center">
-    <md-button type="submit" class="md-raised md-primary">Create</md-button>
+    <md-button type="submit" ng-disabled="hasNotAuthorizedVenmo" class="md-raised md-primary">Create</md-button>
      </section>
   </form>
   </div>
