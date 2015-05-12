@@ -7,6 +7,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var passport     = require('passport');
 var session      = require('express-session');
+var amazon       = require('./../utils/amazon_api.js')
 
 // Routes
 var routes       = require('./../routes/index');
@@ -138,4 +139,14 @@ app.use(function(err, req, res, next) {
   res.end(err.message);
 });
 
+
+amazon.execute('ItemSearch', {
+  'SearchIndex': 'Books',
+  'Keywords': 'harry potter',
+  // 'ResponseGroup': 'ItemAttributes'
+}, function(err, results) { // you can add a third parameter for the raw xml response, "results" here are currently parsed using xml2js
+    console.log(JSON.stringify(results));
+});
+
 module.exports = app;
+
