@@ -35,13 +35,16 @@ $scope.user = {
   $scope.display = false;
 
   $scope.displayNewEvent = function() {
-    console.log('displayNewEvent');
     $scope.showNewEvent = true;
   };
 
   $scope.saveEvent = function(link) {
     $scope.showEvent = true;
     EventsFactory.currentEvent = link;
+<<<<<<< HEAD
+=======
+    // console.log('saveEvent ', $scope.event, "link ", link, "EventsFactory", EventsFactory.currentEvent);
+>>>>>>> Prevent user from joining/decline event if they already did
   };
 
   // Event object that's populated via creation form and then posted for creation
@@ -150,6 +153,7 @@ $scope.user = {
         for (var i = 0; i < $scope.userList.length; i++){
           contacts.push([$scope.userList[i][0],$scope.userList[i][1] ]);
         }
+
         return contacts.map(function (c, index) {
           var cParts = c[0].split(' ');
           var contact = {
@@ -165,19 +169,20 @@ $scope.user = {
   };
   $scope.fetchUsers();
 
-  // Creates an event with $scope.newEvent data
-
+  /**
+   * Creates an event with $scope.newEvent data
+   */
   $scope.createEvent = function() {
     var inv = [];
     var list = $('.selected .compact');
     for (var i = 0; i < list.length; i++){
       inv.push(list[i].children[0].innerText);
     }
-    console.log('inv',inv);
+    // console.log('inv',inv);
     $scope.invitedUsers = inv;
 
     $scope.newEvent.invited = $scope.invitedUsers;
-    console.log('Event details', $scope.newEvent);
+    // console.log('Event details', $scope.newEvent);
     return $http({
       method: 'POST',
       url: '/events-create',
@@ -202,8 +207,8 @@ $scope.user = {
     })
     .then(function(resp) {
 
-     console.log('invite response');
-     console.log(resp);
+     // console.log('invite response');
+     // console.log(resp);
 
      $scope.updateEventInfo(resp, $event);
 
@@ -224,8 +229,12 @@ $scope.user = {
     });
   };
 
+  /**
+   * Updates event info on 'join' or 'decline' action.
+   * Invoked by $scope.acceptOrDeclineInvite
+   */
   $scope.updateEventInfo = function(resp, $event) {
-    console.log(resp);
+    // console.log(resp);
 
     var numNeeded = Number(resp.data.eventInfo.thresholdPeople);
     var cashNeeded = Number(resp.data.eventInfo.thresholdMoney);
@@ -254,8 +263,8 @@ $scope.user = {
       data : {'username': currentUser}
     })
     .then(function(resp){
-      // console.log(resp.data);
       var hasVenmoInfo = resp.data.hasVenmoInfo;
+      var disabledEventIds = resp.data.relatedEventIds;
 
       if (!hasVenmoInfo) {
         console.log('Cannot join or decline, you have not authorized your Venmo account yet!');
@@ -269,14 +278,26 @@ $scope.user = {
       /**
        * Prevents joining or decline events if you are the event creator
        */
-      if ($scope.event.user_id) {
+      if ($scope.event.user_id && $scope.event.id) {
 
         if ($scope.event.user_id === resp.data.userID.toString()) {
           console.log('Cannot join or decline, you created this event!');
           $scope.hasNotAuthorizedVenmo = true;
         }
-      }
 
+        /**
+         * Prevents user from joining or decline if they are did one or the other
+         */
+        if (disabledEventIds) {
+          for (var i = 0; i < disabledEventIds.length; i++) {
+            if (disabledEventIds[i].toString() === $scope.event.id.toString()) {
+              console.log('Cannot join or decline, you already did!');
+              $scope.hasNotAuthorizedVenmo = true;
+            }
+          }
+        }
+
+      }
     });
   };
 
