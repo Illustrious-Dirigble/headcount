@@ -55,14 +55,13 @@ $scope.user = {
 
   // Checks to see if there's currently a clicked event, if not, it sends them back to the events list
 
-  $scope.checkEventClick = function() {
-    if ($scope.event.image === undefined) {
-      $window.location.href = "#/events";
-    }
-    else {
-      return true;
-    }
-  };
+  // $scope.checkEventClick = function() {
+  //   if ($scope.event.image === undefined) {
+  //     $window.location.href = "#/events";
+  //   }
+  // };
+
+  // $scope.checkEventClick();
 
   // Fetch events that were created by you.
 
