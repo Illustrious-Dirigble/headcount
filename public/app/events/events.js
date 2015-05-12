@@ -60,9 +60,10 @@ $scope.user = {
     if ($scope.event.image === undefined) {
       $window.location.href = "#/events";
     }
+    else {
+      return true;
+    }
   };
-
-  $scope.checkEventClick();
 
   // Fetch events that were created by you.
 
@@ -227,7 +228,7 @@ $scope.user = {
 
      $scope.updateEventInfo(resp, $event);
 
-     
+
 
      // $event.thresholdMoney
 
