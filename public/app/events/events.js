@@ -54,16 +54,6 @@ $scope.user = {
     thresholdMoney: 100
   };
 
-  // Checks to see if there's currently a clicked event, if not, it sends them back to the events list
-
-  $scope.checkEventClick = function() {
-    if ($scope.event.image === undefined) {
-      $window.location.href = "#/events";
-    }
-  };
-
-  $scope.checkEventClick();
-
   // Fetch events that were created by you.
 
   $scope.fetchEvents = function () {
@@ -227,20 +217,6 @@ $scope.user = {
 
      $scope.updateEventInfo(resp, $event);
 
-     
-
-     // $event.thresholdMoney
-
-     // if ($event.thresholdPeople > 1){
-     //   $event.thresholdMoney -= $event.thresholdMoney/$event.thresholdPeople;
-     //   $event.thresholdPeople --;
-     // } else if ($event.thresholdPeople === 1){
-     //   // threshold reached! trigger funding
-     //   $scope.triggerFunding = true;
-     //   $event.thresholdMoney -= $event.thresholdMoney/$event.thresholdPeople;
-     //   $event.thresholdPeople --;
-     // }
-
     });
   };
 
@@ -261,7 +237,6 @@ $scope.user = {
   };
 
   $scope.checkVenmoDetails = function(){
-    console.log('the event!')
 
     var currentUser = sessionStorage.getItem('user');
     return $http({
@@ -270,7 +245,7 @@ $scope.user = {
       data : {'username': currentUser}
     })
     .then(function(resp){
-      console.log(resp.data);
+      // console.log(resp.data);
       var hasVenmoInfo = resp.data.hasVenmoInfo;
 
       if (!hasVenmoInfo) {
@@ -279,12 +254,19 @@ $scope.user = {
         console.log('venmo authorized');
       }
 
+      // console.log('current event', $scope.event);
+      // if ($scope.event.user_id) {
+      //   if ($scope.event.user_id)
+      // }
+
       EventsFactory.hasNotAuthorizedVenmo = !hasVenmoInfo;
       $scope.hasNotAuthorizedVenmo = !hasVenmoInfo;
+
     });
   };
 
   $scope.checkVenmoDetails();
+
   $scope.showDetails = function(){
     if ($scope.showCreate === true){
       $scope.showCreate = false;
@@ -294,7 +276,6 @@ $scope.user = {
   };
 
   $scope.checkVenmoDetails();
-  // $scope.updateEventInfo();
 
 });
 
