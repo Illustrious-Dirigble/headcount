@@ -18,13 +18,16 @@ function handleAuth(req, res, username, id) {
 }
 
 // Facebook OAuth Initiation
-router.get('/facebook', passport.authenticate('facebook'), function(req, res){
-});
+router.get('/facebook', passport.authenticate('facebook'));
 
 // Facebook OAuth Callback
-router.get('/facebook/callback', passport.authenticate('facebook', { failureRedirect: '#/signup' }), function(req, res) {
-  res.redirect('#/signin');
-});
+router.get('/facebook/callback', passport.authenticate('facebook', {
+    successRedirect: '/',
+    failureRedirect: '/#/signup'
+  }),
+  function(req, res) {
+    res.redirect('/#/signin');}
+  );
 
 // Google OAuth Initiation
 router.get('/google', passport.authenticate('google', { scope: 'https://www.googleapis.com/auth/plus.login' }), function(req, res){
