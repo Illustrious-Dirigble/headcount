@@ -41,10 +41,7 @@ $scope.user = {
   $scope.saveEvent = function(link) {
     $scope.showEvent = true;
     EventsFactory.currentEvent = link;
-<<<<<<< HEAD
-=======
-    // console.log('saveEvent ', $scope.event, "link ", link, "EventsFactory", EventsFactory.currentEvent);
->>>>>>> Prevent user from joining/decline event if they already did
+
   };
 
   // Event object that's populated via creation form and then posted for creation
