@@ -37,8 +37,6 @@ router.post('/checkUser', function(req, res, done) {
       withRelated: ['invites']
     })
     .then(function(user){
-<<<<<<< HEAD
-=======
 
       // console.log('current invites', user.related('invites').models);
       var inviteModels = user.related('invites').models;
@@ -53,7 +51,7 @@ router.post('/checkUser', function(req, res, done) {
 
       // console.log(currentInvites);
       
->>>>>>> Prevent user from joining/decline event if they already did
+
      if (user) {
 
        if (user.attributes.venmoAccessToken && user.attributes.venmoUserId) {

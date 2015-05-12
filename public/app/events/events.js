@@ -204,24 +204,7 @@ $scope.user = {
     })
     .then(function(resp) {
 
-     // console.log('invite response');
-     // console.log(resp);
-
      $scope.updateEventInfo(resp, $event);
-
-
-
-     // $event.thresholdMoney
-
-     // if ($event.thresholdPeople > 1){
-     //   $event.thresholdMoney -= $event.thresholdMoney/$event.thresholdPeople;
-     //   $event.thresholdPeople --;
-     // } else if ($event.thresholdPeople === 1){
-     //   // threshold reached! trigger funding
-     //   $scope.triggerFunding = true;
-     //   $event.thresholdMoney -= $event.thresholdMoney/$event.thresholdPeople;
-     //   $event.thresholdPeople --;
-     // }
 
     });
   };
@@ -237,10 +220,6 @@ $scope.user = {
     var cashNeeded = Number(resp.data.eventInfo.thresholdMoney);
     var cashPerPerson = cashNeeded / numNeeded;
     var numCommitted = Number(resp.data.eventInfo.committedPeople);
-
-    console.log('num needed', numNeeded);
-    console.log('cash needed', cashNeeded);
-    console.log('num committed', numCommitted);
 
     $event.thresholdPeople = numNeeded - numCommitted;
     $event.thresholdMoney = cashNeeded - (cashPerPerson * numCommitted);
