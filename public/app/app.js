@@ -45,11 +45,9 @@ angular.module('headcount', [
     // of interceptors. Think of it like middleware for your ajax calls
     $httpProvider.interceptors.push('AttachTokens');
 })
-  .controller('AppCtrl', ['$scope', '$mdSidenav', function($scope, $mdSidenav){
-    $scope.toggleSidenav = function(menuId) {
-      $mdSidenav(menuId).toggle();
-    };
-  }])
+.controller('DemoCtrl', function($scope) {
+
+})
 .factory('EventsFactory', function ($rootScope) {
   var eventServices = {};
 

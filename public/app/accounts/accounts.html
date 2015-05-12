@@ -6,8 +6,38 @@
         <md-button ng-show="hasNotAuthorizedVenmo" ng-click="authorize()" class="md-raised md-warn">Authorize Your Venmo Account!</md-button>
       </section>
       <form ng-submit="accountUpdate()">
-        <div class="form-group">
-          <label for="username">Username</label>
+        <div class="form-group" ng-controller="DemoCtrl" layout="column">
+          <md-content layout-padding>
+             <md-input-container class="md-icon-float" >
+               <!-- Use floating label instead of placeholder -->
+               <label>Username</label>
+               <md-icon md-svg-src="assets/user168.svg" class="username"></md-icon>
+               <input ng-model="username" type="text" disabled=>
+             </md-input-container>
+             <md-input-container class="md-icon-float" >
+               <!-- Use floating label instead of placeholder -->
+               <label>First Name</label>
+               <md-icon md-svg-src="assets/id17.svg" class="firstname"></md-icon>
+               <input ng-model="firstname" type="text" >
+             </md-input-container>
+             <md-input-container class="md-icon-float" >
+               <!-- Use floating label instead of placeholder -->
+               <label>Last Name</label>
+               <md-icon md-svg-src="assets/id17.svg" class="lastname"></md-icon>
+               <input ng-model="lastname" type="text">
+             </md-input-container>
+             <md-input-container md-no-float>
+               <md-icon md-svg-src="assets/call60.svg"></md-icon>
+               <input ng-model="telephone" type='tel' pattern='[\+]\d{2}[\(]\d{2}[\)]\d{4}[\-]\d{4}' placeholder="Phone Number">
+             </md-input-container>
+             <md-input-container >
+               <!-- Use floating placeholder instead of label -->
+               <md-icon md-svg-src="assets/email5.svg" class="email"></md-icon>
+               <input ng-model="email" type="email" placeholder="Email (required)" ng-required="true">
+             </md-input-container>
+             <md-button type="submit" class="md-raised md-primary md-hue-1"> Save </md-button>
+           </md-content>
+          <!-- <label for="username">Username</label>
           <input type="text" class="form-control" id="account" ng-model="username" disabled>
           <label for="firstname">First Name</label>
           <input type="text" class="form-control" id="account" placeholder="John" ng-model="firstname">
@@ -18,7 +48,7 @@
           <label for="telephone">Telephone</label>
           <input type="tel" class="form-control" id="account" placeholder="5551234567" ng-model="telephone">
         </div>
-        <button type="submit" class="btn btn-default">Save</button>
+        <button type="submit" class="btn btn-default">Save</button> -->
       </form>
     </div>
   </div>
