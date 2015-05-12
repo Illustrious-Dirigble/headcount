@@ -240,6 +240,11 @@ $scope.user = {
     $event.thresholdMoney = cashNeeded - (cashPerPerson * numCommitted);
   };
 
+  /**
+   * Prevents user from joining or decline event if:
+   * -- A) User has not authorized his/her Venmo account
+   * -- B) User is the account creator
+   */
   $scope.checkVenmoDetails = function(){
 
     var currentUser = sessionStorage.getItem('user');
@@ -253,18 +258,24 @@ $scope.user = {
       var hasVenmoInfo = resp.data.hasVenmoInfo;
 
       if (!hasVenmoInfo) {
-        console.log('You have not authorized your Venmo account yet!');
+        console.log('Cannot join or decline, you have not authorized your Venmo account yet!');
       } else {
         console.log('venmo authorized');
       }
 
-      // console.log('current event', $scope.event);
-      // if ($scope.event.user_id) {
-      //   if ($scope.event.user_id)
-      // }
-
       EventsFactory.hasNotAuthorizedVenmo = !hasVenmoInfo;
       $scope.hasNotAuthorizedVenmo = !hasVenmoInfo;
+
+      /**
+       * Prevents joining or decline events if you are the event creator
+       */
+      if ($scope.event.user_id) {
+
+        if ($scope.event.user_id === resp.data.userID.toString()) {
+          console.log('Cannot join or decline, you created this event!');
+          $scope.hasNotAuthorizedVenmo = true;
+        }
+      }
 
     });
   };
