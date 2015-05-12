@@ -284,12 +284,7 @@ $scope.user = {
     });
   };
 
-<<<<<<< HEAD
-  
-=======
   $scope.checkVenmoDetails();
->>>>>>> Materialize create event page
-
   $scope.showDetails = function(){
     if ($scope.showCreate === true){
       $scope.showCreate = false;
