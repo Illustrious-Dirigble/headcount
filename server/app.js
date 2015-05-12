@@ -70,16 +70,15 @@ passport.use(new FacebookStrategy({
   callbackURL: oauth.ids.facebook.callbackURL
 },
 function(accessToken, refreshToken, profile, done) {
-  console.log("fetching user");
   new User({ facebookId: profile.id })
   .fetch()
   .then(function(model){
-    console.log("Here is the model");
-    console.dir(model);
     if(model){
+      model.set('facebookToken', accessToken);
+      model.save();
       return done(null, model);
     } else {
-      var user = new User({ facebookId: profile.id });
+      var user = new User({ facebookId: profile.id, facebookToken: accessToken });
       user.save();
       return done(null, user);
     }

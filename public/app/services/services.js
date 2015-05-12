@@ -26,7 +26,7 @@ angular.module('headcount.services', [])
   };
 
   var isAuth = function () {
-    return !!$window.sessionStorage.getItem('user');
+    return !!$window.sessionStorage.getItem('user') || !!$window.sessionStorage.getItem('FBid');
   };
 
   var signout = function () {

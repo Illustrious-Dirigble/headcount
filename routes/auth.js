@@ -15,19 +15,29 @@ function handleAuth(req, res, username, id) {
     console.log("SESSION!!! " + req.session.user + "ID!!! " + req.session.user_id);
     res.end();
   });
-}
+};
+
+function handleFBOAuth(req, res, FBid){
+  req.session.regenerate(function() {
+    req.session.FBid = FBid;
+  });
+};
 
 // Facebook OAuth Initiation
 router.get('/facebook', passport.authenticate('facebook'));
 
 // Facebook OAuth Callback
-router.get('/facebook/callback', passport.authenticate('facebook', {
-    successRedirect: '/',
-    failureRedirect: '/#/signup'
-  }),
-  function(req, res) {
-    res.redirect('/#/signin');}
-  );
+router.get('/facebook/callback', function(req, res, next){
+  passport.authenticate('facebook', function(err, user, info) {
+    console.log("user:");
+    console.log(user);
+    if (err) { return next(err); }
+    if (!user) { res.redirect('/#/signin'); }
+
+    handleFBOAuth(req, res, user.facebookId);
+    res.redirect('/');
+  })(req, res, next);
+});
 
 // Google OAuth Initiation
 router.get('/google', passport.authenticate('google', { scope: 'https://www.googleapis.com/auth/plus.login' }), function(req, res){
