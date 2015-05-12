@@ -19,6 +19,7 @@ function handleAuth(req, res, username, id) {
   });
 };
 
+
 function createJWT(user) {
   var payload = {
     sub: user._id,

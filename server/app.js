@@ -142,13 +142,5 @@ app.use(function(err, req, res, next) {
 });
 
 
-// amazon.execute('ItemSearch', {
-//   'SearchIndex': 'Books',
-//   'Keywords': 'harry potter',
-//   // 'ResponseGroup': 'ItemAttributes'
-// }, function(err, results) { // you can add a third parameter for the raw xml response, "results" here are currently parsed using xml2js
-//     console.log(JSON.stringify(results));
-// });
-
 module.exports = app;
 
