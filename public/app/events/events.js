@@ -73,6 +73,7 @@ $scope.user = {
     .then(function(resp) {
       if (resp.data.length >= 1) {
         $scope.events = resp.data;
+        console.log($scope.events);
       } else {
         console.log("THERE ARE NO EVENTS TO FETCH!!!");
       }

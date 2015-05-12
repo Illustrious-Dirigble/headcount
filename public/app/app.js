@@ -7,7 +7,7 @@ angular.module('headcount', [
   'ngMaterial',
   'ui.bootstrap'
 ])
-.config(function($routeProvider, $httpProvider) {
+.config(function($routeProvider, $httpProvider, $mdThemingProvider) {
   $routeProvider
     .when('/signin', {
       templateUrl: 'app/auth/signin.html',
@@ -40,6 +40,10 @@ angular.module('headcount', [
     .otherwise({
       redirectTo: '/events'
     });
+
+    $mdThemingProvider.theme('default')
+      .primaryPalette('green')
+      .accentPalette('green');
 
     // We add our $httpInterceptor into the array
     // of interceptors. Think of it like middleware for your ajax calls
