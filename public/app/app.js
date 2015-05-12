@@ -55,7 +55,8 @@ angular.module('headcount', [
 .factory('EventsFactory', function ($rootScope) {
   var eventServices = {};
 
-  eventServices.hasNotAuthorizedVenmo = false;
+  eventServices.shouldNotBeCreatable = false;
+  eventServices.shouldNotBeClickable = false;
 
   eventServices.currentEvent = {};
   return eventServices;

@@ -17,7 +17,7 @@ $scope.user = {
     };
   $scope.events = [];
   $scope.event = EventsFactory.currentEvent;
-  $scope.hasNotAuthorizedVenmo = EventsFactory.hasNotAuthorizedVenmo;
+  $scope.shouldNotBeClickable = EventsFactory.shouldNotBeClickable;
   $scope.showEvent = false;
   $scope.showNewEvent = true;
 
@@ -30,7 +30,7 @@ $scope.user = {
 
   $scope.hasStripe = false;
   $scope.needInfo = false;
-  $scope.hasNotAuthorizedVenmo = true;
+  $scope.shouldNotBeClickable = true;
 
   $scope.display = false;
 
@@ -230,7 +230,7 @@ $scope.user = {
    * -- A) User has not authorized his/her Venmo account
    * -- B) User is the account creator
    */
-  $scope.checkVenmoDetails = function(){
+  $scope.checkEventPermissions = function(){
 
     var currentUser = sessionStorage.getItem('user');
     return $http({
@@ -248,17 +248,22 @@ $scope.user = {
         console.log('venmo authorized');
       }
 
-      EventsFactory.hasNotAuthorizedVenmo = !hasVenmoInfo;
-      $scope.hasNotAuthorizedVenmo = !hasVenmoInfo;
+      EventsFactory.shouldNotBeClickable = !hasVenmoInfo;
+      $scope.shouldNotBeClickable = !hasVenmoInfo;
+      EventsFactory.shouldNotBeCreatable = !hasVenmoInfo;
+      $scope.shouldNotBeCreatable = !hasVenmoInfo;
+
+      /**
+       * Checks joining/declining event permissions if on single event page
+       */
+      if ($scope.event.user_id && $scope.event.id) {
 
       /**
        * Prevents joining or decline events if you are the event creator
        */
-      if ($scope.event.user_id && $scope.event.id) {
-
         if ($scope.event.user_id === resp.data.userID.toString()) {
           console.log('Cannot join or decline, you created this event!');
-          $scope.hasNotAuthorizedVenmo = true;
+          $scope.shouldNotBeClickable = true;
         }
 
         /**
@@ -268,7 +273,7 @@ $scope.user = {
           for (var i = 0; i < disabledEventIds.length; i++) {
             if (disabledEventIds[i].toString() === $scope.event.id.toString()) {
               console.log('Cannot join or decline, you already did!');
-              $scope.hasNotAuthorizedVenmo = true;
+              $scope.shouldNotBeClickable = true;
             }
           }
         }
@@ -277,7 +282,7 @@ $scope.user = {
     });
   };
 
-  $scope.checkVenmoDetails();
+  $scope.checkEventPermissions();
 
   $scope.showDetails = function(){
     if ($scope.showCreate === true){
@@ -287,7 +292,6 @@ $scope.user = {
     }
   };
 
-  $scope.checkVenmoDetails();
 
 });
 

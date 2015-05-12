@@ -2,8 +2,8 @@
   <div layout="row">
     <div class="center-form">
       <section class="venmo-button" layout="row" layout-sm="column" layout-align="center center">
-        <md-button ng-show="!hasNotAuthorizedVenmo" ng-disabled="true" class="md-raised md-primary">Venmo Account Authorized</md-button>
-        <md-button ng-show="hasNotAuthorizedVenmo" ng-click="authorize()" class="md-raised md-warn">Authorize Your Venmo Account!</md-button>
+        <md-button ng-show="!shouldNotBeClickable" ng-disabled="true" class="md-raised md-primary">Venmo Account Authorized</md-button>
+        <md-button ng-show="shouldNotBeClickable" ng-click="authorize()" class="md-raised md-warn">Authorize Your Venmo Account!</md-button>
       </section>
       <form ng-submit="accountUpdate()">
         <div class="form-group" ng-controller="DemoCtrl" layout="column">
