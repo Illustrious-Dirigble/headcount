@@ -1,16 +1,16 @@
-    <div class="event" ng-model="event" ng-show="checkEventClick()">
+    <div class="event" panel panel-primary ng-model="event" ng-show="checkEventClick()">
       <div class="info" >
-        <img width="100px" height="100px" src="{{event.image}}" />
+        <img class="event-image" width="200px" height="200px" src="{{event.image}}" />
         <div id="{{ 'event-' + $index }}" class="info" >
-          <span> <strong> {{ event.title }} </strong> </span> <br />
-          <span> Expiration: {{ event.expiration |  date : format : timezone}} </span> <br />
-          <span> People needed: {{ event.thresholdPeople }} </span>
+          <span class="panel body"> <strong> {{ event.title }} </strong> </span> <br />
+          <span class="panel body"> Expiration: {{ event.expiration |  date : format : timezone}} </span> <br />
+          <span class="panel body"> People needed: {{ event.thresholdPeople }} </span>
         </div>
       </div>
-      <span> Cost per person: ${{ event.thresholdMoney / event.thresholdPeople | number:2 }} </span> <br />
-      <span> Remaining money needed: ${{ event.thresholdMoney - event.committedMoney | number:2}} </span> <br />
-      <button ng-model="hasNotAuthorizedVenmo" ng-disabled="hasNotAuthorizedVenmo" ng-click="acceptOrDeclineInvite(true, event)"> JOIN </button>
-      <button ng-model="hasNotAuthorizedVenmo" ng-disabled="hasNotAuthorizedVenmo" ng-click="acceptOrDeclineInvite(false, event)"> DECLINE </button>
+      <span class="panel body"> Cost per person: ${{ event.thresholdMoney / event.thresholdPeople | number:2 }} </span> <br />
+      <span class="panel body"> Remaining money needed: ${{ event.thresholdMoney - event.committedMoney | number:2}} </span> <br />
+      <md-button class="md-raised md-primary" ng-model="hasNotAuthorizedVenmo" ng-disabled="hasNotAuthorizedVenmo" ng-click="acceptOrDeclineInvite(true, event)"> JOIN </md-button>
+      <md-button class="md-raised md-primary"ng-model="hasNotAuthorizedVenmo" ng-disabled="hasNotAuthorizedVenmo" ng-click="acceptOrDeclineInvite(false, event)"> DECLINE </md-button>
     </div>
 
 

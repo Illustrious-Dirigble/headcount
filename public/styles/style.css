@@ -206,6 +206,11 @@ md-list .md-button {
   width: 100%;
 }
 
+.event-image {
+  margin: 20px;
+  border-radius: 10px;
+}
+
 .events {
   height: 100%;
 }
