@@ -245,7 +245,7 @@ $scope.user = {
       data : {'username': currentUser}
     })
     .then(function(resp){
-      console.log(resp.data);
+      // console.log(resp.data);
       var hasVenmoInfo = resp.data.hasVenmoInfo;
 
       if (!hasVenmoInfo) {
