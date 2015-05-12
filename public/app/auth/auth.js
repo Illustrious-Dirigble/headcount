@@ -2,12 +2,22 @@ angular.module('headcount.auth', [])
 
 .controller('AuthController', function ($scope, $window, $location, $http, Auth) {
 
+  /**
+   * $scope.user holds onto any input on the signin.html and signup.html input
+   * fields.
+   */
+
   $scope.user = {};
-  $scope.auth = Auth.isAuth();
+
+  /**
+   * $scope.signin & $scope.signup both make a POST request to the routes/auth.js file
+   * with the attempted login information from $scope.user. On successful authentication,
+   * it sets the session item 'user' to the username, so that we can render the content
+   * specifically to the user that's currently signed in.
+   */
 
   $scope.signin = function () {
 
-    console.log('$scope.signin method on AuthController');
     return $http({
       method: 'POST',
       url: '/auth/local',
@@ -24,7 +34,6 @@ angular.module('headcount.auth', [])
 
   $scope.signup = function () {
 
-    console.log('$scope.signup method on AuthController');
     return $http({
       method: 'POST',
       url: '/auth/local-signup',
@@ -39,11 +48,17 @@ angular.module('headcount.auth', [])
     });
   };
 
+  /**
+  * $scope.signout calls Auth.signout on the 'Auth' factory, under the services.js
+  * file. It destroys the session item 'user', and then resets the view to the sign-in
+  * page. It also makes a GET request to routes/auth.js's logout route, which will also
+  * destroy the express-session token on the backend, then alerts the user on a
+  * successful request.
+  */
+
   $scope.signout = function(){
 
-    console.log('$scope.signout method on AuthController');
     Auth.signout();
-    $scope.auth = Auth.isAuth();
     return $http({
       method: 'GET',
       url: '/auth/logout'
