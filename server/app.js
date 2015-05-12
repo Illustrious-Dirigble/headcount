@@ -33,7 +33,7 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Express-session settings
+// Express-session settings -- can be massively improved upon for better security/stability.
 app.use(session({
   secret: 'keyboard cat',
   resave: false,
