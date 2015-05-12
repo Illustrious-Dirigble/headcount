@@ -70,8 +70,19 @@ passport.use(new FacebookStrategy({
   callbackURL: oauth.ids.facebook.callbackURL
 },
 function(accessToken, refreshToken, profile, done) {
-  User.findOrCreate({ facebookId: profile.id }, function (err, user) {
-    return done(err, user);
+  console.log("fetching user");
+  new User({ facebookId: profile.id })
+  .fetch()
+  .then(function(model){
+    console.log("Here is the model");
+    console.dir(model);
+    if(model){
+      return done(null, model);
+    } else {
+      var user = new User({ facebookId: profile.id });
+      user.save();
+      return done(null, user);
+    }
   });
 }));
 
