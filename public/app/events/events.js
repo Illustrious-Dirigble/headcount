@@ -54,6 +54,17 @@ $scope.user = {
     thresholdMoney: 100
   };
 
+  // Checks to see if there's currently a clicked event, if not, it sends them back to the events list
+
+  $scope.checkEventClick = function() {
+    if ($scope.event.image === undefined) {
+      $window.location.href = "#/events";
+    }
+    else {
+      return true;
+    }
+  };
+
   // Fetch events that were created by you.
 
   $scope.fetchEvents = function () {
@@ -216,6 +227,20 @@ $scope.user = {
      console.log(resp);
 
      $scope.updateEventInfo(resp, $event);
+
+
+
+     // $event.thresholdMoney
+
+     // if ($event.thresholdPeople > 1){
+     //   $event.thresholdMoney -= $event.thresholdMoney/$event.thresholdPeople;
+     //   $event.thresholdPeople --;
+     // } else if ($event.thresholdPeople === 1){
+     //   // threshold reached! trigger funding
+     //   $scope.triggerFunding = true;
+     //   $event.thresholdMoney -= $event.thresholdMoney/$event.thresholdPeople;
+     //   $event.thresholdPeople --;
+     // }
 
     });
   };
