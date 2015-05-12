@@ -59,7 +59,6 @@ angular.module('headcount.auth', [])
   $scope.signout = function(){
 
     Auth.signout();
-    $scope.auth = Auth.isAuth();
     return $http({
       method: 'GET',
       url: '/auth/logout'
