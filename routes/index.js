@@ -27,7 +27,6 @@ router.get('/events-fetch', function(req, res, next) {
       if (!collection) {
         console.log("NO EVENTS FOR USER FOUND!!!");
       } else {
-        // console.log("EVENTS BELONGING TO USER" + JSON.stringify(collection));
         res.json(collection);
       }
     });
@@ -42,7 +41,6 @@ router.get('/invite-events-fetch', function(req, res, next) {
     .query({ where: {user_id: req.session.user_id} })
     .fetchAll()
     .then(function(collection) {
-      // console.log("INVITE EVENTS BELONGING TO USER" + JSON.stringify(collection));
       for (var i = 0; i < collection.length; i++) {
         invites.push(parseInt(collection.at(i).attributes.event_id));
       }
@@ -52,7 +50,6 @@ router.get('/invite-events-fetch', function(req, res, next) {
 
 // Callback for responding with invited events to front-end
 function returnEvents(req, res, events) {
-  console.log("RETURNING THIS " + events);
   res.json(events);
 }
 
@@ -67,13 +64,10 @@ router.post('/invite-events-fetch', function(req, res, next) {
       .fetch()
       .then(function(model) {
         if (callback !== undefined) {
-          // console.log("MODEL W/ INVITE_ID FOR CALLBACK!!!" + JSON.stringify(model));
           events.push(model);
           callback(req, res, events);
         } else {
-          // console.log("MODEL W/ INVITE_ID!!!" + JSON.stringify(model));
           events.push(model);
-          // console.log("NO CALLBACK, PUSH TO EVENTS ARRAY" + events);
         }
       });
   }
@@ -105,7 +99,6 @@ router.get('/users-fetch', function(req, res, next) {
   new User()
     .fetchAll()
     .then(function(collection) {
-      console.log("COLLECTION" + collection.at(0).attributes.username + " " + collection.at(0).attributes.id);
       var users = [];
       for (var i = 0; i < collection.length; i++) {
         if (collection.at(i).attributes.username === req.session.user) {
@@ -123,7 +116,7 @@ router.get('/users-fetch', function(req, res, next) {
 /**
  * FIXME: uncomment and only use one 'payOutEvent' invocation in route to activate event payouts - first invocation is actual payout, second invocation will payout to Venmo
  * sandbox account - no actual funds are charged.
- * 
+ *
  * Receives a request whenever a user accepts or declines an event invitation, and updates/saves the corresponding invite in utils/invites.js.
  * If the invite is accepted, it fetches the related event. If increasing the 'committedPeople' count by one will satisfy the 'thresholdPeople' field,
  * it triggers paying the event creator (see utils/payments.js) from the accounts of the users who committed to the event (the 'paid' field and conditional makes sure it hasn't already been paid out).
@@ -133,7 +126,7 @@ router.post('/invite-response', function(req, res) {
   var userId = req.session.user_id;
   var eventId = req.body.eventId;
   var inviteAcceptedBool = req.body.accepted;
-  console.log('invite status', inviteAcceptedBool)
+  console.log('invite status', inviteAcceptedBool);
 
   attendance.updateInvite(userId, eventId, inviteAcceptedBool, function(updatedInvite) {
     if (inviteAcceptedBool) {
@@ -152,7 +145,7 @@ router.post('/invite-response', function(req, res) {
           var eventCreatorsVenmoId = event.related('user').attributes.venmoUserId;
 
           if (paid) {
-            console.log('This event has already been paid out!')
+            console.log('This event has already been paid out!');
           } else {
 
             // If true, will trigger event payout!
@@ -189,13 +182,13 @@ router.post('/invite-response', function(req, res) {
               // -- note: must only invoke 'payOutEvent' once.
               //
               payOutEvent(payingUserIds, testUserId, testNote, testAmount, true, function(payments) {
-                console.log('Event creator paid!')
+                console.log('Event creator paid!');
                 console.log('Payments:', payments);
               });
 
             } else {
-              console.log('increasing num of committed people')
-              event.set('committedPeople', committedPeople + 1)
+              console.log('increasing num of committed people');
+              event.set('committedPeople', committedPeople + 1);
             }
           }
 
@@ -203,16 +196,16 @@ router.post('/invite-response', function(req, res) {
           console.log('Event updated!');
           console.log(updatedEvent);
           eventInfo = updatedEvent.attributes;
-          res.json({eventInfo: eventInfo})
+          res.json({eventInfo: eventInfo});
 
-        })
+        });
       });
 
     } else {
       console.log('Invite declined, do not need to check event');
     }
 
-    
+
   });
 
 });
@@ -287,7 +280,7 @@ router.get('/oauth', function(req, res) {
   var username = req.query.state;
   var code = req.query.code;
 
-  
+
 
     request.post({
         url: venmoTokenUri,

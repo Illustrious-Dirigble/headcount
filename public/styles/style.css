@@ -10,41 +10,14 @@ h1 {
   margin-bottom: 10px;
 }
 
-.title {
-  font-family: "Arial";
-  color: white;
-  margin-top: -5px;
-  margin-top: 10px;
-  margin-left: 255px;
-  font-size: 36px;
-}
-
 .auth_title {
   margin-bottom: 25px;
   margin-left: 100px;
 }
 
-#auth_input {
-  width: 310px;
-  border-radius: 5px;
-  border: 1px solid gray;
-}
-
 #account {
   width: 300px;
   margin-bottom: 10px;
-}
-
-.auth_button {
-  font-family: Arial;
-  height: 30px;
-  width: 75px;
-  background-color: #33CC33;
-  color: white;
-  border: 1px solid white;
-  border-radius: 5px;
-  margin-bottom: 5px;
-  margin-top: 5px;
 }
 
 .oauth_button {
@@ -57,23 +30,12 @@ h1 {
   margin-left: 10px;
 }
 
-#inviteBox {
-  border: 1px solid black;
-  padding: 2px;
-  margin: 3px;
-}
-
 .toolbar_buttons {
   color:white;
   margin-top: 10px;
   margin-left: 10px;
   height: 25px;
   width: 25px;
-}
-
-.auth {
- margin-left: 30%;
- margin-top: 5%;
 }
 
 .navigation {

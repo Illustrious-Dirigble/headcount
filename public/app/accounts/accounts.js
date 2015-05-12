@@ -1,6 +1,6 @@
 angular.module('headcount.accounts', [])
 
-.controller('AccountsController', function ($scope, $window, $location, $http, Links) {
+.controller('AccountsController', function ($scope, $window, $location, $http) {
 
   $scope.initialize = function() {
     var currentUser = sessionStorage.getItem('user');
@@ -18,9 +18,6 @@ angular.module('headcount.accounts', [])
       $scope.firstname = user.firstName || '';
       $scope.lastname = user.lastName || '';
       $scope.email = user.email || '';
-
-      //$window.location.href = resp.data;
-
     });
   };
   $scope.initialize();

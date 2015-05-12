@@ -1,6 +1,6 @@
 angular.module('headcount.events', [])
 
-.controller('EventsController', function ($scope, Links, $http, $window, $timeout, $q, EventsFactory) {
+.controller('EventsController', function ($scope, $http, $window, $timeout, $q, EventsFactory) {
 
   // Stores all events that were created by you or that you were invited to
 $scope.user = {
@@ -42,7 +42,6 @@ $scope.user = {
   $scope.saveEvent = function(link) {
     $scope.showEvent = true;
     EventsFactory.currentEvent = link;
-    console.log('saveEvent ', $scope.event, "link ", link, "EventsFactory", EventsFactory.currentEvent);
   };
 
   // Event object that's populated via creation form and then posted for creation
@@ -151,24 +150,6 @@ $scope.user = {
         for (var i = 0; i < $scope.userList.length; i++){
           contacts.push([$scope.userList[i][0],$scope.userList[i][1] ]);
         }
-        // var contacts = [
-        //   'Marina Augustine',
-        //   'Oddr Sarno',
-        //   'Nick Giannopoulos',
-        //   'Narayana Garner',
-        //   'Anita Gros',
-        //   'Megan Smith',
-        //   'Tsvetko Metzger',
-        //   'Hector Šimek',
-        //   'Some-guy withalongalastaname'
-        // ];
-        // console.log(contacts.map(function (c, index) {
-        //   var cParts = c.split(' ');
-        //   var contact = {
-        //     name: c,
-        //   };
-        //   return contact;
-        // }));
         return contacts.map(function (c, index) {
           var cParts = c[0].split(' ');
           var contact = {
@@ -187,8 +168,6 @@ $scope.user = {
   // Creates an event with $scope.newEvent data
 
   $scope.createEvent = function() {
-    //console.log('invited',$scope.invitedUsers);
-    //console.log($('.selected .compact'));
     var inv = [];
     var list = $('.selected .compact');
     for (var i = 0; i < list.length; i++){

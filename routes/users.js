@@ -2,17 +2,11 @@ var express = require('express');
 var router = express.Router();
 var User  = require('./../app/models/user');
 
-/* GET users listing. */
-//router.get('/', function(req, res, next) {
-//  res.send('respond with a resource');
-//});
-
 router.post('/accountinfo', function(req, res, done) {
   var currentUser = req.body.username;
   new User({username: currentUser})
     .fetch()
     .then(function(user){
-      // console.log('user',user);
       res.json(user);
     });
 });
@@ -24,8 +18,7 @@ router.post('/accountupdate', function(req, res, done) {
   new User({username: currentUser})
     .fetch()
     .then(function(user) {
-      // console.log('data:',data);
-      user.save(data) 
+      user.save(data)
         .then(function() {
           res.end('updated');
         });
@@ -40,8 +33,6 @@ router.post('/checkUser', function(req, res, done) {
   new User({username: currentUser})
     .fetch()
     .then(function(user){
-
-      // console.log('user ID',user.attributes.id);
      if (user) {
 
        if (user.attributes.venmoAccessToken && user.attributes.venmoUserId) {

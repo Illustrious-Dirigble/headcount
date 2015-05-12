@@ -4,7 +4,8 @@ var User  = require('./../app/models/user');
 var passport = require('passport');
 
 
-/* handleAuth creates a session object, which we then store the username as a user
+/**
+ * handleAuth creates a session object, which we then store the username as a user
  * property under the req.session object
  */
 function handleAuth(req, res, username, id) {
@@ -66,7 +67,8 @@ router.post('/local-signup', function(req, res, next) {
     });
 });
 
-/* Logout... console logs are for checking the req.session object before and after it's
+/**
+ * Logout... console logs are for checking the req.session object before and after it's
  * destroyed to ensure it's working.
  */
 
