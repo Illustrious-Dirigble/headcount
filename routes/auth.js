@@ -1,9 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var User  = require('./../app/models/user');
+var oauth = require('./../oauth');
 var passport = require('passport');
-
-
+var request = require('request');
+var jwt = require('jwt-simple');
+var moment = require('moment');
 /**
  * handleAuth creates a session object, which we then store the username as a user
  * property under the req.session object
@@ -17,26 +19,74 @@ function handleAuth(req, res, username, id) {
   });
 };
 
-function handleFBOAuth(req, res, FBid){
-  req.session.regenerate(function() {
-    req.session.FBid = FBid;
-  });
+function createJWT(user) {
+  var payload = {
+    sub: user._id,
+    iat: moment().unix(),
+    exp: moment().add(14, 'days').unix()
+  };
+  return jwt.encode(payload, oauth.ids.facebook.clientSecret);
 };
 
-// Facebook OAuth Initiation
-router.get('/facebook', passport.authenticate('facebook'));
-
-// Facebook OAuth Callback
-router.get('/facebook/callback', function(req, res, next){
-  passport.authenticate('facebook', function(err, user, info) {
-    console.log("user:");
-    console.log(user);
-    if (err) { return next(err); }
-    if (!user) { res.redirect('/#/signin'); }
-
-    handleFBOAuth(req, res, user.facebookId);
-    res.redirect('/');
-  })(req, res, next);
+router.post('/facebook', function(req, res){
+  console.log("got a facebook post request!");
+  var accessTokenUrl = 'https://graph.facebook.com/v2.3/oauth/access_token';
+  var graphApiUrl = 'https://graph.facebook.com/v2.3/me';
+  var params = {
+    code: req.body.code,
+    client_id: req.body.clientId,
+    client_secret: oauth.ids.facebook.clientSecret,
+    redirect_uri: req.body.redirectUri
+  };
+  console.log("requesting token...");
+  request.get({ url: accessTokenUrl, qs: params, json: true }, function(err, response, accessToken) {
+    if (response.statusCode !== 200) {
+      return res.status(500).send({ message: accessToken.error.message });
+    }
+    console.log("requesting user data...");
+    request.get({ url: graphApiUrl, qs: accessToken, json: true }, function(err, response, profile) {
+      if (response.statusCode !== 200) {
+        return res.status(500).send({ message: profile.error.message });
+      }
+      if (req.headers.authorization) {
+        new User({ facebookId: profile.id }).fetch()
+        .then(function(model){
+          if(!model){
+            var user = new User({
+              email: profile.email,
+              firstName: profile.first_name,
+              lastName: profile.last_name,
+              facebookId: profile.id,
+              facebookToken: accessToken
+            });
+            user.save().then(function() {
+              var token = createJWT(user);
+              res.send({ token: token });
+            });
+          }
+        });
+      } else {
+        new User({ facebookId: profile.id }).fetch()
+        .then(function(model){
+          if(model) {
+            var token = createJWT(model);
+            return res.send({ token: token });
+          }
+          var user = new User({
+            email: profile.email,
+            firstName: profile.first_name,
+            lastName: profile.last_name,
+            facebookId: profile.id,
+            facebookToken: accessToken
+          });
+          user.save().then(function() {
+            var token = createJWT(user);
+            res.send({ token: token });
+          });
+        });
+      }
+    });
+  });
 });
 
 // Google OAuth Initiation
@@ -86,7 +136,6 @@ router.post('/local-signup', function(req, res, next) {
  */
 
 router.get('/logout', function(req, res, next) {
-
   console.log("Before destroy session... " + JSON.stringify(req.session));
   req.session.destroy(function() {
     console.log("Destroying express-session object for this session... " + req.session);

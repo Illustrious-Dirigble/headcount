@@ -1,19 +1,19 @@
-
-	<div class="center-form">
-	  <h1>Sign-in</h1>
-	  <form class="ui form" ng-submit="signin()">
-		<div class="field">
-		  <input type="text" placeholder="Username" ng-model="user.username" required>
-		</div>
-		<div class="field">
-		  <input type="password" placeholder="Password" ng-model="user.password" required>
-		</div>
-    <div class="ui buttons">
-	    <button type="submit" class="ui button green padding">Sign in</button>
-      <div class="or"></div>
-      <a href="#/signup"><div class="ui button">Sign up instead</div></a>
-    </div>
-	  </form>
-	<span> <a href="/auth/google"><img class="oauth_button" src="./../assets/google.png" /></a></span>
-	<span> <a href="/auth/facebook"><img class="oauth_button" src="./../assets/facebook.png" /></a> </span><br />
+<div class="center-form">
+  <h1>Sign-in</h1>
+  <form class="ui form" ng-submit="signin()">
+	<div class="field">
+	  <input type="text" placeholder="Username" ng-model="user.username" required>
+	</div>
+	<div class="field">
+	  <input type="password" placeholder="Password" ng-model="user.password" required>
+	</div>
+  <div class="ui buttons">
+    <button type="submit" class="ui button green padding">Sign in</button>
+    <div class="or"></div>
+    <a href="#/signup"><div class="ui button">Sign up instead</div></a>
   </div>
+  </form>
+	<span> <a href="/auth/google"><img class="oauth_button" src="./../assets/google.png" /></a></span>
+	<span> <a ng-click="OAuthLogin('facebook')"><img class="oauth_button" src="./../assets/facebook.png" /></a> </span><br />
+  </div>
+</div>

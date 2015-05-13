@@ -1,9 +1,22 @@
-angular.module('headcount.auth', [])
+angular.module('headcount.auth', ['satellizer'])
 
-.controller('AuthController', function ($scope, $window, $location, $http, Auth) {
+.config(function($authProvider){
+  $authProvider.facebook({
+    clientId: '654569731343865'
+  });
+})
+
+.controller('AuthController', function ($scope, $window, $location, $http, Auth, $auth) {
 
   $scope.user = {};
   $scope.auth = Auth.isAuth();
+
+  $scope.OAuthLogin = function (provider) {
+    $auth.authenticate(provider).then(function(res){
+      $window.localStorage.currentUser = JSON.stringify(res.data.user);
+      $location.path('/');
+    });
+  };
 
   $scope.signin = function () {
 
@@ -43,6 +56,7 @@ angular.module('headcount.auth', [])
 
     console.log('$scope.signout method on AuthController');
     Auth.signout();
+    $auth.logout();
     $scope.auth = Auth.isAuth();
     return $http({
       method: 'GET',
@@ -51,6 +65,10 @@ angular.module('headcount.auth', [])
     .then(function(resp) {
       $window.alert("You've signed out!");
     });
+  };
+
+  $scope.isAuth = function () {
+    return !!$window.sessionStorage.getItem('user') || $auth.isAuthenticated();
   };
 
 });
