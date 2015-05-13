@@ -53,6 +53,7 @@ router.post('/facebook', function(req, res){
         .then(function(model){
           if(!model){
             var user = new User({
+              username: profile.name,
               email: profile.email,
               firstName: profile.first_name,
               lastName: profile.last_name,
@@ -61,7 +62,8 @@ router.post('/facebook', function(req, res){
             });
             user.save().then(function() {
               var token = createJWT(user);
-              res.send({ token: token });
+              console.log("auth exists, user created. responding...");
+              res.send({ token: token, user: user.username });
             });
           }
         });
@@ -70,9 +72,11 @@ router.post('/facebook', function(req, res){
         .then(function(model){
           if(model) {
             var token = createJWT(model);
-            return res.send({ token: token });
+            console.log("Not authorized, but model exists. responding...");
+            return res.send({ token: token, user: model.attributes.username });
           }
           var user = new User({
+            username: profile.name,
             email: profile.email,
             firstName: profile.first_name,
             lastName: profile.last_name,
@@ -81,7 +85,8 @@ router.post('/facebook', function(req, res){
           });
           user.save().then(function() {
             var token = createJWT(user);
-            res.send({ token: token });
+            console.log("Not authorized, user created. responding...");
+            res.send({ token: token, user: user.username });
           });
         });
       }
