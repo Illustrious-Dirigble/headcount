@@ -9,7 +9,6 @@ $scope.search = {
 
 $scope.searchResults = [];
 
-
   $scope.searchAmazon = function() {
    $http({
       method: 'POST',
