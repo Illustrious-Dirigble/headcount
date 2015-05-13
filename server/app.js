@@ -45,6 +45,9 @@ app.use(session({
 app.use('/', routes);
 app.use('/users', users);
 app.use('/auth', auth);
+app.post('/search', function(req, res) {
+  amazon.search(req, res);
+})
 
 // Catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -130,7 +133,6 @@ if (app.get('env') === 'development') {
   });
 }
 
-
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
@@ -140,13 +142,13 @@ app.use(function(err, req, res, next) {
 });
 
 
-amazon.execute('ItemSearch', {
-  'SearchIndex': 'Books',
-  'Keywords': 'harry potter',
-  // 'ResponseGroup': 'ItemAttributes'
-}, function(err, results) { // you can add a third parameter for the raw xml response, "results" here are currently parsed using xml2js
-    console.log(JSON.stringify(results));
-});
+// amazon.execute('ItemSearch', {
+//   'SearchIndex': 'Books',
+//   'Keywords': 'harry potter',
+//   // 'ResponseGroup': 'ItemAttributes'
+// }, function(err, results) { // you can add a third parameter for the raw xml response, "results" here are currently parsed using xml2js
+//     console.log(JSON.stringify(results));
+// });
 
 module.exports = app;
 
