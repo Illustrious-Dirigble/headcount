@@ -2,7 +2,10 @@
 <div layout="row">
   <div flex="33" class="events links">
 
-    <input type="text" ng-model="search" placeholder="Search events"></span>
+    <div class="ui icon input">
+      <input type="text" ng-model="search" placeholder="Search.."></span>
+      <i class="search icon"></i>
+    </div>
 
     <a href="#event" class="link" ng-repeat="link in events | filter:search | orderBy:'created_at'" ng-click="saveEvent(link)">
       <div class="info" >
