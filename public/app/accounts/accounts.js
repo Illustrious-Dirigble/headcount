@@ -3,7 +3,7 @@ angular.module('headcount.accounts', [])
 .controller('AccountsController', function ($scope, $window, $location, $http) {
 
   $scope.initialize = function() {
-    var currentUser = sessionStorage.getItem('user');
+    var currentUser = sessionStorage.getItem('user') || JSON.parse(localStorage.getItem('currentUser'));
     console.log(currentUser);
     return $http({
       method: 'POST',

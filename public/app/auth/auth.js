@@ -13,7 +13,6 @@ angular.module('headcount.auth', ['satellizer'])
 
   $scope.OAuthLogin = function (provider) {
     $auth.authenticate(provider).then(function(res){
-      $window.localStorage.currentUser = JSON.stringify(res.data.user);
       $location.path('/');
     });
   };
