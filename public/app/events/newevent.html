@@ -1,59 +1,60 @@
-
 <div class="newUserEvent" >
-  <div layout="column">
-  <md-content layout-padding>
+<h1 class="ui header">Create New Event</h1>
+  <div class="ui form">
     <form name="userForm" ng-model="newEvent" ng-submit="createEvent()">
-      <div layout layout-sm="column">
-        <md-input-container style="width:50%">
-            <label>Title</label>
-            <input ng-model="newEvent.title" >
-          </md-input-container>
-        <md-input-container flex>
+      <div class="two fields">
+        <div class="field">
+          <label>Event Title</label>
+          <input type="text" placeholder="My Awesome Event" ng-model="newEvent.title">
+        </div>
+        <div class="field">
           <label>Expiration Date</label>
           <input type="date" ng-model="newEvent.expiration">
-        </md-input-container>
+        </div>
       </div>
-      <div layout layout-sm="column">
-        <md-input-container flex>
+      <div class="two fields">
+        <div class="field">
           <label>Amount</label>
-          <input ng-model="newEvent.thresholdMoney">
-        </md-input-container>
-        <md-input-container flex>
-          <label>Numer of People</label>
-          <input ng-model="newEvent.thresholdPeople">
-        </md-input-container>
+          <div class="ui icon input">
+            <input type="text" ng-model="newEvent.thresholdMoney">
+            <i class="dollar icon"></i>
+          </div>
+        </div>
+        <div class="field">
+          <label>Number of People</label>
+          <div class="ui icon input">
+            <input type="text" ng-model="newEvent.thresholdPeople">
+            <i class="users icon"></i>
+          </div>
+        </div>
       </div>
-      <md-input-container flex>
-        <label>Description</label>
-        <textarea ng-model="newEvent.description" columns="1" md-maxlength="400"></textarea>
-      </md-input-container>
-      <md-input-container flex>
+      <div class="field">
+        <textarea ng-model="newEvent.description" columns="2"></textarea>
+      </div>
+      <div class="field">
         <label>Image URL</label>
-        <input ng-model="newEvent.image" columns="1"</input>
-      </md-input-container>
-      <md-input-container flex>
-        <label>Address</label>
-        <input ng-model="user.address">
-      </md-input-container>
-      <md-input-container md-no-float>
-        <input ng-model="user.address2" placeholder="Address 2">
-      </md-input-container>
-      <div layout layout-sm="column">
-        <md-input-container flex>
-          <label>City</label>
-          <input ng-model="user.city">
-        </md-input-container>
-        <md-input-container flex>
-          <label>State</label>
-          <input ng-model="user.state">
-        </md-input-container>
-        <md-input-container flex>
-          <label>Postal Code</label>
-          <input ng-model="user.postalCode">
-        </md-input-container>
+        <input type="url" ng-model="newEvent.image">
       </div>
-  </md-content>
-
+      <h4 class="ui dividing header">Personal Information</h4>
+      <div class="field">
+        <input type="text" ng-model="user.address" placeholder="Address line 1">
+      </div>
+      <div class="field">
+        <input type="text" ng-model="user.address2" placeholder="Address line 2">
+      </div>
+      <div class="three fields">
+        <div class="field">
+          <input type="text" ng-model="user.city" placeholder="City">
+        </div>
+        <div class="field">
+          <input type="text" ng-model="user.state" placeholder="State">
+        </div>
+        <div class="field">
+          <input type="text" ng-model="user.postalCode" placeholder="Postal Code">
+        </div>
+      </div>
+    </form>
+  </div>
   <div ng-controller="EventsController as ctrl" layout="column">
     <md-content class="md-padding autocomplete" layout="column">
     <md-contact-chips
@@ -82,9 +83,8 @@
     </md-list>
     </md-content>
 
-     <section layout="row" layout-sm="column" layout-align="center center">
-    <md-button type="submit" ng-disabled="shouldNotBeCreatable" class="md-raised md-primary">Create</md-button>
+     <section layout="row" layout-sm="column" layout align="center center">
+     <button type="submit" class="ui button green" ng-disabled="shouldNotBeCreatable">Create</button>
      </section>
   </form>
-  </div>
 </div>
