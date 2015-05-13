@@ -29,3 +29,5 @@ Procfile
 db_keys.js
 # Hide Facebook oauth
 oauth.js
+#hiding amazon keys
+utils/amazon_api.js

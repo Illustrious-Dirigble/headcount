@@ -35,6 +35,11 @@ angular.module('headcount', [
       controller: 'AccountsController',
       authenticate: true,
     })
+    .when('/search', {
+      templateUrl: 'app/events/search.html',
+      controller: 'SearchController',
+      authenticate: true,
+    })
     .otherwise({
       redirectTo: '/events'
     });

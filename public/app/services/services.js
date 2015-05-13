@@ -26,7 +26,9 @@ angular.module('headcount.services', ['satellizer'])
   };
 
   var isAuth = function () {
+
     return !!$window.sessionStorage.getItem('user') || $auth.isAuthenticated();
+
   };
 
   var signout = function () {
