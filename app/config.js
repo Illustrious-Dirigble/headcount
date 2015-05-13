@@ -29,7 +29,8 @@ db.knex.schema.dropTableIfExists('users', function(){
     user.string('lastName', 100);
     user.string('shippingAddress', 255);
     user.string('phoneNumber', 100);
-    user.string('facebookId', 255)
+    user.string('facebookId', 255);
+    user.string('facebookToken', 255);
     user.timestamps();
   }).then(function (table) {
     console.log('Created Table', table);
