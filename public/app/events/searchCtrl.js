@@ -1,16 +1,12 @@
 angular.module('headcount.events', [])
 
-.controller('SearchController', function ($scope, $http, $window, $timeout, $q, EventsFactory) {
+.controller('SearchController', function ($scope, $http, $q) {
 
-  // Stores all events that were created by you or that you were invited to
 $scope.search = {
       search: ''
     };
 
 $scope.searchResults = [];
-  /* userList currently populates with all users of Headcount. invitedUsers
-   * gets pushed with any users you invite.
-   */
 
   $scope.searchAmazon = function() {
    $http({
@@ -32,8 +28,4 @@ $scope.searchResults = [];
         }
     });
   };
-
-
 });
-
-// results.data.ItemSearchResponse.Items[0].Item
