@@ -1,19 +1,20 @@
 <div layout="row">
 	<div class="center-form">
-	  <h1 class="auth_title">Sign-up</h1>
-	  <form ng-submit="signup()">
-		<div class="form-group">
-		  <label for="username">Username</label>
-		  <input type="text" class="form-control" placeholder="Username" ng-model="user.username" required>
-		</div>
-		<div class="form-group">
-		  <label for="password">Password</label>
-		  <input type="password" class="form-control" placeholder="Password" ng-model="user.password" required>
-		</div>
-		<button type="submit" class="btn btn-default">Sign-up</button>
+	  <h1>Sign-up</h1>
+	  <form class="ui form" ng-submit="signup()">
+	  		<div class="field">
+	  		  <input type="text" placeholder="Username" ng-model="user.username" required>
+	  		</div>
+	  		<div class="field">
+	  		  <input type="password" placeholder="Password" ng-model="user.password" required>
+	  		</div>
+	      <div class="ui buttons">
+	  	    <button type="submit" class="ui button green padding">Sign up</button>
+	        <div class="or"></div>
+	        <a href="#/signin"><div class="ui button">Sign in instead</div></a>
+	      </div>
 	  </form>
 	<span> <a href="/auth/google"><img class="oauth_button" src="./../assets/google.png" /></a></span>
 	<span> <a href="/auth/facebook"><img class="oauth_button" src="./../assets/facebook.png" /></a></span> <br />
-	<a id="newAuth" href="#/signin">Already have an account? <strong>Sign-in</strong> ...</a>
-    </div>
+  </div>
 </div>
