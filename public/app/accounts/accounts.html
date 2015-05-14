@@ -1,34 +1,28 @@
 <div id='container'>
   <div layout="row">
-    <div class="center-form">
+    <div class="ui form">
       <section class="venmo-button" layout="row" layout-sm="column" layout-align="center center">
-        <md-button ng-show="!shouldNotBeClickable" ng-disabled="true" class="md-raised md-primary">Venmo Account Authorized</md-button>
-        <md-button ng-show="shouldNotBeClickable" ng-click="authorize()" class="md-raised md-warn">Authorize Your Venmo Account!</md-button>
+        <button ng-show="!shouldNotBeClickable" ng-disabled="true" class="ui button blue">Venmo Account Authorized</button>
+        <button ng-show="shouldNotBeClickable" ng-click="authorize()" class="ui button yellow">Authorize Your Venmo Account!</button>
       </section>
       <form ng-submit="accountUpdate()">
-        <div class="form-group" ng-controller="DemoCtrl" layout="column">
-          <md-content layout-padding>
-             <md-input-container class="md-icon-float" >
-               <label>Username</label>
-               <md-icon md-svg-src="assets/user168.svg" class="username"></md-icon>
-               <input ng-model="username" type="text" disabled=>
-             </md-input-container>
-             <md-input-container class="md-icon-float" >
-               <label>First Name</label>
-               <md-icon md-svg-src="assets/id17.svg" class="firstname"></md-icon>
-               <input ng-model="firstname" type="text" >
-             </md-input-container>
-             <md-input-container class="md-icon-float" >
-               <label>Last Name</label>
-               <md-icon md-svg-src="assets/id17.svg" class="lastname"></md-icon>
-               <input ng-model="lastname" type="text">
-             </md-input-container>
-             <md-input-container >
-               <md-icon md-svg-src="assets/email5.svg" class="email"></md-icon>
-               <input ng-model="email" type="email" placeholder="Email (required)" ng-required="true">
-             </md-input-container>
-             <button type="submit" class="md-raised md-primary md-hue-1"> Save </button>
-           </md-content>
+        <div class="two fields">
+          <div class="field">
+            <input ng-model="username" placeholder="Username">
+          </div>
+          <div class="field">
+            <input ng-model="email" placeholder="Email address" required>
+          </div>
+        </div>
+        <div class="two fields">
+          <div class="field">
+            <input ng-model="firstname" placeholder="First name">
+          </div>
+          <div class="field">
+            <input ng-model="lastname" placeholder="Last name">
+          </div>
+        </div>
+        <button type="submit" class="ui button green">Save</button>
       </form>
     </div>
   </div>
