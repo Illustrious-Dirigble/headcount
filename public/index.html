@@ -30,6 +30,10 @@
       <a class="item right" ng-show="!isAuth()">Sign In</a>
       <a class="item right" ng-show="isAuth()" ng-click="signout()">Sign Out</a>
       <a class="item right" href="#newevent" ng-show="isAuth()">New Event</a>
+      <a class="item right" ng-show="isAuth()">
+        <i class="user icon greyText"></i>
+        <span class="greyText">{{getUser()}}</span>
+      </a>
     </div>
     <div class="ui grid">
       <div class="column two wide"></div>

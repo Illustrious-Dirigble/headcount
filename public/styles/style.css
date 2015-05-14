@@ -20,6 +20,10 @@ h1 {
   margin-bottom: 10px;
 }
 
+.greyText {
+  color: grey;
+}
+
 .oauth_button {
   height: 35px;
   margin-top: 10px;

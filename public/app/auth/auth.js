@@ -13,6 +13,7 @@ angular.module('headcount.auth', ['satellizer'])
 
   $scope.OAuthLogin = function (provider) {
     $auth.authenticate(provider).then(function(res){
+      $window.sessionStorage.setItem('user', res.data.user);
       $location.path('/');
     });
   };
@@ -68,6 +69,10 @@ angular.module('headcount.auth', ['satellizer'])
 
   $scope.isAuth = function () {
     return !!$window.sessionStorage.getItem('user') || $auth.isAuthenticated();
+  };
+
+  $scope.getUser = function () {
+    return $window.sessionStorage.getItem('user');
   };
 
 });
