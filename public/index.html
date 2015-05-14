@@ -21,12 +21,15 @@
   </head>
 
   <body>
-    <div class="ui menu large">
+    <div class="ui menu large" ng-controller="AuthController">
       <a class="item header">HeadCount</a>
-      <a class="item" href="#events">Events</a>
-      <a class="item" href="#accounts">Accounts</a>
-      <a class="item right"><div ng-controller="AuthController" ng-click="signout()">Sign Out</div></a>
-      <a class="item right" href="#newevent">New Event</a>
+      <span ng-show="isAuth()">
+        <a class="item" href="#events">Events</a>
+        <a class="item" href="#accounts">Accounts</a>
+      </span>
+      <a class="item right" ng-show="!isAuth()">Sign In</a>
+      <a class="item right" ng-show="isAuth()" ng-click="signout()">Sign Out</a>
+      <a class="item right" href="#newevent" ng-show="isAuth()">New Event</a>
     </div>
     <div class="ui grid">
       <div class="column two wide"></div>
