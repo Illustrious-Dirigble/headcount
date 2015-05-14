@@ -13,28 +13,30 @@ db.plugin('registry');
  * Columns email, firstName, lastName, shippingAddress and phoneNumber are currently not being used.
  */
 
-db.knex.schema.dropTableIfExists('users', function(){
-  db.knex.schema.createTable('users', function (user) {
-    user.increments('id').primary();
-    user.string('username', 100).unique();
-    user.string('password', 100);
-    user.string('email', 100);
-    user.string('venmoUsername', 255);
-    user.string('venmoDisplayName', 255);
-    user.string('venmoUserId', 255);
-    user.string('venmoAccessToken', 255);
-    user.string('venmoRefreshToken', 255);
-    user.string('venmoPicture', 255);
-    user.string('firstName', 100);
-    user.string('lastName', 100);
-    user.string('shippingAddress', 255);
-    user.string('phoneNumber', 100);
-    user.string('facebookId', 255);
-    user.string('facebookToken', 500);
-    user.timestamps();
-  }).then(function (table) {
-    console.log('Created Table', table);
-  });
+db.knex.schema.hasTable('users').then(function(exists) {
+  if (!exists) {
+    db.knex.schema.createTable('users', function (user) {
+      user.increments('id').primary();
+      user.string('username', 100).unique();
+      user.string('password', 100);
+      user.string('email', 100);
+      user.string('venmoUsername', 255);
+      user.string('venmoDisplayName', 255);
+      user.string('venmoUserId', 255);
+      user.string('venmoAccessToken', 255);
+      user.string('venmoRefreshToken', 255);
+      user.string('venmoPicture', 255);
+      user.string('firstName', 100);
+      user.string('lastName', 100);
+      user.string('shippingAddress', 255);
+      user.string('phoneNumber', 100);
+      user.string('facebookId', 255);
+      user.string('facebookToken', 500);
+      user.timestamps();
+    }).then(function (table) {
+      console.log('Created Table', table);
+    });
+  }
 });
 
 db.knex.schema.hasTable('events').then(function(exists) {
