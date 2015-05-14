@@ -2,8 +2,11 @@
   <div layout="row">
     <div class="ui form">
       <section class="venmo-button" layout="row" layout-sm="column" layout-align="center center">
-        <button ng-show="!shouldNotBeClickable" ng-disabled="true" class="ui button blue">Venmo Account Authorized</button>
-        <button ng-show="shouldNotBeClickable" ng-click="authorize()" class="ui button yellow">Authorize Your Venmo Account!</button>
+        <a ng-show="!shouldNotBeClickable" class="ui label blue large">
+          <i class="checkmark box icon large"></i>
+          Venmo Account Authorized
+        </a>
+        <button ng-show="shouldNotBeClickable" ng-click="authorize()" class="ui button yellow">Authorize Your Venmo Account</button>
       </section>
       <form ng-submit="accountUpdate()">
         <div class="two fields">

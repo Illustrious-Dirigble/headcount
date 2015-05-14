@@ -13,7 +13,7 @@
           <input type="date" ng-model="newEvent.expiration">
         </div>
       </div>
-      <div class="two fields">
+      <div class="three fields">
         <div class="field">
           <label>Amount</label>
           <div class="ui icon input">
@@ -28,13 +28,13 @@
             <i class="users icon"></i>
           </div>
         </div>
+        <div class="field">
+          <label>Image URL</label>
+          <input type="url" ng-model="newEvent.image">
+        </div>
       </div>
       <div class="field">
         <textarea ng-model="newEvent.description" columns="2"></textarea>
-      </div>
-      <div class="field">
-        <label>Image URL</label>
-        <input type="url" ng-model="newEvent.image">
       </div>
       <h4 class="ui dividing header">Personal Information</h4>
       <div class="field">
