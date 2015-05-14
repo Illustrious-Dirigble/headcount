@@ -45,8 +45,8 @@ angular.module('headcount.events', [])
 
   // Event object that's populated via creation form and then posted for creation
   $scope.newEvent = {
-    title: 'Title goes here',
-    description: 'Description goes here',
+    title: 'My Awesome Event',
+    description: '',
     expiration: new Date(new Date().setDate(new Date().getDate() + 20)),
     thresholdPeople: 10,
     thresholdMoney: 100
