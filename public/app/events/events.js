@@ -1,9 +1,9 @@
 angular.module('headcount.events', [])
 
-.controller('EventsController', function ($scope, $http, $window, $timeout, $q, EventsFactory) {
+.controller('EventsController', function ($scope, $http, $window, $timeout, $q, EventsFactory){
 
   // Stores all events that were created by you or that you were invited to
-$scope.user = {
+  $scope.user = {
       title: '',
       email: '',
       firstName: '',
@@ -22,8 +22,8 @@ $scope.user = {
   $scope.showNewEvent = true;
 
   /* userList currently populates with all users of Headcount. invitedUsers
-   * gets pushed with any users you invite.
-   */
+//    * gets pushed with any users you invite.
+//    */
 
   $scope.userList = [];
   $scope.invitedUsers = [];
@@ -41,7 +41,6 @@ $scope.user = {
   $scope.saveEvent = function(link) {
     $scope.showEvent = true;
     EventsFactory.currentEvent = link;
-
   };
 
   // Event object that's populated via creation form and then posted for creation
@@ -81,9 +80,8 @@ $scope.user = {
   };
 
   /* Fetches invited events. We're using two methods, one to fetch invite IDs, which are
-   * then fed to another method which actually fetches the events.
-   */
-
+//    * then fed to another method which actually fetches the events.
+//    */
 
   $scope.fetchInviteIDs = function () {
     return $http({
@@ -192,7 +190,6 @@ $scope.user = {
 
   $scope.acceptOrDeclineInvite = function(acceptOrDeclineBoolean, $event) {
     console.log('accepting invite?', acceptOrDeclineBoolean);
-
     var eventId = this.event.id;
     return $http({
       method: 'POST',
@@ -203,9 +200,7 @@ $scope.user = {
       }
     })
     .then(function(resp) {
-
      $scope.updateEventInfo(resp, $event);
-
     });
   };
 
@@ -230,6 +225,7 @@ $scope.user = {
    * -- A) User has not authorized his/her Venmo account
    * -- B) User is the account creator
    */
+
   $scope.checkEventPermissions = function(){
 
     var currentUser = sessionStorage.getItem('user');
@@ -291,7 +287,5 @@ $scope.user = {
       $scope.showCreate = true;
     }
   };
-
-
 });
 
