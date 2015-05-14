@@ -3,6 +3,7 @@ angular.module('headcount.events')
 
 .controller('SearchController', function ($scope, $http, $q) {
 
+
 $scope.search = {
       search: ''
     };
