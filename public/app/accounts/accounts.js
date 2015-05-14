@@ -24,7 +24,7 @@ angular.module('headcount.accounts', [])
 
   $scope.accountUpdate = function() {
     console.log('updating account');
-    var currentUser = sessionStorage.getItem('user');
+    var currentUser = window.sessionStorage.getItem('user') || JSON.parse(window.localStorage.getItem('currentUser'));
     var data = {};
     data.username = $scope.username;
     data.firstName = $scope.firstname;
@@ -45,7 +45,7 @@ angular.module('headcount.accounts', [])
    */
   $scope.checkVenmoDetails = function(){
 
-    var currentUser = sessionStorage.getItem('user');
+    var currentUser = window.sessionStorage.getItem('user') || JSON.parse(window.localStorage.getItem('currentUser'));
     return $http({
       method: 'POST',
       url : '/users/checkUser',
@@ -70,13 +70,13 @@ angular.module('headcount.accounts', [])
    * Gets Connect account creation redirect url from server and manually sets href.
    */
   $scope.authorize = function() {
-    var currentUser = sessionStorage.getItem('user');
+    var currentUser = window.sessionStorage.getItem('user') || JSON.parse(window.localStorage.getItem('currentUser'));
 
     return $http({
       method: 'POST',
       url: '/authorize',
       data: {
-        username: currentUser,
+        username: currentUser
       }
     })
     .then(function (resp) {
