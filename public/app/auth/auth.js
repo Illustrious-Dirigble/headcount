@@ -70,4 +70,8 @@ angular.module('headcount.auth', ['satellizer'])
     return !!$window.sessionStorage.getItem('user') || $auth.isAuthenticated();
   };
 
+  $scope.getUser = function () {
+    return $window.sessionStorage.getItem('user');
+  };
+
 });
