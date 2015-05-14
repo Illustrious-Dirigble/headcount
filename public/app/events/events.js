@@ -227,8 +227,7 @@ angular.module('headcount.events', [])
    */
 
   $scope.checkEventPermissions = function(){
-
-    var currentUser = sessionStorage.getItem('user');
+    var currentUser = window.sessionStorage.getItem('user') || JSON.parse(window.localStorage.getItem('currentUser'));
     return $http({
       method: 'POST',
       url : '/users/checkUser',

@@ -25,7 +25,7 @@ function createJWT(user) {
     iat: moment().unix(),
     exp: moment().add(14, 'days').unix()
   };
-  return jwt.encode(payload, oauth.ids.facebook.clientSecret);
+  return jwt.encode(payload, oauth.ids.local.secret);
 };
 
 router.post('/facebook', function(req, res){
