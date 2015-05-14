@@ -37,22 +37,20 @@ router.post('/checkUser', function(req, res, done) {
       withRelated: ['invites']
     })
     .then(function(user){
+      if (user) {
 
       // console.log('current invites', user.related('invites').models);
-      var inviteModels = user.related('invites').models;
+        var inviteModels = user.related('invites').models;
 
-      var currentInvites = [];
-      for (var i = 0; i < inviteModels.length; i++) {
+        var currentInvites = [];
+        for (var i = 0; i < inviteModels.length; i++) {
 
-        if (inviteModels[i].attributes.joined || inviteModels[i].attributes.declined) {
-          currentInvites.push(inviteModels[i].attributes.event_id)
+          if (inviteModels[i].attributes.joined || inviteModels[i].attributes.declined) {
+            currentInvites.push(inviteModels[i].attributes.event_id)
+          }
         }
-      }
 
       // console.log(currentInvites);
-      
-
-     if (user) {
 
        if (user.attributes.venmoAccessToken && user.attributes.venmoUserId) {
          res.json({
