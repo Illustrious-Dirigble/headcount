@@ -97,7 +97,7 @@ function(accessToken, refreshToken, profile, done) {
 
 // Google Passport OAuth
 passport.use(new GoogleStrategy({
-  clientID: process.env.googleClientID || oauth.ids.google.clientId,
+  clientID: process.env.googleClientID || oauth.ids.google.clientID,
   clientSecret: process.env.googleClientSecret || oauth.ids.google.clientSecret,
   callbackURL: process.env.googleCallbackURL || oauth.ids.google.callbackURL
 },
