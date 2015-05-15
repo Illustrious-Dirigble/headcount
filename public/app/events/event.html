@@ -20,7 +20,7 @@
     <div class="four wide column">
       <img src="{{event.image}}" height="195px" width="195px" class="event-image"></img>
     </div>
-    <div class="twelve wide column">
+    <div class="ten wide column">
       <h1>{{event.title}}</h1>
       <div class="ui statistics">
         <div class="statistic green">
@@ -43,6 +43,18 @@
       <div>
         created by <strong>{{event.user_id}}</strong><br>
         expires on <strong>{{ event.expiration |  date : format : timezone}}</strong>
+      </div>
+    </div>
+    <div class="two wide column">
+      <div class="ui vertical buttons ">
+        <div class="ui button positive icon">
+          <i class="checkmark icon"></i>
+          Join
+        </div>
+        <div class="ui button negative icon">
+          <i class="remove icon"></i>
+          Decline
+          </div>
       </div>
     </div>
   </div>
