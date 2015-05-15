@@ -217,8 +217,9 @@ md-list .md-button {
 }
 
 .event-image {
-  margin: 20px;
+  margin: 10px 0px;
   border-radius: 10px;
+  display: inline !important;
 }
 
 .events {

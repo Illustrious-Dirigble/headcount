@@ -1,4 +1,4 @@
-    <div class="event" panel panel-primary ng-model="event">
+<!--     <div class="event" panel panel-primary ng-model="event">
       <div class="info" >
         <img class="event-image" width="200px" height="200px" src="{{event.image}}" />
         <div id="{{ 'event-' + $index }}" class="info" >
@@ -13,3 +13,86 @@
       <md-button class="md-raised md-primary"ng-model="shouldNotBeClickable" ng-disabled="shouldNotBeClickable" ng-click="acceptOrDeclineInvite(false, event); shouldNotBeClickable = true"> DECLINE </md-button>
     </div>
 
+ -->
+
+ <div class="ui segment">
+  <div class="ui grid">
+    <div class="four wide column">
+      <img src="{{event.image}}" height="195px" width="195px" class="event-image"></img>
+    </div>
+    <div class="ten wide column">
+      <h1>{{event.title}}</h1>
+      <div class="ui statistics">
+        <div class="statistic green">
+          <div class="value">
+            ${{event.committedMoney}}
+          </div>
+          <div class="label">
+            Raised
+          </div>
+        </div>
+        <div class="statistic teal">
+          <div class="value">
+            {{event.committedPeople || 0}}
+          </div>
+          <div class="label">
+            Contributors
+          </div>
+        </div>
+      </div>
+      <div>
+        created by <strong>{{event.user_id}}</strong><br>
+        expires on <strong>{{ event.expiration |  date : format : timezone}}</strong>
+      </div>
+    </div>
+    <div class="two wide column">
+      <div class="ui vertical buttons ">
+        <div class="ui button positive icon">
+          <i class="checkmark icon"></i>
+          Join
+        </div>
+        <div class="ui button negative icon">
+          <i class="remove icon"></i>
+          Decline
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="ui segment">
+    <h4 class="ui header">Description</h4>
+    <p>{{event.description}}</p>
+  </div>
+
+
+  <!-- BEGIN CHAT UI -->
+  <div class="ui segment">
+    <div class="ui comments">
+      <h4 class="ui header">Comments</h3>
+      <div class="comment">
+        <a class="avatar">
+          <img src="http://semantic-ui.com/images/avatar/small/matt.jpg">
+        </a>
+        <div class="content">
+          <a class="author">Kyle</a>
+          <div class="metadata">
+            <span class="date">Today at 5:42PM</span>
+          </div>
+          <div class="text">
+            This is awesome!
+          </div>
+          <div class="actions">
+            <a class="delete">Delete</a>
+          </div>
+        </div>
+      </div>
+      <form class="ui reply form">
+        <div class="field">
+          <textarea></textarea>
+        </div>
+        <div class="ui blue labeled submit icon button">
+          <i class="icon edit"></i> Add Reply
+        </div>
+      </form>
+    </div>
+  </div>
+ </div>

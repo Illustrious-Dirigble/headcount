@@ -5,11 +5,11 @@
     <br> <!-- This should be done in CSS -->
     <div class="ui four cards">
       <div class="ui card" ng-repeat="link in events | filter:search | orderBy:'created_at'" ng-click="saveEvent(link)">
-        <a class="image">
+        <a class="image" ng-click="saveEvent(link)" href="#event">
               <img src="{{link.image || 'http://placehold.it/195x195'}}">
         </a>
         <div class="content">
-          <a class="header">{{link.title}}</a>
+          <a class="header" ng-click="saveEvent(link)" href="#event">{{link.title}}</a>
           <div class="meta">
             <a>by {{link.user_id}}</a>
           </div>
