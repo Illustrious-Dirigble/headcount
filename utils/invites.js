@@ -5,13 +5,13 @@ var Invite = require('./../app/models/invite.js');
  * Returns a callback with the created invite passed in
  */
 var createInvite = function(eventId, invitedUserId, callback) {
-    new Invite({
-      event_id: eventId,
-      user_id: invitedUserId
-    }).save()
-      .then(function(invite){
-        callback(invite);
-      });
+  new Invite({
+    event_id: eventId,
+    user_id: invitedUserId
+  }).save()
+    .then(function(invite){
+      callback(invite);
+    });
 };
 
 /**
@@ -37,36 +37,40 @@ exports.createInvites = function(eventId, invitedUserIds, callback) {
 };
 
 exports.updateInvite = function(userId, eventId, inviteAcceptedBool, callback) {
-
+  console.log("userId: " + userId);
+  console.log("eventId:" + userId);
   new Invite({
     user_id: userId,
     event_id: eventId
   }).fetch().then(function(invite) {
+    if (invite){
+      if (inviteAcceptedBool) {
+        console.log('invite accepted');
 
-    if (inviteAcceptedBool) {
-      console.log('invite accepted');
+         invite.save({
+          joined: true,
+          declined: false
+        }).then(function(updatedInvite) {
+          console.log('Users invite updated!');
+          callback(updatedInvite)
+          // console.dir(updatedInvite.toJSON());
+        });
 
-       invite.save({
-        joined: true,
-        declined: false
-      }).then(function(updatedInvite) {
-        console.log('Users invite updated!');
-        callback(updatedInvite)
-        // console.dir(updatedInvite.toJSON());
-      });
+      } else {
+        console.log('invite declined');
 
+         invite.save({
+          joined: false,
+          declined: true
+        }).then(function(updatedInvite) {
+          console.log('Users invite updated!');
+          callback(updatedInvite);
+          // console.dir(updatedInvite.toJSON());
+
+        });
+      }
     } else {
-      console.log('invite declined');
-
-       invite.save({
-        joined: false,
-        declined: true
-      }).then(function(updatedInvite) {
-        console.log('Users invite updated!');
-        callback(updatedInvite);
-        // console.dir(updatedInvite.toJSON());
-
-      });
+      console.error("Invite not found");
     }
   });
 
