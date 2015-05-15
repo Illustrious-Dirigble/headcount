@@ -2,13 +2,13 @@ var express = require('express');
 var router = express.Router();
 var qs = require('querystring');
 var request = require('request');
-var oauth = require('./../oauth');
 
 var payOutEvent = require('./../utils/payments.js');
 var attendance = require('./../utils/invites.js');
 var User = require('./../app/models/user.js');
 var Event = require('./../app/models/event.js');
 var Invite = require('./../app/models/invite.js');
+var oauth = require('./../oauth.js');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
