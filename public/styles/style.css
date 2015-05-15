@@ -229,6 +229,12 @@ md-list .md-button {
 .center-form {
   margin: 0 auto;
 }
+.searchMessage {
+  margin: 0 auto;
+  padding-top: 30px;
+  color: grey;
+  font-size: 64px;
+}
 
 /* Using Data-URI converted from svg until <md-icon> becomes available
 https://github.com/google/material-design-icons

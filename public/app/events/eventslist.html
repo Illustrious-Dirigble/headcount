@@ -4,6 +4,9 @@
     </div>
     <br> <!-- This should be done in CSS -->
     <div class="ui four cards">
+      <div class="center-form" ng-show="!(events | filter:search).length">
+        <h1 class="searchMessage">No Events</h1>
+      </div>
       <div class="ui card" ng-repeat="link in events | filter:search | orderBy:'created_at'" ng-click="saveEvent(link)">
         <a class="image" ng-click="saveEvent(link)" href="#event">
               <img src="{{link.image || 'http://placehold.it/195x195'}}">
