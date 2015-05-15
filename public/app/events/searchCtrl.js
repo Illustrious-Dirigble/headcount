@@ -114,3 +114,34 @@ $scope.searchResults = [];
 
 });
 
+
+//   $scope.allContacts = 
+
+// <md-contact-chips
+//       ng-model="ctrl.contacts"
+//       md-contacts="ctrl.querySearch($query)"
+//       md-contact-name="name"
+//       md-contact-image="image"
+//       md-require-match
+//       filter-selected="ctrl.filterSelected"
+//       placeholder="To">
+//     </md-contact-chips>
+//     <md-list class="fixedRows">
+//     <md-subheader class="md-no-sticky">Contacts</md-subheader>
+//     <md-list-item ng-hide="true" class="md-2-line contact-item invitees" data-id="{{contact.id}}" ng-repeat="(index, contact) in ctrl.allContacts" ng-if="ctrl.contacts.indexOf(contact) < 0" layout="column">
+//     <img ng-src="{{contact.image}}" class="md-avatar" alt="{{contact.name}}" />
+//     <div class="md-list-item-text compact">
+//       <h3>{{contact.name}}</h3>
+//     </div>
+//     </md-list-item>
+//     <md-list-item ng-hide="true" class="md-2-line contact-item selected" ng-repeat="(index, contact) in ctrl.contacts">
+//     <img ng-hide="true" ng-src="{{contact.image}}" class="md-avatar" alt="{{contact.name}}" />
+//     <div ng-hide="true" class="md-list-item-text compact">
+//       <h3 ng-hide="true">{{ contact.id }}</h3>
+//     </div>
+//     </md-list-item>
+//     </md-list>
+//     </md-content>
+
+
+});
