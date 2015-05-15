@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var qs = require('querystring');
 var request = require('request');
-var oauth = require('./../oauth');
 
 var payOutEvent = require('./../utils/payments.js');
 var attendance = require('./../utils/invites.js');

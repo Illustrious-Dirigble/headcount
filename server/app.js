@@ -16,7 +16,6 @@ var User        = require('../app/models/user');
 var auth         = require('./../routes/auth');
 
 // Authentication
-var oauth        = require('./../oauth.js');
 var FacebookStrategy = require('passport-facebook').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var LocalStrategy = require('passport-local').Strategy;
@@ -48,6 +47,10 @@ app.use('/auth', auth);
 app.post('/search', function(req, res) {
   amazon.search(req, res);
 })
+app.post('/addToCart', function(req, res) {
+  console.log(req.body.ASIN);
+  amazon.createCart(req, res);
+})
 
 // Catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -68,6 +71,8 @@ passport.deserializeUser(function(obj, done) {
 });
 
 // Facebook Passport OAuth
+
+/*
 passport.use(new FacebookStrategy({
   clientID: process.env.fbClientID,
   clientSecret: process.env.fbClientSecret,
@@ -120,7 +125,7 @@ passport.use('local',new LocalStrategy(
       }
     });
   }));
-
+*/
 // error handlers
 
 // development error handler

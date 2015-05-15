@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var User  = require('./../app/models/user');
-var oauth = require('./../oauth');
 var passport = require('passport');
 var request = require('request');
 var jwt = require('jwt-simple');

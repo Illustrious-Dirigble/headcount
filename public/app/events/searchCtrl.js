@@ -8,9 +8,18 @@ $scope.search = {
       search: ''
     };
 
-$scope.addToCart(ASIN) {
-  console.log(ASIN);
-}
+$scope.addToCart = function(ASIN) {
+  $http({
+    method: 'POST',
+    url: '/addToCart',
+    data: {
+      'ASIN': ASIN
+    }
+  })
+  .then(function(response) {
+    console.dir(response);
+  })
+};
 
 $scope.searchResults = [];
 
