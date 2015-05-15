@@ -1,24 +1,32 @@
-<div layout="row">
-  <div flex="33" class="events links">
-
-    <div class="ui icon input">
+    <div class="ui icon input fluid">
       <input type="text" ng-model="search" placeholder="Search.."></span>
       <i class="search icon"></i>
     </div>
+    <br> <!-- This should be done in CSS -->
+    <div class="ui four cards">
+      <div class="ui card" ng-repeat="link in events | filter:search | orderBy:'created_at'" ng-click="saveEvent(link)">
+        <a class="image">
+              <img src="{{link.image || 'http://placehold.it/195x195'}}">
+        </a>
+        <div class="content">
+          <a class="header">{{link.title}}</a>
+          <div class="meta">
+            <a>by {{link.user_id}}</a>
+          </div>
+          <div class="description">
+            <div class="ui teal progress" data-percent="{{link.committedMoney / link.thresholdMoney}}" id="example1">
+              <div class="bar"></div>
+              <div class="label">${{link.committedMoney}} of ${{link.thresholdMoney}} committed</div>
+            </div>
 
-    <a href="#event" class="link" ng-repeat="link in events | filter:search | orderBy:'created_at'" ng-click="saveEvent(link)">
-      <div class="info" >
-        <img width="100px" height="100px" src="{{link.image}}" />
-        <div id="{{ 'event-' + $index }}" class="info" >
-          <span> <strong> {{ link.title }} </strong> </span> <br />
-          <span> Expiration: {{ link.expiration |  date : format : timezone}} </span> <br />
-          <span> People needed: {{ link.thresholdPeople - link.committedPeople }} </span>
-        </div>
+            <div class="ui label blue">
+              <i class="users icon"></i> {{link.committedPeople}} Contributors
+            </div>
+          </div>
       </div>
-      <span> Cost per person: ${{ link.thresholdMoney / link.thresholdPeople | number:2 }} </span> <br />
-      <span> Remaining money needed: ${{ link.thresholdMoney - (link.committedPeople * (link.thresholdMoney / link.thresholdPeople)) | number:2}} </span>
     </div>
-  </a>
 
-  <div flex="66" class="events">
-</div>
+
+    <script>
+      $('.progress').progress();
+    </script>
