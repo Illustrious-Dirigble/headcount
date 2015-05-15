@@ -3,10 +3,10 @@ var OperationHelper = require('apac').OperationHelper;
 var oauth = require('./../oauth.js');
 
 var opHelper = new OperationHelper({
-    awsId:     oauth.ids.amazonProductsApi.awsId, //process.env.awsId, 
-    awsSecret: oauth.ids.amazonProductsApi.awsSecret, //process.env.awsSecret, 
-    assocId:   oauth.ids.amazonProductsApi.assocId, //process.env.assocId,
-    version:   oauth.ids.amazonProductsApi.version //process.env.awsVersion 
+    awsId:     process.env.awsId || oauth.ids.amazonProductsApi.awsId,
+    awsSecret: process.env.awsSecret || oauth.ids.amazonProductsApi.awsSecret,
+    assocId:   process.env.assocId || oauth.ids.amazonProductsApi.assocId,
+    version:   process.env.awsVersion || oauth.ids.amazonProductsApi.version
 });
 
 
@@ -31,8 +31,6 @@ var opHelper = new OperationHelper({
         res.send(err)
       }
       else {
-        console.log('results: ' + JSON.stringify(results));
-        console.log(results.PurchaseURL);
         res.send(JSON.stringify(results));
       }
     })

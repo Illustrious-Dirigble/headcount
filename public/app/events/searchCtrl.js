@@ -24,8 +24,6 @@ $scope.addToCart = function(ASIN, imageURL, description) {
   })
   .then(function(response) {
     console.dir(response);
-      console.log($scope.showSearch);
-    // var purchaseEvent = {
       var cart = response.data.CartCreateResponse.Cart[0];
       var cartItem = cart.CartItems[0].CartItem[0];
       cartItem.description = description;
@@ -33,10 +31,18 @@ $scope.addToCart = function(ASIN, imageURL, description) {
       cartItem.checkoutURL = cart.PurchaseURL[0];
       cartItem.Title = cartItem.Title[0];
       $scope.cartItem = cartItem;
-      console.log(cartItem.checkoutURL);
       $scope.checkoutURL = cart.PurchaseURL[0];
       $scope.showSearch = false;
       $scope.showCart = true;
+
+        var purchase = {
+    title: cartItem.Title,
+    description: cartItem.description,
+    expiration: new Date(new Date().setDate(new Date().getDate() + 20)),
+    thresholdPeople: 10,
+    thresholdMoney: cartItem.price
+  };
+
     // }
     // $http({
     //   method: 'POST',
@@ -49,27 +55,6 @@ $scope.addToCart = function(ASIN, imageURL, description) {
   })
 };
 
-
-  $scope.createEvent = function() {
-    var inv = [];
-    var list = $('.selected .compact');
-    for (var i = 0; i < list.length; i++){
-      inv.push(list[i].children[0].innerText);
-    }
-    // console.log('inv',inv);
-    $scope.invitedUsers = inv;
-
-    $scope.newEvent.invited = $scope.invitedUsers;
-    // console.log('Event details', $scope.newEvent);
-    return $http({
-      method: 'POST',
-      url: '/events-create',
-      data: $scope.newEvent
-    })
-    .then(function(resp) {
-      $window.location.href = "/";
-    });
-  };
 
 $scope.searchResults = [];
 

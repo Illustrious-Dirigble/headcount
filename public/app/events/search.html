@@ -4,8 +4,13 @@
     <h1 class="auth_title">SEARCH</h1>
     <form ng-submit="searchAmazon()">
     <div class="form-group">
-      <label for="username">Search Keyword</label>
+      <span><label for="username">Search Keyword</label>
       <input type="text" class="form-control" placeholder="Keyword" ng-model="search.search" required>
+      <select id="products">
+        <option>Books</option>
+        <option>General</option>
+        </select>
+        </span>
     </div>
     <button type="submit" class="btn btn-default">Search</button>
     </form>
