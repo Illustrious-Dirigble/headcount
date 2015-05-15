@@ -45,12 +45,11 @@ $scope.addToCart = function(ASIN, imageURL, description) {
     thresholdPeople: 10,
     thresholdMoney: cartItem.price
   };
-
-    // }
+    }
     // $http({
     //   method: 'POST',
     //   url: '/events-create',
-    //   data: $scope.newEvent
+    //   data: purchase
     // })
     // .then(function(resp) {
     //   $window.location.href = "/";
