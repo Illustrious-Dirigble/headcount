@@ -11,6 +11,7 @@ $scope.search = {
       search: ''
     };
 
+
     $scope.showSearch = true;
     $scope.showCart = false;
 
@@ -35,34 +36,30 @@ $scope.addToCart = function(ASIN, imageURL, description) {
       $scope.showSearch = false;
       $scope.showCart = true;
 
-        var purchase = {
+        $scope.purchase = {
     title: cartItem.Title,
     description: cartItem.description,
     expiration: new Date(new Date().setDate(new Date().getDate() + 20)),
     thresholdPeople: 10,
     thresholdMoney: cartItem.price
   };
-
-    // }
-    // $http({
-    //   method: 'POST',
-    //   url: '/events-create',
-    //   data: $scope.newEvent
-    // })
-    // .then(function(resp) {
-    //   $window.location.href = "/";
-    // });
   })
 };
 
 
-$scope.searchResults = [];
+
 
   $scope.searchAmazon = function() {
+    $scope.showSearch = true;
+    $scope.showCart = false;
+    $scope.searchResults = [];
+    var category = document.getElementById("products")
+    category = category.options[category.selectedIndex].value;
+    console.log(category);
    $http({
       method: 'POST',
       url: '/search',
-    data: {keyword: $scope.search.search}
+    data: {keyword: $scope.search.search, category: category}
     })
     .then(function(response) {
       var results = response.data.ItemSearchResponse.Items[0].Item;
@@ -82,6 +79,49 @@ $scope.searchResults = [];
         }
     });
   };
+
+  $scope.confirmItem = function() {
+    $http({
+      method: 'POST',
+      url: '/events-create',
+      data: $scope.purchase
+    })
+    .then(function(resp) {
+      $window.location.href = "/";
+    });
+  }
+
+//   $scope.allContacts = 
+
+// <md-contact-chips
+//       ng-model="ctrl.contacts"
+//       md-contacts="ctrl.querySearch($query)"
+//       md-contact-name="name"
+//       md-contact-image="image"
+//       md-require-match
+//       filter-selected="ctrl.filterSelected"
+//       placeholder="To">
+//     </md-contact-chips>
+//     <md-list class="fixedRows">
+//     <md-subheader class="md-no-sticky">Contacts</md-subheader>
+//     <md-list-item ng-hide="true" class="md-2-line contact-item invitees" data-id="{{contact.id}}" ng-repeat="(index, contact) in ctrl.allContacts" ng-if="ctrl.contacts.indexOf(contact) < 0" layout="column">
+//     <img ng-src="{{contact.image}}" class="md-avatar" alt="{{contact.name}}" />
+//     <div class="md-list-item-text compact">
+//       <h3>{{contact.name}}</h3>
+//     </div>
+//     </md-list-item>
+//     <md-list-item ng-hide="true" class="md-2-line contact-item selected" ng-repeat="(index, contact) in ctrl.contacts">
+//     <img ng-hide="true" ng-src="{{contact.image}}" class="md-avatar" alt="{{contact.name}}" />
+//     <div ng-hide="true" class="md-list-item-text compact">
+//       <h3 ng-hide="true">{{ contact.id }}</h3>
+//     </div>
+//     </md-list-item>
+//     </md-list>
+//     </md-content>
+
+
+
+
 
 //   $scope.allContacts = 
 
@@ -113,4 +153,3 @@ $scope.searchResults = [];
 
 
 });
-

@@ -8,7 +8,9 @@ var bodyParser   = require('body-parser');
 var passport     = require('passport');
 var session      = require('express-session');
 var amazon       = require('./../utils/amazon_api.js')
-var oauth        = require('./../oauth.js');
+if (!process.env.fbClientID) {
+var oauth = require('./../oauth.js');
+}
 
 // Routes
 var routes       = require('./../routes/index');
@@ -97,7 +99,7 @@ function(accessToken, refreshToken, profile, done) {
 
 // Google Passport OAuth
 passport.use(new GoogleStrategy({
-  clientID: process.env.googleClientID || oauth.ids.google.clientId,
+  clientID: process.env.googleClientID || oauth.ids.google.clientID,
   clientSecret: process.env.googleClientSecret || oauth.ids.google.clientSecret,
   callbackURL: process.env.googleCallbackURL || oauth.ids.google.callbackURL
 },
@@ -148,4 +150,3 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
-
