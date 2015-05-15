@@ -3,10 +3,10 @@
       <i class="search icon"></i>
     </div>
     <br> <!-- This should be done in CSS -->
-    <div class="ui five cards">
+    <div class="ui four cards">
       <div class="ui card" ng-repeat="link in events | filter:search | orderBy:'created_at'" ng-click="saveEvent(link)">
         <a class="image">
-              <img src="">
+              <img src="{{link.image || 'http://placehold.it/195x195'}}">
         </a>
         <div class="content">
           <a class="header">{{link.title}}</a>
@@ -14,7 +14,19 @@
             <a>by {{link.user_id}}</a>
           </div>
           <div class="description">
-            Event description
+            <div class="ui teal progress" data-percent="{{link.committedMoney / link.thresholdMoney}}" id="example1">
+              <div class="bar"></div>
+              <div class="label">${{link.committedMoney}} of ${{link.thresholdMoney}} committed</div>
+            </div>
+
+            <div class="ui label blue">
+              <i class="users icon"></i> {{link.committedPeople}} Contributors
+            </div>
           </div>
       </div>
     </div>
+
+
+    <script>
+      $('.progress').progress();
+    </script>

@@ -1,3 +1,9 @@
+html, body { 
+  /* This prevents horizontal scrolling */
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 body {
   margin: 0;
   margin-top: 10px;
