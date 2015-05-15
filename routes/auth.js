@@ -19,23 +19,13 @@ function handleAuth(req, res, username, id) {
   });
 };
 
-function handleFBAuth(req, res, token, username, id) {
-  req.session.regenerate(function() {
-    req.session.user = username;
-    req.session.user_id = id.toString();
-    console.log("SESSION!!! " + req.session.user + "ID!!! " + req.session.user_id);
-    res.send({ token: token, user: username });
-    res.end();
-  });
-};
-
 function createJWT(user) {
   var payload = {
     sub: user._id,
     iat: moment().unix(),
     exp: moment().add(14, 'days').unix()
   };
-  return jwt.encode(payload, oauth.ids.local.secret);
+  return jwt.encode(payload, process.env.localSecret);
 };
 
 router.post('/facebook', function(req, res){
@@ -45,12 +35,13 @@ router.post('/facebook', function(req, res){
   var params = {
     code: req.body.code,
     client_id: req.body.clientId,
-    client_secret: oauth.ids.facebook.clientSecret,
+    client_secret: process.env.fbClientSecret,
     redirect_uri: req.body.redirectUri
   };
   console.log("requesting token...");
   request.get({ url: accessTokenUrl, qs: params, json: true }, function(err, response, accessToken) {
     if (response.statusCode !== 200) {
+      console.log(response);
       return res.status(500).send({ message: accessToken.error.message });
     }
     console.log("requesting user data...");
@@ -73,7 +64,7 @@ router.post('/facebook', function(req, res){
             user.save().then(function() {
               var token = createJWT(user);
               console.log("auth exists, user created. responding...");
-              handleFBAuth(req, res, token, user.username, user.id);
+              res.send({ token: token, user: user.username });
             });
           }
         });
@@ -83,7 +74,7 @@ router.post('/facebook', function(req, res){
           if(model) {
             var token = createJWT(model);
             console.log("Not authorized, but model exists. responding...");
-            return handleFBAuth(req, res, token, model.attributes.username, model.attributes.id);
+            return res.send({ token: token, user: model.attributes.username });
           }
           var user = new User({
             username: profile.name,
@@ -96,7 +87,7 @@ router.post('/facebook', function(req, res){
           user.save().then(function() {
             var token = createJWT(user);
             console.log("Not authorized, user created. responding...");
-            handleFBAuth(req, res, token, model.attributes.username, model.attributes.id);
+            res.send({ token: token, user: user.username });
           });
         });
       }
@@ -138,9 +129,9 @@ router.post('/local-signup', function(req, res, next) {
         return next(null);
       } else {
         new User({username:username,password:password},{isNew:true}).save()
-	        .then(function(model){
-	          handleAuth(req, res, username, model.attributes.id);
-	        });
+          .then(function(model){
+            handleAuth(req, res, username, model.attributes.id);
+          });
         }
     });
 });

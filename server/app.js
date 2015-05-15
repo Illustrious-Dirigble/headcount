@@ -69,9 +69,9 @@ passport.deserializeUser(function(obj, done) {
 
 // Facebook Passport OAuth
 passport.use(new FacebookStrategy({
-  clientID: oauth.ids.facebook.clientID,
-  clientSecret: oauth.ids.facebook.clientSecret,
-  callbackURL: oauth.ids.facebook.callbackURL
+  clientID: process.env.fbClientID,
+  clientSecret: process.env.fbClientSecret,
+  callbackURL: process.env.fbCallbackURL
 },
 function(accessToken, refreshToken, profile, done) {
   new User({ facebookId: profile.id })
@@ -91,9 +91,9 @@ function(accessToken, refreshToken, profile, done) {
 
 // Google Passport OAuth
 passport.use(new GoogleStrategy({
-  clientID: oauth.ids.google.clientID,
-  clientSecret: oauth.ids.google.clientSecret,
-  callbackURL: oauth.ids.google.callbackURL
+  clientID: process.env.googleClientID,
+  clientSecret: process.env.googleClientSecret,
+  callbackURL: process.env.googleCallbackURL
 },
 function(accessToken, refreshToken, profile, done) {
   User.findOrCreate({ googleId: profile.id }, function (err, user) {
