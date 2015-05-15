@@ -8,7 +8,9 @@ var bodyParser   = require('body-parser');
 var passport     = require('passport');
 var session      = require('express-session');
 var amazon       = require('./../utils/amazon_api.js')
-var oauth        = require('./../oauth.js');
+if (!process.env.fbClientID) {
+var oauth = require('./../oauth.js');
+}
 
 // Routes
 var routes       = require('./../routes/index');

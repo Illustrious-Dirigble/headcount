@@ -5,7 +5,9 @@ var passport = require('passport');
 var request = require('request');
 var jwt = require('jwt-simple');
 var moment = require('moment');
+if (!process.env.fbClientID) {
 var oauth = require('./../oauth.js');
+}
 /**
  * handleAuth creates a session object, which we then store the username as a user
  * property under the req.session object

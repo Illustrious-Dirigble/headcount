@@ -16,8 +16,6 @@ $scope.search = {
     $scope.showCart = false;
 
 $scope.addToCart = function(ASIN, imageURL, description) {
-   $scope.showSearch = false;
-    $scope.showCart = true;
   $http({
     method: 'POST',
     url: '/addToCart',
@@ -38,22 +36,13 @@ $scope.addToCart = function(ASIN, imageURL, description) {
       $scope.showSearch = false;
       $scope.showCart = true;
 
-        var purchase = {
+        $scope.purchase = {
     title: cartItem.Title,
     description: cartItem.description,
     expiration: new Date(new Date().setDate(new Date().getDate() + 20)),
     thresholdPeople: 10,
     thresholdMoney: cartItem.price
   };
-    }
-    // $http({
-    //   method: 'POST',
-    //   url: '/events-create',
-    //   data: purchase
-    // })
-    // .then(function(resp) {
-    //   $window.location.href = "/";
-    // });
   })
 };
 
@@ -90,6 +79,17 @@ $scope.addToCart = function(ASIN, imageURL, description) {
         }
     });
   };
+
+  $scope.confirmItem = function() {
+    $http({
+      method: 'POST',
+      url: '/events-create',
+      data: $scope.purchase
+    })
+    .then(function(resp) {
+      $window.location.href = "/";
+    });
+  }
 
 //   $scope.allContacts = 
 
