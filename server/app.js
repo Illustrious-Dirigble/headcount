@@ -8,15 +8,15 @@ var bodyParser   = require('body-parser');
 var passport     = require('passport');
 var session      = require('express-session');
 var amazon       = require('./../utils/amazon_api.js')
+var oauth        = require('./../oauth.js');
 
 // Routes
 var routes       = require('./../routes/index');
 var users        = require('./../routes/users');
-var User        = require('../app/models/user');
+var User         = require('../app/models/user');
 var auth         = require('./../routes/auth');
 
 // Authentication
-var oauth        = require('./../oauth.js');
 var FacebookStrategy = require('passport-facebook').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var LocalStrategy = require('passport-local').Strategy;
@@ -48,6 +48,10 @@ app.use('/auth', auth);
 app.post('/search', function(req, res) {
   amazon.search(req, res);
 })
+app.post('/addToCart', function(req, res) {
+  console.log(req.body.ASIN);
+  amazon.createCart(req, res);
+})
 
 // Catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -68,10 +72,12 @@ passport.deserializeUser(function(obj, done) {
 });
 
 // Facebook Passport OAuth
+
+
 passport.use(new FacebookStrategy({
-  clientID: oauth.ids.facebook.clientID,
-  clientSecret: oauth.ids.facebook.clientSecret,
-  callbackURL: oauth.ids.facebook.callbackURL
+  clientID: process.env.fbClientID || oauth.ids.facebook.clientID,
+  clientSecret: process.env.fbClientSecret || oauth.ids.facebook.clientSecret,
+  callbackURL: process.env.fbCallbackURL || oauth.ids.facebook.callbackURL
 },
 function(accessToken, refreshToken, profile, done) {
   new User({ facebookId: profile.id })
@@ -91,9 +97,9 @@ function(accessToken, refreshToken, profile, done) {
 
 // Google Passport OAuth
 passport.use(new GoogleStrategy({
-  clientID: oauth.ids.google.clientID,
-  clientSecret: oauth.ids.google.clientSecret,
-  callbackURL: oauth.ids.google.callbackURL
+  clientID: process.env.googleClientID || oauth.ids.google.clientId,
+  clientSecret: process.env.googleClientSecret || oauth.ids.google.clientSecret,
+  callbackURL: process.env.googleCallbackURL || oauth.ids.google.callbackURL
 },
 function(accessToken, refreshToken, profile, done) {
   User.findOrCreate({ googleId: profile.id }, function (err, user) {
@@ -142,4 +148,3 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
-

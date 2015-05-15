@@ -22,9 +22,6 @@ bower_components
 public/lib
 # Local config file for connecting to database
 app/local_config.js
-# ubuntu procfile does not match mac procfile
-/Procfile
-Procfile
 # ignore database keys
 db_keys.js
 # Hide Facebook oauth
