@@ -11,6 +11,7 @@ $scope.search = {
       search: ''
     };
 
+
     $scope.showSearch = true;
     $scope.showCart = false;
 
@@ -35,34 +36,30 @@ $scope.addToCart = function(ASIN, imageURL, description) {
       $scope.showSearch = false;
       $scope.showCart = true;
 
-        var purchase = {
+        $scope.purchase = {
     title: cartItem.Title,
     description: cartItem.description,
     expiration: new Date(new Date().setDate(new Date().getDate() + 20)),
     thresholdPeople: 10,
     thresholdMoney: cartItem.price
   };
-
-    // }
-    // $http({
-    //   method: 'POST',
-    //   url: '/events-create',
-    //   data: $scope.newEvent
-    // })
-    // .then(function(resp) {
-    //   $window.location.href = "/";
-    // });
   })
 };
 
 
-$scope.searchResults = [];
+
 
   $scope.searchAmazon = function() {
+    $scope.showSearch = true;
+    $scope.showCart = false;
+    $scope.searchResults = [];
+    var category = document.getElementById("products")
+    category = category.options[category.selectedIndex].value;
+    console.log(category);
    $http({
       method: 'POST',
       url: '/search',
-    data: {keyword: $scope.search.search}
+    data: {keyword: $scope.search.search, category: category}
     })
     .then(function(response) {
       var results = response.data.ItemSearchResponse.Items[0].Item;
@@ -82,6 +79,17 @@ $scope.searchResults = [];
         }
     });
   };
+
+  $scope.confirmItem = function() {
+    $http({
+      method: 'POST',
+      url: '/events-create',
+      data: $scope.purchase
+    })
+    .then(function(resp) {
+      $window.location.href = "/";
+    });
+  }
 
 //   $scope.allContacts = 
 
@@ -112,7 +120,7 @@ $scope.searchResults = [];
 //     </md-content>
 
 
-});
+
 
 
 //   $scope.allContacts = 

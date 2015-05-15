@@ -11,8 +11,9 @@ var opHelper = new OperationHelper({
 
 
   opHelper.search = function(req, res) {
+    console.log(req.body)
     opHelper.execute('ItemSearch', {
-      'SearchIndex': 'Books',
+      'SearchIndex': req.body.category,
       'Keywords': req.body.keyword,
       'ResponseGroup': 'ItemAttributes, Images, EditorialReview',
     }, function(err, results) {   
@@ -31,6 +32,7 @@ var opHelper = new OperationHelper({
         res.send(err)
       }
       else {
+        
         res.send(JSON.stringify(results));
       }
     })

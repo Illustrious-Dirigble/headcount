@@ -8,7 +8,9 @@ var attendance = require('./../utils/invites.js');
 var User = require('./../app/models/user.js');
 var Event = require('./../app/models/event.js');
 var Invite = require('./../app/models/invite.js');
+if (!process.env.fbClientID) {
 var oauth = require('./../oauth.js');
+}
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
