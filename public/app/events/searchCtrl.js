@@ -11,10 +11,13 @@ $scope.search = {
       search: ''
     };
 
+
     $scope.showSearch = true;
     $scope.showCart = false;
 
 $scope.addToCart = function(ASIN, imageURL, description) {
+   $scope.showSearch = false;
+    $scope.showCart = true;
   $http({
     method: 'POST',
     url: '/addToCart',
@@ -56,13 +59,19 @@ $scope.addToCart = function(ASIN, imageURL, description) {
 };
 
 
-$scope.searchResults = [];
+
 
   $scope.searchAmazon = function() {
+    $scope.showSearch = true;
+    $scope.showCart = false;
+    $scope.searchResults = [];
+    var category = document.getElementById("products")
+    category = category.options[category.selectedIndex].value;
+    console.log(category);
    $http({
       method: 'POST',
       url: '/search',
-    data: {keyword: $scope.search.search}
+    data: {keyword: $scope.search.search, category: category}
     })
     .then(function(response) {
       var results = response.data.ItemSearchResponse.Items[0].Item;
@@ -112,7 +121,7 @@ $scope.searchResults = [];
 //     </md-content>
 
 
-});
+
 
 
 //   $scope.allContacts = 
