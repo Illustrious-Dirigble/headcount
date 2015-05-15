@@ -1,4 +1,4 @@
-    <div class="event" panel panel-primary ng-model="event">
+<!--     <div class="event" panel panel-primary ng-model="event">
       <div class="info" >
         <img class="event-image" width="200px" height="200px" src="{{event.image}}" />
         <div id="{{ 'event-' + $index }}" class="info" >
@@ -13,3 +13,41 @@
       <md-button class="md-raised md-primary"ng-model="shouldNotBeClickable" ng-disabled="shouldNotBeClickable" ng-click="acceptOrDeclineInvite(false, event); shouldNotBeClickable = true"> DECLINE </md-button>
     </div>
 
+ -->
+
+ <div class="ui segment">
+  <div class="ui grid">
+    <div class="four wide column">
+      <img src="{{event.image}}" height="195px" width="195px" class="event-image"></img>
+    </div>
+    <div class="twelve wide column">
+      <h1>{{event.title}}</h1>
+      <div class="ui statistics">
+        <div class="statistic green">
+          <div class="value">
+            ${{event.committedMoney}}
+          </div>
+          <div class="label">
+            Raised
+          </div>
+        </div>
+        <div class="statistic teal">
+          <div class="value">
+            {{event.committedPeople}}
+          </div>
+          <div class="label">
+            Contributors
+          </div>
+        </div>
+      </div>
+      <div>
+        created by <strong>{{event.user_id}}</strong><br>
+        expires on <strong>{{ event.expiration |  date : format : timezone}}</strong>
+      </div>
+    </div>
+  </div>
+  <div class="ui segment">
+    <h4 class="ui header">Description</h4>
+    <p>{{event.description}}</p>
+  </div>
+ </div>
