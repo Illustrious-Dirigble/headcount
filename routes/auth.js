@@ -79,7 +79,8 @@ router.post('/facebook', function(req, res){
             });
           }
         });
-      } else {
+      } 
+      else {
         new User({ facebookId: profile.id }).fetch()
         .then(function(model){
           if(model) {
