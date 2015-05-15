@@ -1,6 +1,9 @@
 <div layout="row">
 	<div class="center-form">
 	  <h1>Sign-up</h1>
+	  <div class="ui primary inverted red segment" ng-show="hasTriedSignup">
+	    <p>There was an error signing you up. Please try again.</p>
+	  </div>
 	  <form class="ui form" ng-submit="signup()">
 	  		<div class="field">
 	  		  <input type="text" placeholder="Username" ng-model="user.username" required>

@@ -11,6 +11,7 @@ angular.module('headcount.auth', ['satellizer'])
   $scope.user = {};
   $scope.auth = Auth.isAuth();
   $scope.hasTriedLogin = false;
+  $scope.hasTriedSignup = false;
 
   $scope.OAuthLogin = function (provider) {
     $auth.authenticate(provider).then(function(res){
@@ -50,7 +51,8 @@ angular.module('headcount.auth', ['satellizer'])
         $window.location.href = "/";
     })
     .catch(function(error) {
-      $window.alert("Username already exists, please try again!");
+      // $window.alert("Username already exists, please try again!");
+      $scope.hasTriedSignup = true;
     });
   };
 
