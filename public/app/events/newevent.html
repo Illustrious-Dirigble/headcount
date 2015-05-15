@@ -2,35 +2,35 @@
 <h1 class="ui header">Create New Event</h1>
   <div class="ui form">
     <form name="userForm" ng-model="newEvent" ng-submit="createEvent()">
-    <h4 class="ui dividing header">Event Information</h4>
+      <h4 class="ui dividing header">Event Information</h4>
       <div class="two fields">
         <div class="field">
           <label>Event Title</label>
-          <input type="text" placeholder="My Awesome Event" ng-model="newEvent.title">
+          <input type="text" placeholder="My Awesome Event" ng-model="newEvent.title"></input>
         </div>
         <div class="field">
           <label>Expiration Date</label>
-          <input type="date" ng-model="newEvent.expiration">
+          <input type="date" ng-model="newEvent.expiration"></input>
         </div>
       </div>
       <div class="three fields">
         <div class="field">
           <label>Amount</label>
           <div class="ui icon input">
-            <input type="text" ng-model="newEvent.thresholdMoney">
+            <input type="text" ng-model="newEvent.thresholdMoney"></input>
             <i class="dollar icon"></i>
           </div>
         </div>
         <div class="field">
           <label>Number of People</label>
           <div class="ui icon input">
-            <input type="text" ng-model="newEvent.thresholdPeople">
+            <input type="text" ng-model="newEvent.thresholdPeople"></input>
             <i class="users icon"></i>
           </div>
         </div>
         <div class="field">
           <label>Image URL</label>
-          <input type="url" ng-model="newEvent.image">
+          <input type="url" ng-model="newEvent.image"></input>
         </div>
       </div>
       <div class="field">
@@ -39,20 +39,20 @@
       </div>
       <h4 class="ui dividing header">Personal Information</h4>
       <div class="field">
-        <input type="text" ng-model="user.address" placeholder="Address line 1">
+        <input type="text" ng-model="user.address" placeholder="Address line 1"></input>
       </div>
       <div class="field">
-        <input type="text" ng-model="user.address2" placeholder="Address line 2">
+        <input type="text" ng-model="user.address2" placeholder="Address line 2"></input>
       </div>
       <div class="three fields">
         <div class="field">
-          <input type="text" ng-model="user.city" placeholder="City">
+          <input type="text" ng-model="user.city" placeholder="City"></input>
         </div>
         <div class="field">
-          <input type="text" ng-model="user.state" placeholder="State">
+          <input type="text" ng-model="user.state" placeholder="State"></input>
         </div>
         <div class="field">
-          <input type="text" ng-model="user.postalCode" placeholder="Postal Code">
+          <input type="text" ng-model="user.postalCode" placeholder="Postal Code"></input>
         </div>
       </div>
     </form>
@@ -84,9 +84,10 @@
     </md-list-item>
     </md-list>
     </md-content>
+  </div>
 
-     <section layout="row" layout-sm="column" layout align="center center">
+   <section layout="row" layout-sm="column" layout align="center center">
      <button type="submit" class="ui button green" ng-disabled="shouldNotBeCreatable" ng-click="createEvent()">Create</button>
-     </section>
+   </section>
   </form>
 </div>
