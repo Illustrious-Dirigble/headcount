@@ -39,4 +39,33 @@ var opHelper = new OperationHelper({
   }
 
 
+
+
+
+/*
+
+  $scope.createEvent = function() {
+    var inv = [];
+    var list = $('.selected .compact');
+    for (var i = 0; i < list.length; i++){
+      inv.push(list[i].children[0].innerText);
+    }
+    // console.log('inv',inv);
+    $scope.invitedUsers = inv;
+
+    $scope.newEvent.invited = $scope.invitedUsers;
+    // console.log('Event details', $scope.newEvent);
+    return $http({
+      method: 'POST',
+      url: '/events-create',
+      data: $scope.newEvent
+    })
+    .then(function(resp) {
+      $window.location.href = "/";
+    });
+  };
+
+
+*/
+
 module.exports = opHelper;

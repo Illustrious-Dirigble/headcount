@@ -8,11 +8,12 @@ var bodyParser   = require('body-parser');
 var passport     = require('passport');
 var session      = require('express-session');
 var amazon       = require('./../utils/amazon_api.js')
+var oauth        = require('./../oauth.js');
 
 // Routes
 var routes       = require('./../routes/index');
 var users        = require('./../routes/users');
-var User        = require('../app/models/user');
+var User         = require('../app/models/user');
 var auth         = require('./../routes/auth');
 
 // Authentication
@@ -72,11 +73,11 @@ passport.deserializeUser(function(obj, done) {
 
 // Facebook Passport OAuth
 
-/*
+
 passport.use(new FacebookStrategy({
-  clientID: process.env.fbClientID,
-  clientSecret: process.env.fbClientSecret,
-  callbackURL: process.env.fbCallbackURL
+  clientID: process.env.fbClientID || oauth.ids.facebook.clientID,
+  clientSecret: process.env.fbClientSecret || oauth.ids.facebook.clientSecret,
+  callbackURL: process.env.fbCallbackURL || oauth.ids.facebook.callbackURL
 },
 function(accessToken, refreshToken, profile, done) {
   new User({ facebookId: profile.id })
@@ -96,9 +97,9 @@ function(accessToken, refreshToken, profile, done) {
 
 // Google Passport OAuth
 passport.use(new GoogleStrategy({
-  clientID: process.env.googleClientID,
-  clientSecret: process.env.googleClientSecret,
-  callbackURL: process.env.googleCallbackURL
+  clientID: process.env.googleClientID || oauth.ids.google.clientId,
+  clientSecret: process.env.googleClientSecret || oauth.ids.google.clientSecret,
+  callbackURL: process.env.googleCallbackURL || oauth.ids.google.callbackURL
 },
 function(accessToken, refreshToken, profile, done) {
   User.findOrCreate({ googleId: profile.id }, function (err, user) {
@@ -125,7 +126,7 @@ passport.use('local',new LocalStrategy(
       }
     });
   }));
-*/
+
 // error handlers
 
 // development error handler

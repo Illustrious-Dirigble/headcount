@@ -1,3 +1,4 @@
+
 <div layout="row">
   <div ng-controller="SearchController" class="center-form">
     <h1 class="auth_title">SEARCH</h1>
@@ -11,15 +12,9 @@
 
   <table class="table table-bordered">
 
-  <tr class="well">
-    <td class="tdRight" colspan="4" >
-      <a href="default.htm#/cart" title="go to shopping cart">
-        <b>Cart</b>
-        <b>Price</b>
-    </td>
-  </tr>
 
-  <tr ng-repeat="product in searchResults" >
+
+  <tr ng-repeat="product in searchResults" ng-show="showSearch">
     <td class="tdCenter">
       <img ng-src="{{product.img}}.jpg" alt="{{product.title}}" />
     </td>
@@ -30,11 +25,130 @@
     <td class="tdRight">
       {{product.price}}
     </td>
-    <a href="#"><td ng-click="addToCart(product.asin)">
-      Add To Cart
-    </a></td>
+    <td class="tdRight"><button class="btn btn-default" ng-click="addToCart(product.asin, product.img, product.description)">Add To Cart</button>
+    </td>
   </tr>
 
 </table>
-    </div>
+<div class="tdCenter">
+<table ng-show="showCart">
+  <tr class="well">
+    <td class="tdRight" colspan="4" >
+        <b>Cart</b>
+        <b>Price</b>
+    </td>
+  </tr>
+  <tr ng-show="showCart">
+    <td class="tdCenter">
+      <img ng-src="{{cartItem.imageURL}}" alt="{{product.title}}" />
+    </td>
+    <td>
+      <b>{{cartItem.Title}}</b> <br />
+      {{cartItem.description}}
+    </td>
+    <td class="tdRight">
+      {{cartItem.price}}
+    </td><td><a href="{{cartItem.checkoutURL}}">
+      <img src="http://docs.aws.amazon.com/AWSECommerceService/latest/DG/images/ProceedToCheckout.gif">
+
+    </td>
+  </tr>
+  </table>
 </div>
+
+<!--
+
+<div class="newUserEvent" >
+<h1 class="ui header">Create New Event</h1>
+  <div class="ui form">
+    <form name="userForm" ng-model="newEvent" ng-submit="createEvent()">
+    <h4 class="ui dividing header">Event Information</h4>
+      <div class="two fields">
+        <div class="field">
+          <label>Event Title</label>
+          <input type="text" placeholder="My Awesome Event" ng-model="newEvent.title">
+        </div>
+        <div class="field">
+          <label>Expiration Date</label>
+          <input type="date" ng-model="newEvent.expiration">
+        </div>
+      </div>
+      <div class="three fields">
+        <div class="field">
+          <label>Amount</label>
+          <div class="ui icon input">
+            <input type="text" ng-model="newEvent.thresholdMoney">
+            <i class="dollar icon"></i>
+          </div>
+        </div>
+        <div class="field">
+          <label>Number of People</label>
+          <div class="ui icon input">
+            <input type="text" ng-model="newEvent.thresholdPeople">
+            <i class="users icon"></i>
+          </div>
+        </div>
+        <div class="field">
+          <label>Image URL</label>
+          <input type="url" ng-model="newEvent.image">
+        </div>
+      </div>
+      <div class="field">
+        <label>Description</label>
+        <textarea ng-model="newEvent.description" columns="2"></textarea>
+      </div>
+      <h4 class="ui dividing header">Personal Information</h4>
+      <div class="field">
+        <input type="text" ng-model="user.address" placeholder="Address line 1">
+      </div>
+      <div class="field">
+        <input type="text" ng-model="user.address2" placeholder="Address line 2">
+      </div>
+      <div class="three fields">
+        <div class="field">
+          <input type="text" ng-model="user.city" placeholder="City">
+        </div>
+        <div class="field">
+          <input type="text" ng-model="user.state" placeholder="State">
+        </div>
+        <div class="field">
+          <input type="text" ng-model="user.postalCode" placeholder="Postal Code">
+        </div>
+      </div>
+    </form>
+  </div>
+  <div ng-controller="SearchController" layout="column">
+    <md-content class="md-padding autocomplete" layout="column">
+    <md-contact-chips
+      ng-model="ctrl.contacts"
+      md-contacts="ctrl.querySearch($query)"
+      md-contact-name="name"
+      md-contact-image="image"
+      md-require-match
+      filter-selected="ctrl.filterSelected"
+      placeholder="To">
+    </md-contact-chips>
+    <md-list class="fixedRows">
+    <md-subheader class="md-no-sticky">Contacts</md-subheader>
+    <md-list-item ng-hide="true" class="md-2-line contact-item invitees" data-id="{{contact.id}}" ng-repeat="(index, contact) in ctrl.allContacts" ng-if="ctrl.contacts.indexOf(contact) < 0" layout="column">
+    <img ng-src="{{contact.image}}" class="md-avatar" alt="{{contact.name}}" />
+    <div class="md-list-item-text compact">
+      <h3>{{contact.name}}</h3>
+    </div>
+    </md-list-item>
+    <md-list-item ng-hide="true" class="md-2-line contact-item selected" ng-repeat="(index, contact) in ctrl.contacts">
+    <img ng-hide="true" ng-src="{{contact.image}}" class="md-avatar" alt="{{contact.name}}" />
+    <div ng-hide="true" class="md-list-item-text compact">
+      <h3 ng-hide="true">{{ contact.id }}</h3>
+    </div>
+    </md-list-item>
+    </md-list>
+    </md-content>
+
+     <section layout="row" layout-sm="column" layout align="center center">
+     <button type="submit" class="ui button green" ng-disabled="shouldNotBeCreatable" ng-click="createEvent()">Create</button>
+     </section>
+  </form>
+</div>
+
+-->

@@ -5,6 +5,7 @@ var passport = require('passport');
 var request = require('request');
 var jwt = require('jwt-simple');
 var moment = require('moment');
+var oauth = require('./../oauth.js');
 /**
  * handleAuth creates a session object, which we then store the username as a user
  * property under the req.session object
@@ -18,13 +19,24 @@ function handleAuth(req, res, username, id) {
   });
 };
 
+function handleFBAuth(req, res, token, username, id) {
+  req.session.regenerate(function() {
+    req.session.user = username;
+    req.session.user_id = id.toString();
+    console.log("SESSION!!! " + req.session.user + "ID!!! " + req.session.user_id);
+    res.send({ token: token, user: username });
+    res.end();
+  });
+};
+
 function createJWT(user) {
   var payload = {
     sub: user._id,
     iat: moment().unix(),
     exp: moment().add(14, 'days').unix()
   };
-  return jwt.encode(payload, process.env.localSecret);
+  var localSecret = process.env.localSecret || oauth.ids.local.secret;
+  return jwt.encode(payload, localSecret);
 };
 
 router.post('/facebook', function(req, res){
@@ -34,7 +46,7 @@ router.post('/facebook', function(req, res){
   var params = {
     code: req.body.code,
     client_id: req.body.clientId,
-    client_secret: process.env.fbClientSecret,
+    client_secret: process.env.fbClientSecret || oauth.ids.facebook.clientSecret,
     redirect_uri: req.body.redirectUri
   };
   console.log("requesting token...");

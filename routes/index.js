@@ -8,6 +8,7 @@ var attendance = require('./../utils/invites.js');
 var User = require('./../app/models/user.js');
 var Event = require('./../app/models/event.js');
 var Invite = require('./../app/models/invite.js');
+var oauth = require('./../oauth.js');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -257,7 +258,7 @@ router.post('/events-create', function(req, res) {
 router.post('/authorize', function(req, res) {
 
   var username = req.body.username;
-  var clientId = process.env.venmoClientID;
+  var clientId = process.env.venmoClientID || oauth.ids.venmo.clientID;
   var scopes = 'make_payments%20access_feed%20access_profile%20access_email%20access_phoneaccess_balance%20access_friends';
 
   var redirect_uri = !process.env.DATABASE_URL ? 'http://localhost:5000/oauth' :
@@ -276,8 +277,8 @@ router.post('/authorize', function(req, res) {
  */
 router.get('/oauth', function(req, res) {
   var venmoTokenUri = 'https://api.venmo.com/v1/oauth/access_token';
-  var clientId = process.env.venmoClientID;
-  var clientSecret = process.env.venmoClientSecret
+  var clientId = process.env.venmoClientID || oauth.ids.venmo.clientID;
+  var clientSecret = process.env.venmoClientSecret || oauth.ids.venmo.clientSecret;
   var username = req.query.state;
   var code = req.query.code;
 
