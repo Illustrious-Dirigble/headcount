@@ -1,6 +1,9 @@
 	
 <div class="center-form">
   <h1>Sign-in</h1>
+  <div class="ui primary inverted red segment" ng-show="hasTriedLogin">
+    <p>There was an error logging you in. Please try again.</p>
+  </div>
   <form class="ui form" ng-submit="signin()">
 	<div class="field">
 	  <input type="text" placeholder="Username" ng-model="user.username" required>
