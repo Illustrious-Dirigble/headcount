@@ -1,6 +1,6 @@
 var util = require('util');
 var OperationHelper = require('apac').OperationHelper;
-if (!process.env.fbClientId) {
+if (!process.env.fbClientID) {
 var oauth = require('./../oauth.js');
 }
 
