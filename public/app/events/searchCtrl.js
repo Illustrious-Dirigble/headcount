@@ -35,13 +35,17 @@ $scope.addToCart = function(ASIN, imageURL, description) {
       $scope.checkoutURL = cart.PurchaseURL[0];
       $scope.showSearch = false;
       $scope.showCart = true;
+      var userId = 'user';
 
         $scope.purchase = {
     title: cartItem.Title,
     description: cartItem.description,
     expiration: new Date(new Date().setDate(new Date().getDate() + 20)),
     thresholdPeople: 10,
-    thresholdMoney: cartItem.price
+    thresholdMoney: cartItem.Price[0].Amount[0],
+    invited: [],
+    image: cartItem.imageURL,
+    user_id: userId,
   };
   })
 };
@@ -87,7 +91,7 @@ $scope.addToCart = function(ASIN, imageURL, description) {
       data: $scope.purchase
     })
     .then(function(resp) {
-      $window.location.href = "/";
+      console.log(resp)
     });
   }
 

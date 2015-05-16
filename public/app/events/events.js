@@ -67,7 +67,7 @@ angular.module('headcount.events', [])
   $scope.getPercentage = function (a,b) {
     console.log("getPercentage called!")
     return Math.round((a / b) * 100);
-  }
+  };
 
   $scope.fetchEvents = function () {
     return $http({
