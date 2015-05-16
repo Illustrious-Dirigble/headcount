@@ -19,7 +19,7 @@
           <div class="description">
             <div class="ui teal progress" data-percent="{{getPercentage(link.committedMoney,link.thresholdMoney)}}" id="example1">
               <div class="bar"></div>
-              <div class="label">${{link.committedMoney}} of ${{link.thresholdMoney}} committed</div>
+              <div class="label">${{link.committedMoney}} of ${{link.thresholdMoney | number}} committed</div>
             </div>
 
             <div class="ui label orange">
