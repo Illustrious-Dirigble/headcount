@@ -81,7 +81,7 @@ $scope.addToCart = function(ASIN, imageURL, description) {
   };
 
   $scope.confirmItem = function() {
-    $http({
+    return $http({
       method: 'POST',
       url: '/events-create',
       data: $scope.purchase
