@@ -17,13 +17,13 @@
             <a>by {{link.user_id}}</a>
           </div>
           <div class="description">
-            <div class="ui teal progress" data-percent="{{link.committedMoney / link.thresholdMoney}}" id="example1">
+            <div class="ui teal progress" data-percent="{{getPercentage(link.committedMoney,link.thresholdMoney)}}" id="example1">
               <div class="bar"></div>
               <div class="label">${{link.committedMoney}} of ${{link.thresholdMoney}} committed</div>
             </div>
 
-            <div class="ui label blue">
-              <i class="users icon"></i> {{link.committedPeople}} Contributors
+            <div class="ui label orange">
+              {{link.committedPeople}} Contributors
             </div>
           </div>
       </div>
@@ -31,5 +31,8 @@
 
 
     <script>
-      $('.progress').progress();
+      setTimeout(function(){
+        $('.progress').progress();
+      },1000);
+      
     </script>

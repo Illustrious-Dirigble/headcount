@@ -16,8 +16,19 @@
 	        <div class="or"></div>
 	        <a href="#/signin"><div class="ui button">Sign in instead</div></a>
 	      </div>
+	      <br><br>
+	        <a href="/auth/google">
+	          <div class="ui google plus button">
+	            <i class="google icon"></i>
+	            Sign in with Google
+	          </div>
+	        </a><br><br>
+	        <a ng-click="OAuthLogin('facebook')">
+	          <div class="ui facebook button">
+	            <i class="facebook icon"></i>
+	            Sign in with Facebook
+	          </div>
+	        </a><br />
 	  </form>
-	<span> <a href="/auth/google"><img class="oauth_button" src="./../assets/google.png" /></a></span>
-	<span> <a href="/auth/facebook"><img class="oauth_button" src="./../assets/facebook.png" /></a></span> <br />
   </div>
 </div>
