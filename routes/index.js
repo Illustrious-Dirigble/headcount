@@ -24,7 +24,7 @@ router.get('/', function(req, res, next) {
 router.get('/events-fetch', function(req, res, next) {
 
   new Event()
-    .query({ where: {user_id: req.session.user_id} })
+    .query({  })
     .fetchAll()
     .then(function(collection) {
       if (!collection) {
