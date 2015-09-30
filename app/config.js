@@ -1,5 +1,3 @@
-var Bookshelf = require('bookshelf');
-
 var knex =  !process.env.DATABASE_URL ? require('./local_config.js') :
   require('knex')({
   client: 'pg',
@@ -9,6 +7,7 @@ var knex =  !process.env.DATABASE_URL ? require('./local_config.js') :
 var db = require('bookshelf')(knex);
 db.plugin('registry');
 
+console.log('database:', process.env.DATABASE_URL)
 
 /**
  * Columns email, firstName, lastName, shippingAddress and phoneNumber are currently not being used.
