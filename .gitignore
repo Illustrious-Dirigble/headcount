@@ -24,7 +24,6 @@ public/lib
 app/local_config.js
 # ignore database keys
 db_keys.js
-# Hide Facebook oauth
-oauth.js
+
 # adding heroku
 inaudiblecentaur-headcount
