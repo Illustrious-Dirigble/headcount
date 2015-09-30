@@ -278,6 +278,9 @@ router.post('/authorize', function(req, res) {
  * Save info in users's db entry to later pay other users with
  */
 router.get('/oauth', function(req, res) {
+
+  console.log()
+
   var venmoTokenUri = 'https://api.venmo.com/v1/oauth/access_token';
   var clientId = process.env.venmoClientID || oauth.ids.venmo.clientID;
   var clientSecret = process.env.venmoClientSecret || oauth.ids.venmo.clientSecret;
@@ -294,6 +297,9 @@ router.get('/oauth', function(req, res) {
           client_secret: clientSecret
         }
       }, function(err, r, body) {
+          console.error('error:', err);
+          console.log('body:', body)
+          // console.log()
 
           body = JSON.parse(body);
 
@@ -307,18 +313,19 @@ router.get('/oauth', function(req, res) {
                 console.log('User has already authorized their venmo account!');
               } else {
 
-                user.save({
+                console.log('saving user venmo info');
+
+                return user.save({
                   venmoUserId: body.user.id,
                   venmoUsername: body.user.username,
                   venmoDisplayName: body.user.display_name,
                   venmoAccessToken: body.access_token,
-                  venmoRefreshToken: body.refresh_token,
-                  venmoPicture: body.user.profile_picture_url
+                  venmoRefreshToken: body.refresh_token
                 })
-                  .then(function() {
-                    console.log('Venmo account authorized');
-                    res.redirect('/#/accounts');
-                  });
+                .then(function() {
+                  console.log('Venmo account authorized');
+                  res.redirect('/#/accounts');
+                });
                }
             })
             .catch(function(error){
