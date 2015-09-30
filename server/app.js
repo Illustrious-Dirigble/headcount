@@ -7,7 +7,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var passport     = require('passport');
 var session      = require('express-session');
-var amazon       = require('./../utils/amazon_api.js')
+// var amazon       = require('./../utils/amazon_api.js')
 if (!process.env.fbClientID) {
 var oauth = require('./../oauth.js');
 }
@@ -19,8 +19,8 @@ var User         = require('../app/models/user');
 var auth         = require('./../routes/auth');
 
 // Authentication
-var FacebookStrategy = require('passport-facebook').Strategy;
-var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+// var FacebookStrategy = require('passport-facebook').Strategy;
+// var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var LocalStrategy = require('passport-local').Strategy;
 
 var app = express();
@@ -76,38 +76,38 @@ passport.deserializeUser(function(obj, done) {
 // Facebook Passport OAuth
 
 
-passport.use(new FacebookStrategy({
-  clientID: process.env.fbClientID || oauth.ids.facebook.clientID,
-  clientSecret: process.env.fbClientSecret || oauth.ids.facebook.clientSecret,
-  callbackURL: process.env.fbCallbackURL || oauth.ids.facebook.callbackURL
-},
-function(accessToken, refreshToken, profile, done) {
-  new User({ facebookId: profile.id })
-  .fetch()
-  .then(function(model){
-    if(model){
-      model.set('facebookToken', accessToken);
-      model.save();
-      return done(null, model);
-    } else {
-      var user = new User({ facebookId: profile.id, facebookToken: accessToken });
-      user.save();
-      return done(null, user);
-    }
-  });
-}));
+// passport.use(new FacebookStrategy({
+//   clientID: process.env.fbClientID || oauth.ids.facebook.clientID,
+//   clientSecret: process.env.fbClientSecret || oauth.ids.facebook.clientSecret,
+//   callbackURL: process.env.fbCallbackURL || oauth.ids.facebook.callbackURL
+// },
+// function(accessToken, refreshToken, profile, done) {
+//   new User({ facebookId: profile.id })
+//   .fetch()
+//   .then(function(model){
+//     if(model){
+//       model.set('facebookToken', accessToken);
+//       model.save();
+//       return done(null, model);
+//     } else {
+//       var user = new User({ facebookId: profile.id, facebookToken: accessToken });
+//       user.save();
+//       return done(null, user);
+//     }
+//   });
+// }));
 
 // Google Passport OAuth
-passport.use(new GoogleStrategy({
-  clientID: process.env.googleClientID || oauth.ids.google.clientID,
-  clientSecret: process.env.googleClientSecret || oauth.ids.google.clientSecret,
-  callbackURL: process.env.googleCallbackURL || oauth.ids.google.callbackURL
-},
-function(accessToken, refreshToken, profile, done) {
-  User.findOrCreate({ googleId: profile.id }, function (err, user) {
-    return done(err, user);
-  });
-}));
+// passport.use(new GoogleStrategy({
+//   clientID: process.env.googleClientID || oauth.ids.google.clientID,
+//   clientSecret: process.env.googleClientSecret || oauth.ids.google.clientSecret,
+//   callbackURL: process.env.googleCallbackURL || oauth.ids.google.callbackURL
+// },
+// function(accessToken, refreshToken, profile, done) {
+//   User.findOrCreate({ googleId: profile.id }, function (err, user) {
+//     return done(err, user);
+//   });
+// }));
 
 // Local Auth
 passport.use('local',new LocalStrategy(
